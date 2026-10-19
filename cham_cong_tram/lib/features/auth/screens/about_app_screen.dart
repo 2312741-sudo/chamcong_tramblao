@@ -174,6 +174,22 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
               child: Column(
                 children: [
                   _LinkTile(
+                    icon: Icons.language_rounded,
+                    iconColor: const Color(0xFF0D9488),
+                    title: 'Giới thiệu sản phẩm',
+                    subtitle: 'Tổng quan giải pháp Chấm Công Trạm BLAO',
+                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/marketing.html'),
+                  ),
+                  const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
+                  _LinkTile(
+                    icon: Icons.help_outline_rounded,
+                    iconColor: const Color(0xFF6366F1),
+                    title: 'Trung tâm hỗ trợ kỹ thuật',
+                    subtitle: 'Câu hỏi thường gặp và xử lý sự cố 24/7',
+                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/support.html'),
+                  ),
+                  const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
+                  _LinkTile(
                     icon: Icons.privacy_tip_outlined,
                     iconColor: const Color(0xFF0284C7),
                     title: 'Chính sách quyền riêng tư',

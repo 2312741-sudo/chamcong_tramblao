@@ -44,6 +44,24 @@
             border: 1px solid var(--border);
         }
 
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-text);
+        }
+
         .header {
             text-align: center;
             border-bottom: 2px solid var(--border);
@@ -147,6 +165,13 @@
 </head>
 <body>
     <div class="container">
+        <div class="nav-links">
+            <a href="/marketing.html">← Giới thiệu Chấm Công BLAO</a>
+            <a href="/support.html">Trung tâm hỗ trợ</a>
+            <a href="/privacy-policy.html">Chính sách quyền riêng tư</a>
+            <a href="/delete-account.html" style="color: var(--primary-text); font-weight: 700;">Xóa tài khoản</a>
+        </div>
+
         <div class="header">
             <span class="badge">CHÍNH SÁCH DỮ LIỆU</span>
             <h1>Yêu Cầu Xóa Tài Khoản & Dữ Liệu</h1>

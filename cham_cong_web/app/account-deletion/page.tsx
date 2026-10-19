@@ -11,10 +11,23 @@ export default function AccountDeletionPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
-        <div className="border-b border-slate-100 pb-6 mb-6">
-          <Link href="/privacy-policy" className="text-xs text-[#0E382B] font-semibold hover:underline">
-            ← Quay lại Chính sách quyền riêng tư
+        {/* Navigation Bar */}
+        <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500 mb-6 pb-4 border-b border-slate-100">
+          <Link href="/marketing" className="hover:text-[#143A2F] transition-colors">
+            ← Giới thiệu sản phẩm
           </Link>
+          <Link href="/support" className="hover:text-[#143A2F] transition-colors">
+            Trung tâm hỗ trợ
+          </Link>
+          <Link href="/privacy-policy" className="hover:text-[#143A2F] transition-colors">
+            Chính sách quyền riêng tư
+          </Link>
+          <Link href="/account-deletion" className="text-[#143A2F] font-bold">
+            Xóa tài khoản
+          </Link>
+        </div>
+
+        <div className="border-b border-slate-100 pb-6 mb-6">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3">
             Quy Trình & Hướng Dẫn Xóa Dữ Liệu Tài Khoản
           </h1>
