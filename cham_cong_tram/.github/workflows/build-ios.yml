@@ -1,0 +1,77 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    name: Build iOS Unsigned IPA
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Disable Code Signing
+        run: |
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' 's/DEVELOPMENT_TEAM = [^;]*;//g' ios/Runner.xcodeproj/project.pbxproj
+          echo "CODE_SIGNING_ALLOWED=NO" >> ios/Flutter/Release.xcconfig
+          echo "CODE_SIGNING_REQUIRED=NO" >> ios/Flutter/Release.xcconfig
+          echo "EXPANDED_CODE_SIGN_IDENTITY=" >> ios/Flutter/Release.xcconfig
+
+      - name: Build iOS App (Unsigned)
+        run: |
+          flutter build ios --config-only --release || echo "config-only not supported"
+          cd ios
+          pod install
+          xcodebuild build -workspace Runner.xcworkspace -scheme Runner -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" -derivedDataPath ../build/ios_build
+          
+      - name: Verify Runner.app exists
+        run: |
+          if [ ! -d "build/ios_build/Build/Products/Release-iphoneos/Runner.app" ]; then
+            echo "Error: Runner.app was not generated. The build actually failed."
+            exit 1
+          fi
+
+      - name: Package IPA
+        run: |
+          mkdir -p build/ios_build/Build/Products/Release-iphoneos/Payload
+          cp -r build/ios_build/Build/Products/Release-iphoneos/Runner.app build/ios_build/Build/Products/Release-iphoneos/Payload/
+          cd build/ios_build/Build/Products/Release-iphoneos
+          zip -r appchamcong_ios.ipa Payload
+          
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: appchamcong-ios-ipa
+          path: build/ios_build/Build/Products/Release-iphoneos/appchamcong_ios.ipa
+          retention-days: 7

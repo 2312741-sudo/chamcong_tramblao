@@ -1,0 +1,710 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../models/task_assignment_model.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../../store/providers/store_provider.dart';
+import '../providers/task_provider.dart';
+import '../screens/task_report_screen.dart';
+
+/// Thẻ hiển thị trên Dashboard ca làm việc:
+/// - Lấy danh sách task của ngày được chọn áp dụng cho user hiện tại (todayUserTasksProvider)
+/// - Hỗ trợ chuyển đổi ngày (hôm nay, hôm qua, ngày mai, hoặc chọn ngày bất kỳ) để nhân viên có thể xem và hoàn thành việc bất cứ lúc nào
+/// - Hiển thị tiến độ: ví dụ "Công việc: 2/3 hoàn thành" kèm Progress Indicator
+/// - Danh sách tóm tắt các việc trong ca, icon trạng thái (đã hoàn thành xanh lá, chưa hoàn thành cam)
+/// - Bấm vào từng việc mở TaskReportScreen để xem/báo cáo ngay
+class ShiftTasksCard extends ConsumerStatefulWidget {
+  final String? storeId;
+  final String? userId;
+  final String? dateStr; // YYYY-MM-DD
+  final VoidCallback? onTasksChanged;
+
+  const ShiftTasksCard({
+    super.key,
+    this.storeId,
+    this.userId,
+    this.dateStr,
+    this.onTasksChanged,
+  });
+
+  @override
+  ConsumerState<ShiftTasksCard> createState() => _ShiftTasksCardState();
+}
+
+class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDate();
+  }
+
+  @override
+  void didUpdateWidget(covariant ShiftTasksCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.dateStr != oldWidget.dateStr && widget.dateStr != null) {
+      _initDate();
+    }
+  }
+
+  void _initDate() {
+    if (widget.dateStr != null) {
+      try {
+        _selectedDate = DateTime.parse(widget.dateStr!);
+      } catch (_) {
+        final vnNow = DateTime.now().toUtc().add(const Duration(hours: 7));
+        _selectedDate = DateTime(vnNow.year, vnNow.month, vnNow.day);
+      }
+    } else {
+      final vnNow = DateTime.now().toUtc().add(const Duration(hours: 7));
+      _selectedDate = DateTime(vnNow.year, vnNow.month, vnNow.day);
+    }
+  }
+
+  void _previousDay() {
+    setState(() {
+      _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+    });
+  }
+
+  void _nextDay() {
+    setState(() {
+      _selectedDate = _selectedDate.add(const Duration(days: 1));
+    });
+  }
+
+  void _goToToday() {
+    final vnNow = DateTime.now().toUtc().add(const Duration(hours: 7));
+    setState(() {
+      _selectedDate = DateTime(vnNow.year, vnNow.month, vnNow.day);
+    });
+  }
+
+  Future<void> _pickDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 90)),
+      lastDate: DateTime.now().add(const Duration(days: 90)),
+      locale: const Locale('vi', 'VN'),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppColors.primary,
+              onPrimary: Colors.white,
+              onSurface: AppColors.textPrimary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && mounted) {
+      setState(() => _selectedDate = picked);
+    }
+  }
+
+  String _formatDateTitle(DateTime dt) {
+    final vnNow = DateTime.now().toUtc().add(const Duration(hours: 7));
+    final today = DateTime(vnNow.year, vnNow.month, vnNow.day);
+    final target = DateTime(dt.year, dt.month, dt.day);
+
+    if (target == today) {
+      return 'Hôm nay (${DateFormat('dd/MM').format(dt)})';
+    } else if (target == today.subtract(const Duration(days: 1))) {
+      return 'Hôm qua (${DateFormat('dd/MM').format(dt)})';
+    } else if (target == today.add(const Duration(days: 1))) {
+      return 'Ngày mai (${DateFormat('dd/MM').format(dt)})';
+    } else {
+      return DateFormat('dd/MM/yyyy').format(dt);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final effectiveStoreId =
+        widget.storeId ?? ref.watch(currentStoreIdProvider) ?? '';
+    final effectiveUserId =
+        widget.userId ?? ref.watch(currentUserIdProvider) ?? '';
+
+    if (effectiveStoreId.isEmpty || effectiveUserId.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final effectiveDateStr =
+        '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}';
+
+    final params = (
+      storeId: effectiveStoreId,
+      userId: effectiveUserId,
+      dateStr: effectiveDateStr,
+    );
+
+    final vnNow = DateTime.now().toUtc().add(const Duration(hours: 7));
+    final today = DateTime(vnNow.year, vnNow.month, vnNow.day);
+    final target =
+        DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+    final isToday = target == today;
+    final dateTitle = _formatDateTitle(_selectedDate);
+
+    final tasksAsync = ref.watch(todayUserTasksProvider(params));
+    final unfinishedAsync = ref.watch(unfinishedUserTasksProvider(params));
+
+    return tasksAsync.when(
+      loading: () => _buildLoadingCard(),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (tasks) {
+        if (tasks.isEmpty) {
+          return _buildEmptyCard(dateTitle: dateTitle, isToday: isToday);
+        }
+
+        final isStatusLoading =
+            unfinishedAsync.isLoading && !unfinishedAsync.hasValue;
+        final unfinishedTasks =
+            unfinishedAsync.valueOrNull ?? (isStatusLoading ? tasks : []);
+        final unfinishedIds = unfinishedTasks.map((t) => t.id).toSet();
+
+        final totalCount = tasks.length;
+        final unfinishedCount = unfinishedTasks.length;
+        final completedCount = isStatusLoading
+            ? 0
+            : (totalCount - unfinishedCount).clamp(0, totalCount);
+        final progress =
+            totalCount > 0 ? (completedCount / totalCount) : 0.0;
+        final isAllDone = !isStatusLoading && (completedCount == totalCount);
+
+        return Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: AppColors.cardSurface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isAllDone
+                  ? AppColors.success.withValues(alpha: 0.3)
+                  : AppColors.cardOutline,
+              width: 1.5,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.shadow,
+                blurRadius: 14,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header & Date Switcher
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: isAllDone
+                          ? AppColors.success.withValues(alpha: 0.12)
+                          : AppColors.primary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      isAllDone
+                          ? Icons.task_alt_rounded
+                          : Icons.assignment_turned_in_rounded,
+                      color: isAllDone ? AppColors.success : AppColors.primary,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Công việc được giao',
+                          style: TextStyle(
+                            fontSize: 14.5,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'BeVietnamPro',
+                            color: AppColors.neutral,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        InkWell(
+                          onTap: _pickDate,
+                          borderRadius: BorderRadius.circular(4),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                dateTitle,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'BeVietnamPro',
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              const Icon(Icons.arrow_drop_down_rounded,
+                                  size: 16, color: AppColors.primary),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Progress badge
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: isAllDone
+                          ? AppColors.success.withValues(alpha: 0.12)
+                          : AppColors.warning.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isAllDone
+                            ? AppColors.success.withValues(alpha: 0.3)
+                            : AppColors.warning.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isStatusLoading) ...[
+                          const SizedBox(
+                            width: 9,
+                            height: 9,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              color: AppColors.warning,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                        ],
+                        Text(
+                          '$completedCount/$totalCount xong',
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'BeVietnamPro',
+                            color: isAllDone
+                                ? AppColors.success
+                                : AppColors.warning,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+
+              // Date navigation row (< Hôm nay >)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: _previousDay,
+                        borderRadius: BorderRadius.circular(6),
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: AppColors.border, width: 0.8),
+                          ),
+                          child: const Icon(Icons.chevron_left_rounded,
+                              size: 18, color: AppColors.textSecondary),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      InkWell(
+                        onTap: _nextDay,
+                        borderRadius: BorderRadius.circular(6),
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: AppColors.border, width: 0.8),
+                          ),
+                          child: const Icon(Icons.chevron_right_rounded,
+                              size: 18, color: AppColors.textSecondary),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (!isToday)
+                    InkWell(
+                      onTap: _goToToday,
+                      borderRadius: BorderRadius.circular(6),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          'Về hôm nay',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                            fontFamily: 'BeVietnamPro',
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Progress Bar
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 7,
+                  backgroundColor: AppColors.paperInk,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    isAllDone ? AppColors.success : AppColors.primary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+
+              // Danh sách các việc
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: tasks.length,
+                separatorBuilder: (_, __) =>
+                    const Divider(color: AppColors.divider, height: 14),
+                itemBuilder: (ctx, index) {
+                  final AssignedTask task = tasks[index];
+                  final isDone =
+                      !isStatusLoading && !unfinishedIds.contains(task.id);
+
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () async {
+                      final res = await Navigator.push<bool>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TaskReportScreen(
+                            task: task,
+                            workDate: effectiveDateStr,
+                          ),
+                        ),
+                      );
+                      if (res == true || ctx.mounted) {
+                        ref.invalidate(todayUserTasksProvider(params));
+                        ref.invalidate(unfinishedUserTasksProvider(params));
+                        widget.onTasksChanged?.call();
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 2),
+                      child: Row(
+                        children: [
+                          Icon(
+                            isDone
+                                ? Icons.check_circle_rounded
+                                : Icons.pending_actions_rounded,
+                            color: isDone
+                                ? AppColors.success
+                                : AppColors.warning,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  task.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'BeVietnamPro',
+                                    color: isDone
+                                        ? AppColors.textSecondary
+                                        : AppColors.neutral,
+                                    decoration: isDone
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                if (task.createdByName.isNotEmpty)
+                                  Text(
+                                    'Giao bởi: ${task.createdByName}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 11.5,
+                                      color: AppColors.textSecondary,
+                                      fontFamily: 'BeVietnamPro',
+                                    ),
+                                  ),
+                                if (task.repeatDaily || task.requirePhoto) ...[
+                                  const SizedBox(height: 3),
+                                  Wrap(
+                                    spacing: 6,
+                                    runSpacing: 4,
+                                    children: [
+                                      if (task.repeatDaily)
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 1.5),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primary
+                                                .withValues(alpha: 0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: const Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(Icons.repeat_rounded,
+                                                  size: 10,
+                                                  color: AppColors.primary),
+                                              SizedBox(width: 3),
+                                              Text(
+                                                'Lặp mỗi ngày',
+                                                style: TextStyle(
+                                                  fontSize: 9.5,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: AppColors.primary,
+                                                  fontFamily: 'BeVietnamPro',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      if (task.requirePhoto)
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 1.5),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFFFF3E0),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: const Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(Icons.camera_alt_rounded,
+                                                  size: 10,
+                                                  color: Color(0xFFE65100)),
+                                              SizedBox(width: 3),
+                                              Text(
+                                                'Cần ảnh',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xFFE65100),
+                                                  fontFamily: 'BeVietnamPro',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                            size: 18,
+                            color: AppColors.textDisabled,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyCard({required String dateTitle, required bool isToday}) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.cardSurface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.cardOutline, width: 1.2),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.shadow,
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.success.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.task_alt_rounded,
+                  color: AppColors.success,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Công việc được giao',
+                      style: TextStyle(
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'BeVietnamPro',
+                        color: AppColors.neutral,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    InkWell(
+                      onTap: _pickDate,
+                      borderRadius: BorderRadius.circular(4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            dateTitle,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'BeVietnamPro',
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const Icon(Icons.arrow_drop_down_rounded,
+                              size: 16, color: AppColors.primary),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  InkWell(
+                    onTap: _previousDay,
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.border, width: 0.8),
+                      ),
+                      child: const Icon(Icons.chevron_left_rounded,
+                          size: 18, color: AppColors.textSecondary),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  InkWell(
+                    onTap: _nextDay,
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.border, width: 0.8),
+                      ),
+                      child: const Icon(Icons.chevron_right_rounded,
+                          size: 18, color: AppColors.textSecondary),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                isToday
+                    ? 'Hôm nay bạn không có công việc được phân công'
+                    : 'Không có công việc được phân công vào ngày này',
+                style: const TextStyle(
+                  fontSize: 12.5,
+                  color: AppColors.textSecondary,
+                  fontFamily: 'BeVietnamPro',
+                ),
+              ),
+              if (!isToday)
+                InkWell(
+                  onTap: _goToToday,
+                  child: const Text(
+                    'Về hôm nay',
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                      fontFamily: 'BeVietnamPro',
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingCard() {
+    return Container(
+      height: 90,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.cardSurface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.cardOutline, width: 1.2),
+      ),
+      child: const Center(
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
+          ),
+        ),
+      ),
+    );
+  }
+}

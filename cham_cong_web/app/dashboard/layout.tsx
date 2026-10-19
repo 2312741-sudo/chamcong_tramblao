@@ -1,0 +1,628 @@
+'use client';
+import { useEffect, useState, createContext, useContext, useRef } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { onAuthChanged, signOut, getUserCurrentStoreId } from '@/lib/auth';
+import { watchStore, watchMembers, watchCurrentMember, getUserStoresData, switchStore, watchNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/lib/firestore';
+import { Store, Member, UserRole, AppNotification, getRoleLabel, normalizeRole, canManageSchedule, canApproveMembers, canAccessWeb } from '@/lib/types';
+import { User } from 'firebase/auth';
+import { notificationDestination } from '@/lib/notifications';
+
+interface AppCtx {
+  user: User | null;
+  storeId: string | null;
+  store: Store | null;
+  members: Member[];
+  currentMember: Member | null;
+  role: UserRole | undefined;
+}
+const AppContext = createContext<AppCtx>({ user: null, storeId: null, store: null, members: [], currentMember: null, role: undefined });
+export const useApp = () => useContext(AppContext);
+
+const NAV = [
+  { href: '/dashboard', icon: '📊', label: 'Tổng quan' },
+  { href: '/dashboard/checkin', icon: '⏰', label: 'Chấm công' },
+  { href: '/dashboard/schedule', icon: '🗓️', label: 'Lịch làm' },
+  { href: '/dashboard/tasks', icon: '📋', label: 'Giao việc' },
+  { href: '/dashboard/attendance', icon: '📅', label: 'Bảng công' },
+  { href: '/dashboard/salary', icon: '💰', label: 'Báo cáo lương' },
+  { href: '/dashboard/members', icon: '👥', label: 'Nhân viên' },
+  { href: '/dashboard/production', icon: '🏭', label: 'Sản xuất' },
+  { href: '/dashboard/performance', icon: '⚡', label: 'Đo hiệu năng' },
+  { href: '/dashboard/settings', icon: '⚙️', label: 'Cài đặt' },
+];
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [user, setUser] = useState<User | null>(null);
+  const [storeId, setStoreId] = useState<string | null>(null);
+  const [store, setStore] = useState<Store | null>(null);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [directMember, setDirectMember] = useState<Member | null>(null);
+  const [userStores, setUserStores] = useState<Store[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showStoreSwitcher, setShowStoreSwitcher] = useState(false);
+
+  // Notification state
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [notificationError, setNotificationError] = useState<string | null>(null);
+  const [notificationLimit, setNotificationLimit] = useState(50);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const unsub = onAuthChanged(async (u) => {
+      if (!u) { router.replace('/login'); return; }
+      setUser(u);
+      try {
+        const { stores, currentStoreId } = await getUserStoresData(u.uid);
+        setUserStores(stores);
+        setStoreId(currentStoreId);
+      } catch (err) {
+        console.error('Lỗi khi tải dữ liệu người dùng:', err);
+      } finally {
+        setLoading(false);
+      }
+    });
+    return unsub;
+  }, [router]);
+
+  useEffect(() => {
+    if (!storeId) return;
+    setDirectMember(null);
+    const unsubStore = watchStore(storeId, s => setStore(s));
+    const unsubMembers = watchMembers(storeId, m => setMembers(m));
+    const unsubDirect = user ? watchCurrentMember(storeId, user.uid, m => setDirectMember(m)) : () => {};
+    return () => { unsubStore(); unsubMembers(); unsubDirect(); };
+  }, [storeId, user]);
+
+  const currentMember = directMember || (user ? members.find(m => m.userId === user.uid) || null : null);
+  const isStoreOwner = store && user && store.ownerId === user.uid;
+
+  let resolvedRole: UserRole | undefined;
+  if (currentMember?.role) {
+    const norm = normalizeRole(currentMember.role);
+    if (norm === 'owner') {
+      // Chỉ giữ quyền owner nếu store.ownerId đúng là user này
+      resolvedRole = isStoreOwner ? 'owner' : 'manager1';
+    } else {
+      // Vai trò rõ ràng (manager1, manager2, employee) trong document thành viên luôn được tôn trọng!
+      resolvedRole = currentMember.role;
+    }
+  } else if (isStoreOwner) {
+    // Document thành viên chưa tải kịp nhưng user là chủ tạo cửa hàng
+    resolvedRole = 'owner';
+  } else {
+    resolvedRole = 'employee';
+  }
+  const role = resolvedRole;
+
+
+  // Real-time notifications listener
+  useEffect(() => {
+    setNotifications([]); setUnreadCount(0); setNotificationError(null);
+    if (!user) return;
+    const unsubNotifs = watchNotifications(storeId || '', user.uid,
+      currentMember?.status === 'active' && store?.id === storeId && store?.status !== 'deleted' ? role : null,
+      notifs => { setNotifications(notifs); setNotificationError(null); },
+      () => setNotificationError('Không thể tải thông báo. Vui lòng thử lại.'),
+      notificationLimit, setUnreadCount);
+    return unsubNotifs;
+  }, [storeId, user, role, currentMember?.status, store?.id, store?.status, notificationLimit]);
+
+  // Click outside to close notification dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notifDropdownRef.current && !notifDropdownRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    }
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotifications]);
+
+  // Role based route protection
+  useEffect(() => {
+    if (!role) return;
+    const norm = normalizeRole(role);
+    if (norm === 'employee') {
+      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/attendance'];
+      if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
+        router.replace('/dashboard/checkin');
+      }
+    } else if (norm === 'manager2') {
+      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/attendance'];
+      if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
+        router.replace('/dashboard/schedule');
+      }
+    } else if (norm === 'manager1') {
+      const allowed = ['/dashboard', '/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/members', '/dashboard/attendance'];
+      if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
+        router.replace('/dashboard/schedule');
+      }
+    } else if (norm !== 'owner') {
+      if (pathname.startsWith('/dashboard/performance')) {
+        router.replace('/dashboard/schedule');
+      }
+    }
+  }, [role, pathname, router]);
+
+  if (loading) return (
+    <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'var(--surface)' }}>
+      <div style={{ textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center', gap:16 }}>
+        <div style={{ width:48, height:48, border:'3px solid var(--primary-light)', borderTopColor:'var(--primary)', borderRadius:'50%', animation:'spin 0.7s linear infinite' }} />
+        <p style={{ color:'var(--text-secondary)', fontSize:14 }}>Đang tải dữ liệu...</p>
+      </div>
+    </div>
+  );
+
+  if (!storeId && !loading) {
+    return (
+      <div style={{ display:'flex', flexDirection: 'column', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'var(--surface)' }}>
+        <img src="/empty-store.png" alt="No store" style={{ width:120, height:120, opacity:0.5, marginBottom:16 }} onError={e => (e.currentTarget.style.display = 'none')} />
+        <h2 style={{ fontSize:18, fontWeight:700, color:'var(--neutral)', marginBottom:8 }}>Bạn chưa tham gia cửa hàng nào</h2>
+        <p style={{ color:'var(--text-secondary)', fontSize:14, marginBottom:24 }}>Vui lòng mở app điện thoại để tạo hoặc tham gia cửa hàng</p>
+        
+        <div style={{ background: '#f8d7da', color: '#721c24', padding: '12px 16px', borderRadius: '8px', fontSize: '12px', border: '1px solid #f5c6cb', maxWidth: '400px', textAlign: 'left' }}>
+          <strong>Thông tin tài khoản:</strong><br/>
+          - <b>Email:</b> {user?.email}<br/>
+          - <b>UID:</b> {user?.uid}<br/>
+          - <b>Cửa hàng tìm thấy:</b> {userStores.length}<br/>
+        </div>
+
+        {notifications.length > 0 && <div style={{ maxWidth: 420, marginTop: 16 }}>
+          <h3>Thông báo tài khoản</h3>
+          {notifications.map(item => <button key={item.id} style={{ display: 'block', textAlign: 'left', padding: 12, marginBottom: 8 }}
+            onClick={async () => { if (user) { try { await markNotificationAsRead(item.storeId, item.id, user.uid, true); } catch { setNotificationError('Không thể cập nhật thông báo.'); } } }}>
+            <strong>{item.title}</strong><p>{item.body}</p>
+          </button>)}
+        </div>}
+        {notificationError && <p role="alert">{notificationError}</p>}
+        <button 
+          onClick={() => signOut().then(() => router.replace('/login'))}
+          style={{ marginTop: '20px', padding: '10px 20px', border: 'none', background: 'var(--primary)', color: 'white', borderRadius: '8px', cursor: 'pointer', fontWeight: 600 }}
+        >
+          Đăng xuất
+        </button>
+      </div>
+    );
+  }
+
+  const initials = user?.displayName
+    ? user.displayName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+    : (user?.email?.[0] ?? 'U').toUpperCase();
+
+  const normRole = normalizeRole(role);
+  const dashboardRoleClass = normRole === 'owner'
+    ? 'dashboard-role-owner'
+    : normRole === 'manager1' || normRole === 'manager2'
+      ? 'dashboard-role-manager'
+      : '';
+
+  const filteredNav = NAV.filter(item => {
+    if (normRole === 'employee') {
+      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/attendance';
+    }
+    if (normRole === 'manager2') {
+      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/attendance';
+    }
+    if (normRole === 'manager1') {
+      return item.href === '/dashboard' || item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/members' || item.href === '/dashboard/attendance';
+    }
+    return true; // owner has full access
+  });
+
+  const bottomNavItems = (normRole === 'employee' || normRole === 'manager2')
+    ? [
+        { href: '/dashboard/checkin', icon: '⏰', label: 'Chấm công' },
+        { href: '/dashboard/schedule', icon: '🗓️', label: 'Lịch làm' },
+        { href: '/dashboard/attendance', icon: '📅', label: 'Bảng công' },
+      ]
+    : [
+        { href: '/dashboard', icon: '📊', label: 'Tổng quan' },
+        { href: '/dashboard/checkin', icon: '⏰', label: 'Chấm công' },
+        { href: '/dashboard/schedule', icon: '🗓️', label: 'Lịch làm' },
+        { href: '/dashboard/attendance', icon: '📅', label: 'Bảng công' },
+      ];
+
+
+  const handleNotificationClick = async (notif: AppNotification) => {
+    try {
+      const destination = await notificationDestination(notif);
+      if (user) await markNotificationAsRead(notif.storeId, notif.id, user.uid, notif.scope === 'account');
+      if (destination) {
+        if (user && notif.storeId !== storeId) {
+          await switchStore(user.uid, notif.storeId);
+          setStoreId(notif.storeId);
+        }
+        setShowNotifications(false);
+        router.push(destination);
+      }
+    } catch (error) {
+      setNotificationError(error instanceof Error ? error.message : 'Không thể mở thông báo.');
+    }
+  };
+
+  const handleMarkAllRead = async () => {
+    if (!user) return;
+    try { await markAllNotificationsAsRead(storeId || '', user.uid, store?.status !== 'deleted' && currentMember?.status === 'active' ? role : null); }
+    catch { setNotificationError('Không thể cập nhật trạng thái đã đọc. Vui lòng thử lại.'); }
+  };
+
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'birthday': return '🎂';
+      case 'join_request': return '👤';
+      case 'join_approved': return '✅';
+      case 'advance_request': return '💵';
+      case 'advance_approved': return '💰';
+      case 'schedule_changed': return '🗓️';
+      case 'schedule_registration_reminder': return '⏰';
+      case 'checklist_reminder': return '📋';
+      case 'delivery_update': return '📦';
+      default: return '🔔';
+    }
+  };
+
+  const formatNotifTime = (createdAt: any) => {
+    if (!createdAt) return '';
+    try {
+      const d = createdAt.toDate ? createdAt.toDate() : new Date(createdAt);
+      return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + d.toLocaleDateString('vi-VN');
+    } catch {
+      return '';
+    }
+  };
+
+  return (
+    <AppContext.Provider value={{ user, storeId, store, members, currentMember, role }}>
+      <div className={dashboardRoleClass} style={{ display:'flex', minHeight:'100vh', background:'var(--surface)' }}>
+        {/* Mobile overlay */}
+        {sidebarOpen && (
+          <div onClick={() => setSidebarOpen(false)} style={{
+            position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:40, display:'block'
+          }} className="lg-hidden" />
+        )}
+
+        {/* Sidebar */}
+        <aside style={{
+          width: 'var(--sidebar-width)',
+          background: 'var(--sidebar-bg)',
+          color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'fixed',
+          top: 0,
+          left: sidebarOpen ? 0 : '-240px',
+          height: '100vh',
+          zIndex: 50,
+          transition: 'left 0.25s ease',
+          boxShadow: '4px 0 20px rgba(0,0,0,0.2)',
+        }}>
+          {/* Logo */}
+          <div style={{ padding:'24px 20px', borderBottom:'1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <img src="/logo.jpg" alt="Logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />
+              <div>
+                <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm</div>
+                <div style={{ fontSize:11, opacity:0.6, marginTop:2 }}>Cổng quản lý Web</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Store info */}
+          {store && (
+            <div 
+              style={{ padding:'12px 20px', borderBottom:'1px solid rgba(255,255,255,0.07)', background:'rgba(255,255,255,0.04)', cursor:'pointer' }}
+              onClick={() => setShowStoreSwitcher(true)}
+            >
+              <div style={{ fontSize:11, opacity:0.5, marginBottom:2 }}>Cửa hàng (Nhấn để đổi) ▾</div>
+              <div style={{ fontSize:14, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{store.name}</div>
+              <div style={{ fontSize:11, opacity:0.5, marginTop:2 }}>Mã: <strong style={{ opacity:1, letterSpacing:1 }}>{store.code}</strong></div>
+            </div>
+          )}
+
+          {/* Nav */}
+          <nav style={{ flex:1, padding:'12px 10px', display:'flex', flexDirection:'column', gap:2, overflowY:'auto' }}>
+            {filteredNav.map(item => {
+              const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
+              return (
+                <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)} style={{
+                  display:'flex', alignItems:'center', gap:10,
+                  padding:'10px 12px',
+                  borderRadius:10,
+                  background: active ? 'var(--sidebar-active)' : 'transparent',
+                  color: active ? 'var(--sidebar-active-text)' : 'rgba(255,255,255,0.65)',
+                  fontWeight: active ? 700 : 500,
+                  fontSize:14,
+                  transition:'all 0.15s',
+                  textDecoration:'none',
+                }}>
+                  <span style={{ fontSize:16 }}>{item.icon}</span>
+                  {item.label}
+                  {active && <div style={{ marginLeft:'auto', width:6, height:6, borderRadius:'50%', background:'rgba(255,255,255,0.8)' }} />}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* User Profile Footer */}
+          <div style={{ padding:'16px 20px', borderTop:'1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              {currentMember?.avatarUrl || user?.photoURL ? (
+                <img 
+                  src={currentMember?.avatarUrl || user?.photoURL || ''} 
+                  alt="Avatar" 
+                  style={{ width:36, height:36, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(255,255,255,0.3)' }} 
+                />
+              ) : (
+                <div className="avatar" style={{ width:36, height:36, fontSize:13 }}>{initials}</div>
+              )}
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:13, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                  {user?.displayName || user?.email}
+                </div>
+                <div style={{ fontSize:11, color:'var(--sidebar-role)' }}>
+                  {normRole === 'owner' ? '👑 Chủ cửa hàng' : normRole === 'manager1' ? '👔 Quản lý 1' : normRole === 'manager2' ? '👔 Quản lý 2' : '👤 Nhân viên'}
+                </div>
+              </div>
+              <button onClick={() => signOut().then(() => router.replace('/login'))} title="Đăng xuất" style={{
+                background:'rgba(255,255,255,0.1)', border:'none', color:'rgba(255,255,255,0.7)',
+                width:30, height:30, borderRadius:8, cursor:'pointer', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center'
+              }}>↩</button>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main */}
+        <div style={{ flex:1, marginLeft:0, display:'flex', flexDirection:'column', minWidth:0 }}>
+          {/* Top bar */}
+          <header style={{
+            background:'white',
+            borderBottom:'1px solid var(--divider)',
+            padding:'0 16px',
+            minHeight:56,
+            height:56,
+            display:'flex',
+            alignItems:'center',
+            gap:10,
+            position:'sticky', top:0, zIndex:30,
+          }}>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{ background:'var(--surface)', border:'none', width:40, height:40, borderRadius:10, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}
+              title="Menu"
+            >☰</button>
+            <div style={{ flex:1, minWidth:0, display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ fontSize:14, fontWeight:700, color:'var(--neutral)', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
+                {filteredNav.find(n => pathname === n.href || (n.href !== '/dashboard' && pathname.startsWith(n.href)))?.label ?? 'Dashboard'}
+              </span>
+              {store && (
+                <button
+                  type="button"
+                  onClick={() => setShowStoreSwitcher(true)}
+                  style={{
+                    background: 'var(--surface)',
+                    border: '1px solid var(--border)',
+                    padding: '3px 8px',
+                    borderRadius: 14,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    cursor: 'pointer',
+                    maxWidth: 150,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    color: 'var(--neutral)'
+                  }}
+                  title="Chuyển cửa hàng"
+                >
+                  <span>🏪</span>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{store.name}</span>
+                  <span style={{ fontSize: 9, opacity: 0.6 }}>▾</span>
+                </button>
+              )}
+            </div>
+
+            {/* Notification Bell */}
+            <div style={{ position: 'relative' }} ref={notifDropdownRef}>
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                style={{
+                  background: showNotifications ? 'var(--primary-light)' : 'var(--surface)',
+                  border: 'none', width: 38, height: 38, borderRadius: 10, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
+                  position: 'relative', transition: 'all 0.2s'
+                }}
+                title="Thông báo"
+              >
+                🔔
+                {unreadCount > 0 && (
+                  <span style={{
+                    position: 'absolute', top: -2, right: -2,
+                    background: 'var(--primary)', color: 'white',
+                    fontSize: 10, fontWeight: 700, borderRadius: 10,
+                    minWidth: 18, height: 18, padding: '0 4px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    border: '2px solid white'
+                  }}>
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Notification Dropdown */}
+              {showNotifications && (
+                <div style={{
+                  position: 'absolute', top: 48, right: 0, width: 360, maxWidth: '90vw',
+                  background: 'white', borderRadius: 16,
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.15)', border: '1px solid var(--border)',
+                  zIndex: 100, overflow: 'hidden', display: 'flex', flexDirection: 'column'
+                }}>
+                  <div style={{
+                    padding: '14px 16px', borderBottom: '1px solid var(--border)',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                  }}>
+                    <div style={{ fontWeight: 700, fontSize: 15 }}>
+                      Thông báo {unreadCount > 0 && <span style={{ color: 'var(--primary)', fontSize: 13 }}>({unreadCount} mới)</span>}
+                    </div>
+                    {unreadCount > 0 && (
+                      <button
+                        onClick={handleMarkAllRead}
+                        style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: 12, cursor: 'pointer', fontWeight: 600 }}
+                      >
+                        Đã đọc tất cả
+                      </button>
+                    )}
+                  </div>
+
+                  <div style={{ maxHeight: 360, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+                    {notificationError && <p role="alert" style={{ padding: 12, color: 'var(--danger)' }}>{notificationError}</p>}
+                    {notifications.length >= notificationLimit && <button onClick={() => setNotificationLimit(value => value + 50)}>Xem thông báo cũ hơn</button>}
+                    {notifications.length === 0 && !notificationError ? (
+                      <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-secondary)' }}>
+                        <div style={{ fontSize: 32, marginBottom: 8 }}>📭</div>
+                        <p style={{ fontSize: 13, margin: 0 }}>Không có thông báo nào</p>
+                      </div>
+                    ) : (
+                      notifications.map(notif => {
+                        const isRead = user ? notif.readBy.includes(user.uid) : true;
+                        return (
+                          <div
+                            key={notif.id}
+                            onClick={() => handleNotificationClick(notif)}
+                            style={{
+                              padding: '12px 16px', borderBottom: '1px solid var(--border)',
+                              background: isRead ? 'white' : 'var(--primary-light)',
+                              cursor: 'pointer', display: 'flex', gap: 12, alignItems: 'flex-start',
+                              transition: 'background 0.15s'
+                            }}
+                          >
+                            <span style={{ fontSize: 20, flexShrink: 0, marginTop: 2 }}>
+                              {getNotificationIcon(notif.type)}
+                            </span>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontWeight: isRead ? 600 : 700, fontSize: 13, color: 'var(--neutral)', marginBottom: 2 }}>
+                                {notif.title}
+                              </div>
+                              <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4, wordBreak: 'break-word' }}>
+                                {notif.body}
+                              </div>
+                              <div style={{ fontSize: 11, color: '#aaa', marginTop: 4 }}>
+                                {formatNotifTime(notif.createdAt)}
+                              </div>
+                            </div>
+                            {!isRead && (
+                              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--primary)', flexShrink: 0, marginTop: 6 }} />
+                            )}
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={{ fontSize:13, color:'var(--text-secondary)', display:'flex', alignItems:'center', gap:6 }}>
+              <span style={{ width:8, height:8, borderRadius:'50%', background:'var(--success)', display:'inline-block' }} />
+              {members.filter(m => m.status === 'active').length} nhân viên
+            </div>
+          </header>
+
+          {/* Content */}
+          <main className="dashboard-main-content">
+            {!storeId ? (
+              <div className="empty-state">
+                <div className="empty-state-icon">🏪</div>
+                <div className="empty-state-text">Bạn chưa tham gia cửa hàng nào</div>
+                <div className="empty-state-sub">Vui lòng mở app điện thoại để tạo hoặc tham gia cửa hàng</div>
+              </div>
+            ) : children}
+          </main>
+        </div>
+
+        {/* Mobile Bottom Navigation Bar */}
+        <nav className="mobile-bottom-nav hide-on-desktop">
+          {bottomNavItems.map(item => {
+            const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`mobile-bottom-nav-item ${active ? 'active' : ''}`}
+              >
+                <span className="mobile-bottom-nav-icon">{item.icon}</span>
+                <span className="mobile-bottom-nav-label">{item.label}</span>
+              </Link>
+            );
+          })}
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(true)}
+            className="mobile-bottom-nav-item"
+            title="Mở menu"
+          >
+            <span className="mobile-bottom-nav-icon">☰</span>
+            <span className="mobile-bottom-nav-label">Menu</span>
+          </button>
+        </nav>
+
+        {/* Store Switcher Modal */}
+        {showStoreSwitcher && (
+          <div className="modal-overlay" onClick={() => setShowStoreSwitcher(false)}>
+            <div className="modal" onClick={e => e.stopPropagation()}>
+              <div className="modal-header">
+                <div className="modal-title">Chuyển cửa hàng</div>
+                <button className="modal-close" onClick={() => setShowStoreSwitcher(false)}>×</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxHeight: '60vh', overflowY: 'auto' }}>
+                {userStores.map(s => (
+                  <button 
+                    key={s.id}
+                    onClick={async () => {
+                      if (user) {
+                        await switchStore(user.uid, s.id);
+                        setStoreId(s.id);
+                        setShowStoreSwitcher(false);
+                      }
+                    }}
+                    style={{
+                      padding: 16,
+                      borderRadius: 12,
+                      border: s.id === storeId ? '2px solid var(--primary)' : '1px solid var(--border)',
+                      background: s.id === storeId ? 'var(--primary-light)' : 'white',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 4
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--neutral)' }}>{s.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Mã: {s.code}</div>
+                  </button>
+                ))}
+                {userStores.length === 0 && (
+                  <div style={{ padding: 20, textAlign: 'center', color: 'var(--text-secondary)' }}>
+                    Bạn chưa tham gia cửa hàng nào
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </AppContext.Provider>
+  );
+}
