@@ -319,7 +319,7 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF143A2F),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           padding:
@@ -350,11 +350,13 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         title: const Text('Quản lý ca làm',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         actions: [
           TextButton.icon(
             onPressed: _saving ? null : _save,
@@ -363,12 +365,12 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
                     width: 16,
                     height: 16,
                     child: CircularProgressIndicator(
-                        strokeWidth: 2, color: Colors.white))
+                        strokeWidth: 2, color: Color(0xFF143A2F)))
                 : const Icon(Icons.save_alt_rounded,
-                    color: Colors.white, size: 18),
+                    color: Color(0xFF143A2F), size: 18),
             label: const Text('Lưu',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFF143A2F),
                     fontFamily: 'BeVietnamPro',
                     fontWeight: FontWeight.bold)),
           ),
@@ -377,7 +379,7 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addShift,
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         icon: const Icon(Icons.add_rounded),
         label: const Text('Thêm ca',
             style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
