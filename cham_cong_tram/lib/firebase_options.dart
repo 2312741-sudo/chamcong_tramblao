@@ -56,6 +56,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '744729032681',
     projectId: 'chamcongtramblao',
     storageBucket: 'chamcongtramblao.firebasestorage.app',
+    iosClientId: '744729032681-k9886g97cunj6srep0tdj0udt349e093.apps.googleusercontent.com',
     iosBundleId: 'com.tramblao.chamcong',
   );
 }

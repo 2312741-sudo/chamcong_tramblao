@@ -148,7 +148,7 @@ class AttendanceRepository {
 
           if (reportsQuery.docs.isEmpty) {
             try {
-              await FirebaseFunctions.instance.httpsCallable('requestChecklistNotification').call({
+              await FirebaseFunctions.instanceFor(region: 'asia-east2').httpsCallable('requestChecklistNotification').call({
                 'storeId': storeId, 'attendanceId': doc.id,
               });
             } catch (_) {}

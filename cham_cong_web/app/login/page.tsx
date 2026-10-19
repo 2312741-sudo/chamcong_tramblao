@@ -119,61 +119,119 @@ export default function LoginPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #CB2D2E 0%, #A82425 50%, #1A1A1A 100%)',
+      background: 'radial-gradient(120% 120% at 50% 10%, #FAF4E8 0%, #F4E9D5 60%, #EBDDC2 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '20px',
+      padding: '24px 20px',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      {/* Decorative circles */}
-      <div style={{ position:'fixed', top:-100, right:-100, width:400, height:400, borderRadius:'50%', background:'rgba(255,255,255,0.04)', pointerEvents:'none' }} />
-      <div style={{ position:'fixed', bottom:-150, left:-100, width:500, height:500, borderRadius:'50%', background:'rgba(255,255,255,0.03)', pointerEvents:'none' }} />
+      {/* Decorative ambient lighting - Trạm Blao Palette */}
+      <div style={{
+        position: 'fixed',
+        top: -120,
+        right: -100,
+        width: 480,
+        height: 480,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(149, 228, 209, 0.25) 0%, rgba(244, 233, 213, 0) 70%)',
+        filter: 'blur(40px)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'fixed',
+        bottom: -150,
+        left: -120,
+        width: 520,
+        height: 520,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(27, 77, 62, 0.08) 0%, rgba(244, 233, 213, 0) 70%)',
+        filter: 'blur(50px)',
+        pointerEvents: 'none',
+      }} />
 
-      <div style={{ width:'100%', maxWidth:420, zIndex:1 }}>
-        {/* Logo */}
-        <div style={{ textAlign:'center', marginBottom:32, color:'white' }}>
-          <img 
-            src="/logo.jpg" 
-            alt="Logo" 
-            style={{
-              width:72, height:72,
-              borderRadius:20,
-              objectFit:'cover',
-              margin:'0 auto 16px',
-              border:'2px solid rgba(255,255,255,0.2)',
-              boxShadow:'0 8px 32px rgba(0,0,0,0.15)'
-            }} 
-          />
-          <h1 style={{ fontSize:26, fontWeight:800, letterSpacing:'-0.5px' }}>Chấm Công Trạm Blao</h1>
-          <p style={{ opacity:0.7, marginTop:6, fontSize:14 }}>Cổng quản lý dành cho chủ cửa hàng</p>
+      <div style={{ width: '100%', maxWidth: 420, zIndex: 1 }}>
+        {/* Logo & Brand Header */}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{
+            display: 'inline-block',
+            position: 'relative',
+            marginBottom: 14,
+          }}>
+            <img 
+              src="/logo.jpg" 
+              alt="Logo Chấm Công Trạm Blao" 
+              style={{
+                width: 76,
+                height: 76,
+                borderRadius: 20,
+                objectFit: 'cover',
+                border: '1.5px solid rgba(27, 77, 62, 0.15)',
+                boxShadow: '0 8px 24px rgba(27, 77, 62, 0.1)',
+                display: 'block',
+              }} 
+            />
+          </div>
+          <h1 style={{
+            fontSize: 26,
+            fontWeight: 800,
+            letterSpacing: '-0.5px',
+            color: '#1B4D3E',
+            marginBottom: 6,
+          }}>
+            Chấm Công Trạm Blao
+          </h1>
+          <p style={{
+            color: '#5D5B63',
+            fontSize: 14,
+            fontWeight: 500,
+          }}>
+            Cổng quản lý dành cho chủ cửa hàng &amp; quản lý
+          </p>
         </div>
 
         {/* Card */}
         <div style={{
-          background:'white',
-          borderRadius:24,
-          padding:32,
-          boxShadow:'0 24px 80px rgba(0,0,0,0.25)',
+          background: 'rgba(255, 255, 255, 0.96)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: 24,
+          padding: 32,
+          border: '1px solid rgba(216, 207, 189, 0.8)',
+          boxShadow: '0 20px 60px -15px rgba(27, 77, 62, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04)',
         }}>
-          <h2 style={{ fontSize:20, fontWeight:700, marginBottom:24, color:'var(--neutral)' }}>Đăng nhập</h2>
+          <h2 style={{
+            fontSize: 22,
+            fontWeight: 700,
+            marginBottom: 24,
+            color: '#1C1A2D',
+            letterSpacing: '-0.3px',
+          }}>
+            Đăng nhập
+          </h2>
 
           {error && (
             <div style={{
-              background:'var(--primary-light)',
-              color:'var(--primary)',
-              padding:'12px 16px',
-              borderRadius:10,
-              fontSize:13,
-              marginBottom:16,
-              borderLeft:'3px solid var(--primary)',
+              background: '#FFF5F5',
+              color: '#C91506',
+              padding: '12px 16px',
+              borderRadius: 12,
+              fontSize: 13,
+              marginBottom: 20,
+              border: '1px solid #FED7D7',
+              borderLeft: '4px solid #C91506',
+              lineHeight: 1.5,
             }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:16 }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
-              <label className="label">Email</label>
+              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+                Email
+              </label>
               <input
                 type="email"
                 className="input"
@@ -183,11 +241,23 @@ export default function LoginPage() {
                 required
                 autoFocus
                 disabled={isAnyLoading}
+                style={{
+                  height: 46,
+                  borderRadius: 12,
+                  border: '1.5px solid #D8CFBD',
+                  background: '#FFFFFF',
+                  color: '#1C1A2D',
+                  fontSize: 14,
+                  padding: '0 14px',
+                  width: '100%',
+                }}
               />
             </div>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <label className="label" style={{ margin: 0 }}>Mật khẩu</label>
+                <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, margin: 0 }}>
+                  Mật khẩu
+                </label>
                 <button
                   type="button"
                   onClick={() => {
@@ -200,7 +270,7 @@ export default function LoginPage() {
                     background: 'none',
                     border: 'none',
                     padding: 0,
-                    color: 'var(--primary)',
+                    color: '#1B4D3E',
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -219,13 +289,35 @@ export default function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 disabled={isAnyLoading}
+                style={{
+                  height: 46,
+                  borderRadius: 12,
+                  border: '1.5px solid #D8CFBD',
+                  background: '#FFFFFF',
+                  color: '#1C1A2D',
+                  fontSize: 14,
+                  padding: '0 14px',
+                  width: '100%',
+                }}
               />
             </div>
             <button
               type="submit"
               disabled={isAnyLoading}
               className="btn btn-primary"
-              style={{ justifyContent:'center', padding:'13px 20px', marginTop:4, fontSize:15 }}
+              style={{
+                justifyContent: 'center',
+                height: 48,
+                padding: '0 20px',
+                marginTop: 6,
+                fontSize: 15,
+                fontWeight: 700,
+                borderRadius: 12,
+                background: '#1B4D3E',
+                color: '#FFFFFF',
+                boxShadow: '0 4px 14px rgba(27, 77, 62, 0.28)',
+                cursor: isAnyLoading ? 'not-allowed' : 'pointer',
+              }}
             >
               {loading ? <span className="spinner" /> : null}
               {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
@@ -236,13 +328,13 @@ export default function LoginPage() {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            margin: '22px 0 18px',
-            color: 'var(--text-secondary)',
+            margin: '24px 0 18px',
+            color: '#5D5B63',
             fontSize: 13,
           }}>
-            <div style={{ flex: 1, height: 1, background: 'var(--divider)' }} />
+            <div style={{ flex: 1, height: 1, background: '#D8CFBD' }} />
             <span style={{ padding: '0 12px', fontWeight: 500 }}>Hoặc tiếp tục với</span>
-            <div style={{ flex: 1, height: 1, background: 'var(--divider)' }} />
+            <div style={{ flex: 1, height: 1, background: '#D8CFBD' }} />
           </div>
 
           {/* Social login buttons */}
@@ -258,11 +350,12 @@ export default function LoginPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 8,
-                padding: '11px 14px',
+                height: 46,
+                padding: '0 14px',
                 borderRadius: 12,
-                border: '1.5px solid var(--border)',
-                background: 'white',
-                color: '#333333',
+                border: '1.5px solid #D8CFBD',
+                background: '#FFFFFF',
+                color: '#1C1A2D',
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: isAnyLoading ? 'not-allowed' : 'pointer',
@@ -271,14 +364,14 @@ export default function LoginPage() {
               }}
               onMouseEnter={e => {
                 if (!isAnyLoading) {
-                  e.currentTarget.style.borderColor = '#bbb';
-                  e.currentTarget.style.background = '#f9f9f9';
+                  e.currentTarget.style.borderColor = '#1B4D3E';
+                  e.currentTarget.style.background = '#F9FBF9';
                 }
               }}
               onMouseLeave={e => {
                 if (!isAnyLoading) {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.background = 'white';
+                  e.currentTarget.style.borderColor = '#D8CFBD';
+                  e.currentTarget.style.background = '#FFFFFF';
                 }
               }}
             >
@@ -312,7 +405,8 @@ export default function LoginPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 8,
-                padding: '11px 14px',
+                height: 46,
+                padding: '0 14px',
                 borderRadius: 12,
                 border: '1.5px solid #000000',
                 background: '#000000',
@@ -347,8 +441,8 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <p style={{ textAlign:'center', marginTop:24, fontSize:13, color:'var(--text-secondary)' }}>
-            Chỉ dành cho <strong style={{ color:'var(--primary)' }}>chủ cửa hàng</strong> và <strong style={{ color:'var(--info)' }}>quản lý</strong>
+          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 13, color: '#5D5B63' }}>
+            Chỉ dành cho <strong style={{ color: '#1B4D3E' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
           </p>
         </div>
       </div>
@@ -383,12 +477,12 @@ export default function LoginPage() {
                   width: 60,
                   height: 60,
                   borderRadius: '50%',
-                  background: 'rgba(26, 107, 90, 0.1)',
+                  background: 'rgba(27, 77, 62, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 16px',
-                  color: 'var(--success, #1A6B5A)',
+                  color: 'var(--primary)',
                 }}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />

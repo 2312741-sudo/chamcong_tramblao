@@ -158,11 +158,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: const Color(0xFFFDE68A)),
                     ),
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Icon(Icons.info_outline, color: Color(0xFFD97706), size: 18),
                             SizedBox(width: 6),
                             Text(
@@ -176,8 +176,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
-                        const Text(
+                        SizedBox(height: 6),
+                        Text(
                           '• Hãy kiểm tra kỹ mục Thư rác (Spam / Junk) hoặc Quảng cáo nếu không thấy thư ở Hộp thư đến.\n'
                           '• Nếu bạn đăng ký bằng Google hoặc Apple, hãy đăng nhập trực tiếp bằng nút Google/Apple bên dưới mà không cần mật khẩu.\n'
                           '• Nhấp vào link trong email để nhập mật khẩu mới, sau đó quay lại ứng dụng để đăng nhập.',
@@ -218,8 +218,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: Row(
-              children: const [
+            title: const Row(
+              children: [
                 Icon(Icons.lock_reset_rounded, color: AppColors.primary, size: 24),
                 SizedBox(width: 8),
                 Text(
@@ -386,7 +386,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+
+                  Center(
+                    child: Text(
+                      AppStrings.appName,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.primary,
+                            letterSpacing: 0.3,
+                          ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
 
                   Center(
                     child: Text(

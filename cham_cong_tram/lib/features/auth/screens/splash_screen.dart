@@ -217,7 +217,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -235,7 +235,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.neutral.withOpacity(0.2),
+                      color: AppColors.neutral.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -251,7 +251,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.white,
+                  color: AppColors.primary,
                   letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
@@ -265,7 +265,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.white,
+                  color: AppColors.textSecondary,
                   letterSpacing: 0.3,
                 ),
                 textAlign: TextAlign.center,
@@ -278,7 +278,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 width: 40,
                 height: 40,
                 child: CircularProgressIndicator(
-                  color: Colors.white70,
+                  color: AppColors.primary,
                   strokeWidth: 2.5,
                 ),
               ),

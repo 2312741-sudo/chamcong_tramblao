@@ -1,24 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap');
 
-/* Trạm Nguyên Bản: scoped to the performance workspace. */
+/* Trạm Blao: scoped to the performance workspace. */
 .performance-shell {
-  --primary: #7e2930;
-  --primary-dark: #5c1f24;
-  --primary-light: #f4e8e5;
-  --success: #146a65;
-  --success-light: #e4f2ec;
-  --accent: #e3a94c;
-  --accent-light: #fbefd4;
-  --info: #2d2a4a;
-  --info-light: #e9e6ed;
-  --surface: #f6efdf;
-  --white: #fffef9;
-  --neutral: #1c1a2d;
-  --text-primary: #1c1a2d;
-  --text-secondary: #5d5b63;
-  --border: #d8cfbd;
-  --divider: #e9e1cf;
-  --shadow: rgba(45, 42, 74, 0.15);
+  --primary: #1B4D3E;
+  --primary-dark: #13382D;
+  --primary-light: #E4F4EF;
+  --logo-red: #C91506;
+  --success: #146A65;
+  --success-light: #E4F2EC;
+  --accent: #95E4D1;
+  --accent-light: #E4F9F4;
+  --info: #1C4E6B;
+  --info-light: #E3EEF5;
+  --surface: #F4E9D5;
+  --white: #FFFFFF;
+  --neutral: #1C1A2D;
+  --text-primary: #1C1A2D;
+  --text-secondary: #5D5B63;
+  --border: #D8CFBD;
+  --divider: #E9E1CF;
+  --shadow: rgba(27, 77, 62, 0.12);
 
   max-width: 1400px;
   min-height: 100%;

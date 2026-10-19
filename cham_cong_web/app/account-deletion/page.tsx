@@ -12,7 +12,7 @@ export default function AccountDeletionPage() {
     <div className="min-h-screen bg-slate-50 text-slate-800 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
         <div className="border-b border-slate-100 pb-6 mb-6">
-          <Link href="/privacy-policy" className="text-xs text-red-600 font-semibold hover:underline">
+          <Link href="/privacy-policy" className="text-xs text-[#1B4D3E] font-semibold hover:underline">
             ← Quay lại Chính sách quyền riêng tư
           </Link>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3">
@@ -49,7 +49,7 @@ export default function AccountDeletionPage() {
               Nếu bạn không còn cài ứng dụng hoặc gặp khó khăn khi đăng nhập, vui lòng gửi email yêu cầu xóa dữ liệu đến:
             </p>
             <div className="bg-white border border-slate-200 p-4 rounded-lg text-sm space-y-1">
-              <p>• <strong>Địa chỉ email tiếp nhận:</strong> <a href="mailto:nthanhtam.402@gmail.com" className="text-red-600 font-semibold">nthanhtam.402@gmail.com</a></p>
+              <p>• <strong>Địa chỉ email tiếp nhận:</strong> <a href="mailto:nthanhtam.402@gmail.com" className="text-[#1B4D3E] font-semibold">nthanhtam.402@gmail.com</a></p>
               <p>• <strong>Tiêu đề:</strong> Yêu cầu xóa tài khoản Chấm Công Trạm Blao</p>
               <p>• <strong>Nội dung:</strong> Cung cấp địa chỉ email hoặc số điện thoại đã đăng ký tài khoản cần xóa.</p>
             </div>

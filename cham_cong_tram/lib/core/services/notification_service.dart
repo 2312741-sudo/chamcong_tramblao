@@ -155,7 +155,7 @@ class NotificationService {
   Future<void> _register(String uid, String token, int session) async {
     if (session != _session || FirebaseAuth.instance.currentUser?.uid != uid) return;
     try {
-      await FirebaseFunctions.instance.httpsCallable('registerNotificationDevice').call({'token': token});
+      await FirebaseFunctions.instanceFor(region: 'asia-east2').httpsCallable('registerNotificationDevice').call({'token': token});
     } catch (e) {
       debugPrint('Cloud Function registerNotificationDevice fallback: $e');
       final tokenDigest = sha256.convert(utf8.encode(token)).toString();
@@ -198,7 +198,7 @@ class NotificationService {
       final token = await _fcm?.getToken();
       if (token != null && FirebaseAuth.instance.currentUser?.uid == uid) {
         try {
-          await FirebaseFunctions.instance.httpsCallable('registerNotificationDevice').call({'token': token, 'remove': true});
+          await FirebaseFunctions.instanceFor(region: 'asia-east2').httpsCallable('registerNotificationDevice').call({'token': token, 'remove': true});
         } catch (e) {
           final tokenDigest = sha256.convert(utf8.encode(token)).toString();
           await FirebaseFirestore.instance.collection('notificationDevices').doc(tokenDigest).delete().catchError((_) {});

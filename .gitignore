@@ -8,3 +8,5 @@ node_modules/
 .next/
 dist/
 *.log
+seed_demo_store.js
+verify_test_logins.js

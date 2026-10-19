@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
         {/* Header */}
         <div className="border-b border-slate-100 pb-8 mb-8 text-center">
-          <span className="inline-block px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full uppercase tracking-wider mb-3">
+          <span className="inline-block px-3 py-1 bg-[#E4F4EF] text-[#1B4D3E] text-xs font-semibold rounded-full uppercase tracking-wider mb-3 border border-[#95E4D1]/40">
             Chính Sách Bảo Mật & An Toàn Dữ Liệu
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
           </p>
 
           {/* Section 1 */}
-          <div className="bg-slate-50 border-l-4 border-red-600 p-4 rounded-r-lg">
+          <div className="bg-[#FAF4E8] border-l-4 border-[#1B4D3E] p-4 rounded-r-lg">
             <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
               1. Thông Tin và Dữ Liệu Chúng Tôi Thu Thập
             </h2>
@@ -129,8 +129,8 @@ export default function PrivacyPolicyPage() {
           </div>
 
           {/* Section 7: Contact */}
-          <div className="bg-red-50 border border-red-200 p-5 rounded-2xl mt-8">
-            <h3 className="text-lg font-bold text-red-900 mb-2">
+          <div className="bg-[#FAF4E8] border border-[#D8CFBD] p-5 rounded-2xl mt-8">
+            <h3 className="text-lg font-bold text-[#1B4D3E] mb-2">
               7. Thông Tin Liên Hệ & Đơn Vị Quản Lý (Contact & Support)
             </h3>
             <p className="text-slate-700 text-sm mb-3">
@@ -147,19 +147,19 @@ export default function PrivacyPolicyPage() {
               </div>
               <div>
                 <span className="text-slate-500 block">Email hỗ trợ:</span>
-                <a href="mailto:nthanhtam.402@gmail.com" className="text-red-600 font-semibold hover:underline">
+                <a href="mailto:nthanhtam.402@gmail.com" className="text-[#1B4D3E] font-semibold hover:underline">
                   nthanhtam.402@gmail.com
                 </a>
               </div>
               <div>
                 <span className="text-slate-500 block">Hotline:</span>
-                <a href="tel:0865062205" className="text-red-600 font-semibold hover:underline">
+                <a href="tel:0865062205" className="text-[#1B4D3E] font-semibold hover:underline">
                   0865 062 205
                 </a>
               </div>
               <div className="sm:col-span-2">
                 <span className="text-slate-500 block">Website chính thức:</span>
-                <a href="https://webquanlychamcong.vercel.app" target="_blank" rel="noreferrer" className="text-red-600 font-semibold hover:underline">
+                <a href="https://webquanlychamcong.vercel.app" target="_blank" rel="noreferrer" className="text-[#1B4D3E] font-semibold hover:underline">
                   https://webquanlychamcong.vercel.app
                 </a>
               </div>
@@ -171,10 +171,10 @@ export default function PrivacyPolicyPage() {
         <div className="border-t border-slate-100 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
           <p>© 2026 Chấm Công Trạm Blao. Tất cả các quyền được bảo lưu.</p>
           <div className="mt-3 sm:mt-0 space-x-4">
-            <Link href="/login" className="hover:text-red-600 underline">
+            <Link href="/login" className="hover:text-[#1B4D3E] underline">
               Cổng Quản Lý Web
             </Link>
-            <Link href="/account-deletion" className="hover:text-red-600 underline">
+            <Link href="/account-deletion" className="hover:text-[#1B4D3E] underline">
               Hướng dẫn xóa dữ liệu
             </Link>
           </div>
