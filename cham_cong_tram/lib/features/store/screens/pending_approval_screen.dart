@@ -166,8 +166,8 @@ class _PendingApprovalScreenState
                   child: OutlinedButton(
                     onPressed: _isCancelling ? null : _cancelRequest,
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      side: const BorderSide(color: AppColors.primary),
+                      foregroundColor: AppColors.primaryDark,
+                      side: const BorderSide(color: AppColors.primary, width: 1.5),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -223,7 +223,7 @@ class _PendingApprovalScreenState
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             style:
-                TextButton.styleFrom(foregroundColor: AppColors.primary),
+                TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
             child: const Text('Hủy yêu cầu',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro',

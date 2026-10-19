@@ -672,7 +672,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 7, vertical: 3),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.12),
+                          color: AppColors.primary.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
@@ -681,7 +681,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                             const Icon(
                               Icons.repeat_rounded,
                               size: 13,
-                              color: AppColors.primary,
+                              color: AppColors.primaryDark,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -689,7 +689,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                               style: GoogleFonts.beVietnamPro(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
+                                color: AppColors.primaryDark,
                               ),
                             ),
                           ],
@@ -701,7 +701,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 7, vertical: 3),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.12),
+                          color: AppColors.primary.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
@@ -710,7 +710,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                             const Icon(
                               Icons.event_repeat_rounded,
                               size: 13,
-                              color: AppColors.primary,
+                              color: AppColors.primaryDark,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -718,7 +718,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                               style: GoogleFonts.beVietnamPro(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
+                                color: AppColors.primaryDark,
                               ),
                             ),
                           ],

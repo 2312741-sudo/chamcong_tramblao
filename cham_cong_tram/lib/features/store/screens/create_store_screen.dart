@@ -289,8 +289,8 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                     _isFetchingWifi ? 'Đang nhận diện...' : 'Lấy WiFi hiện tại',
                   ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.primary),
+                    foregroundColor: AppColors.primaryDark,
+                    side: const BorderSide(color: AppColors.primary, width: 1.5),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                     textStyle: const TextStyle(
@@ -427,8 +427,8 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                         : 'Ấn để lấy vị trí hiện tại',
                   ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.primary),
+                    foregroundColor: AppColors.primaryDark,
+                    side: const BorderSide(color: AppColors.primary, width: 1.5),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                     textStyle: const TextStyle(

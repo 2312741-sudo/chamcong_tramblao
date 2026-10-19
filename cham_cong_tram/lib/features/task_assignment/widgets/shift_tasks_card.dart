@@ -470,7 +470,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                                               horizontal: 5, vertical: 1.5),
                                           decoration: BoxDecoration(
                                             color: AppColors.primary
-                                                .withValues(alpha: 0.1),
+                                                .withValues(alpha: 0.2),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),
@@ -479,14 +479,14 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                                             children: [
                                               Icon(Icons.repeat_rounded,
                                                   size: 10,
-                                                  color: AppColors.primary),
+                                                  color: AppColors.primaryDark),
                                               SizedBox(width: 3),
                                               Text(
                                                 'Lặp mỗi ngày',
                                                 style: TextStyle(
                                                   fontSize: 9.5,
                                                   fontWeight: FontWeight.w700,
-                                                  color: AppColors.primary,
+                                                  color: AppColors.primaryDark,
                                                   fontFamily: 'BeVietnamPro',
                                                 ),
                                               ),

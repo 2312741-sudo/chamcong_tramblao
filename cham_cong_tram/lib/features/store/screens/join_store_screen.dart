@@ -277,7 +277,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
+                      foregroundColor: AppColors.primaryDark,
                       side: const BorderSide(color: AppColors.primary, width: 1.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),

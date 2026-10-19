@@ -573,7 +573,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+            style: TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
             child: const Text('Tạo mã mới',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w600)),
@@ -1002,8 +1002,8 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                           : 'Lấy WiFi hiện tại',
                     ),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      side: const BorderSide(color: AppColors.primary),
+                      foregroundColor: AppColors.primaryDark,
+                      side: const BorderSide(color: AppColors.primary, width: 1.5),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 12),
                       textStyle: const TextStyle(
@@ -1402,8 +1402,8 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                             ? 'Đang lấy vị trí GPS...'
                             : '+ Thêm vị trí GPS hiện tại'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          side: const BorderSide(color: AppColors.primary),
+                          foregroundColor: AppColors.primaryDark,
+                          side: const BorderSide(color: AppColors.primary, width: 1.5),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                         ),
@@ -1581,8 +1581,8 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                 : const Icon(Icons.refresh_rounded),
                             label: const Text('Tạo mã mới'),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: AppColors.primary,
-                              side: const BorderSide(color: AppColors.primary),
+                              foregroundColor: AppColors.primaryDark,
+                              side: const BorderSide(color: AppColors.primary, width: 1.5),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
@@ -1854,8 +1854,8 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                     label: const Text('Thêm bộ phận',
                         style: TextStyle(fontFamily: 'BeVietnamPro')),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      side: const BorderSide(color: AppColors.primary),
+                      foregroundColor: AppColors.primaryDark,
+                      side: const BorderSide(color: AppColors.primary, width: 1.5),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),

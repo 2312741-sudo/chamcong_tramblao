@@ -569,7 +569,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.12),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
@@ -578,7 +578,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                       const Icon(
                         Icons.repeat_rounded,
                         size: 13,
-                        color: AppColors.primary,
+                        color: AppColors.primaryDark,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -586,7 +586,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
+                          color: AppColors.primaryDark,
                         ),
                       ),
                     ],
@@ -598,7 +598,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.12),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
@@ -607,7 +607,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                       const Icon(
                         Icons.event_repeat_rounded,
                         size: 13,
-                        color: AppColors.primary,
+                        color: AppColors.primaryDark,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -615,7 +615,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
+                          color: AppColors.primaryDark,
                         ),
                       ),
                     ],

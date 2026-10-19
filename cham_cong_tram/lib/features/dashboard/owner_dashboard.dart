@@ -692,19 +692,24 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isBright = color.computeLuminance() > 0.4;
+    final Color fgColor = isBright ? AppColors.primaryDark : color;
+    final Color bgHighlight = isBright ? AppColors.primary.withOpacity(0.2) : color.withOpacity(0.08);
+    final Color borderHighlight = isBright ? AppColors.primary : color;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: highlight ? color.withOpacity(0.08) : AppColors.cardSurface,
+        color: highlight ? bgHighlight : AppColors.cardSurface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: highlight ? color : AppColors.cardOutline, width: 1.5),
+        border: Border.all(color: highlight ? borderHighlight : AppColors.cardOutline, width: 1.5),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 2))],
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 22),
+          Icon(icon, color: fgColor, size: 22),
           const SizedBox(height: 6),
-          Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: color, fontFamily: 'BeVietnamPro')),
+          Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: fgColor, fontFamily: 'BeVietnamPro')),
           Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'BeVietnamPro'), textAlign: TextAlign.center, maxLines: 2),
         ],
       ),
@@ -723,6 +728,10 @@ class _ToolCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isBright = color.computeLuminance() > 0.4;
+    final Color iconColor = isBright ? AppColors.primaryDark : color;
+    final Color iconBg = isBright ? AppColors.primary.withOpacity(0.25) : color.withOpacity(0.1);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -737,8 +746,8 @@ class _ToolCard extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, color: color, size: 22),
+              decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: iconColor, size: 22),
             ),
             const SizedBox(width: 14),
             Expanded(

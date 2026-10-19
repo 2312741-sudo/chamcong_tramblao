@@ -498,20 +498,25 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBright = color.computeLuminance() > 0.4;
+    final fgColor = isBright ? AppColors.primaryDark : color;
+    final bgColor = isBright ? AppColors.primary.withOpacity(0.22) : color.withOpacity(0.08);
+    final borderColor = isBright ? AppColors.primary.withOpacity(0.45) : color.withOpacity(0.15);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.08),
+          color: bgColor,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.15)),
+          border: Border.all(color: borderColor),
         ),
         child: Column(
           children: [
-            Icon(icon, color: color, size: 28),
+            Icon(icon, color: fgColor, size: 28),
             const SizedBox(height: 8),
-            Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color, fontFamily: 'BeVietnamPro')),
+            Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: fgColor, fontFamily: 'BeVietnamPro')),
           ],
         ),
       ),
@@ -867,20 +872,20 @@ class _NavItem extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary.withOpacity(0.08) : Colors.transparent,
+            color: isSelected ? AppColors.primary.withOpacity(0.22) : Colors.transparent,
             borderRadius: BorderRadius.circular(14),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: isSelected ? AppColors.primary : Colors.grey, size: 24),
+              Icon(icon, color: isSelected ? AppColors.primaryDark : Colors.grey, size: 24),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.primary : Colors.grey,
+                  color: isSelected ? AppColors.primaryDark : Colors.grey,
                   fontFamily: 'BeVietnamPro',
                 ),
               ),

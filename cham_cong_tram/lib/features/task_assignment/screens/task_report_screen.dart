@@ -1015,8 +1015,8 @@ class _TaskReportScreenState extends ConsumerState<TaskReportScreen> {
               ),
             ),
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primary,
-              side: const BorderSide(color: AppColors.primary, width: 1.2),
+              foregroundColor: AppColors.primaryDark,
+              side: const BorderSide(color: AppColors.primary, width: 1.5),
               padding: const EdgeInsets.symmetric(vertical: 13),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
