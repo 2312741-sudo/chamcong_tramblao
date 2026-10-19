@@ -3,13 +3,13 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA2fvOwEKwkeS9AlDNDCELvtyCx07dE6xM',
-  authDomain: 'chamcongtram.firebaseapp.com',
-  projectId: 'chamcongtram',
-  storageBucket: 'chamcongtram.firebasestorage.app',
-  messagingSenderId: '476583007511',
-  appId: '1:476583007511:web:e374fbbef8fcd541ce1352',
-  measurementId: 'G-QHWJJWMZR3',
+  apiKey: 'AIzaSyCxW87rArTmuqORZbyuE9ey5Zc7PgWPLhQ',
+  authDomain: 'chamcongtramblao.firebaseapp.com',
+  projectId: 'chamcongtramblao',
+  storageBucket: 'chamcongtramblao.firebasestorage.app',
+  messagingSenderId: '744729032681',
+  appId: '1:744729032681:web:28ccb45858b290db333d78',
+  measurementId: 'G-3BPJQ9V47Y',
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];

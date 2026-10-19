@@ -1,4 +1,4 @@
-// File generated automatically by Antigravity based on provided config files.
+// File generated automatically for chamcongtramblao.
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
@@ -6,10 +6,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -18,18 +15,15 @@ class DefaultFirebaseOptions {
         return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for macos.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for windows.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for linux.',
         );
       default:
         throw UnsupportedError(
@@ -38,20 +32,30 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCxW87rArTmuqORZbyuE9ey5Zc7PgWPLhQ',
+    appId: '1:744729032681:web:28ccb45858b290db333d78',
+    messagingSenderId: '744729032681',
+    projectId: 'chamcongtramblao',
+    authDomain: 'chamcongtramblao.firebaseapp.com',
+    storageBucket: 'chamcongtramblao.firebasestorage.app',
+    measurementId: 'G-3BPJQ9V47Y',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA_1a4BIdre7YzzWYFv-njolhltMDyeitE',
-    appId: '1:476583007511:android:1e6061907be9bb65ce1352',
-    messagingSenderId: '476583007511',
-    projectId: 'chamcongtram',
-    storageBucket: 'chamcongtram.firebasestorage.app',
+    apiKey: 'AIzaSyDc37-yRjEF3DYpEqd1Rj21ETzVtVVoPWI',
+    appId: '1:744729032681:android:87102fc8cbae3a9e333d78',
+    messagingSenderId: '744729032681',
+    projectId: 'chamcongtramblao',
+    storageBucket: 'chamcongtramblao.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDYayXy1_hUz04C3iJo9-lX2ruAsDMqm50',
-    appId: '1:476583007511:ios:53970f3be146a349ce1352',
-    messagingSenderId: '476583007511',
-    projectId: 'chamcongtram',
-    storageBucket: 'chamcongtram.firebasestorage.app',
-    iosBundleId: 'com.chamcong.chamCongTram',
+    apiKey: 'AIzaSyAYOKRM4Vdbe1fiMzVBzkLUEjjjsXfjktg',
+    appId: '1:744729032681:ios:86a4b04ddb0d412e333d78',
+    messagingSenderId: '744729032681',
+    projectId: 'chamcongtramblao',
+    storageBucket: 'chamcongtramblao.firebasestorage.app',
+    iosBundleId: 'com.tramblao.chamcong',
   );
 }

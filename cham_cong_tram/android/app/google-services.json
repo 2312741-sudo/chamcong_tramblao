@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "476583007511",
-    "project_id": "chamcongtram",
-    "storage_bucket": "chamcongtram.firebasestorage.app"
+    "project_number": "744729032681",
+    "project_id": "chamcongtramblao",
+    "storage_bucket": "chamcongtramblao.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:476583007511:android:1e6061907be9bb65ce1352",
+        "mobilesdk_app_id": "1:744729032681:android:87102fc8cbae3a9e333d78",
         "android_client_info": {
-          "package_name": "com.chamcong.chamCongTram"
+          "package_name": "com.tramblao.chamcong"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA_1a4BIdre7YzzWYFv-njolhltMDyeitE"
+          "current_key": "AIzaSyDc37-yRjEF3DYpEqd1Rj21ETzVtVVoPWI"
         }
       ],
       "services": {
