@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Chính Sách Quyền Riêng Tư | Chấm Công Trạm',
-  description: 'Chính sách bảo mật và quyền riêng tư của ứng dụng Chấm Công Trạm',
+  title: 'Chính Sách Quyền Riêng Tư | Chấm Công Trạm Blao',
+  description: 'Chính sách bảo mật và quyền riêng tư của ứng dụng Chấm Công Trạm Blao',
 };
 
 export default function PrivacyPolicyPage() {
@@ -20,14 +20,14 @@ export default function PrivacyPolicyPage() {
             Chính Sách Quyền Riêng Tư
           </h1>
           <p className="text-sm text-slate-500">
-            Ứng dụng <strong>Chấm Công Trạm</strong> • Cập nhật lần cuối: 11/09/2026
+            Ứng dụng <strong>Chấm Công Trạm Blao</strong> • Cập nhật lần cuối: 11/09/2026
           </p>
         </div>
 
         {/* Intro */}
         <div className="prose prose-slate max-w-none space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
           <p>
-            Chào mừng bạn đến với ứng dụng <strong>Chấm Công Trạm</strong>. Chúng tôi tôn trọng quyền riêng tư và cam kết bảo vệ dữ liệu cá nhân của mọi người dùng (chủ cửa hàng, quản lý và nhân viên). Chính sách Quyền Riêng Tư này giải thích minh bạch cách chúng tôi thu thập, sử dụng, lưu trữ và bảo mật thông tin khi bạn sử dụng ứng dụng di động cũng như hệ thống quản lý web của chúng tôi.
+            Chào mừng bạn đến với ứng dụng <strong>Chấm Công Trạm Blao</strong>. Chúng tôi tôn trọng quyền riêng tư và cam kết bảo vệ dữ liệu cá nhân của mọi người dùng (chủ cửa hàng, quản lý và nhân viên). Chính sách Quyền Riêng Tư này giải thích minh bạch cách chúng tôi thu thập, sử dụng, lưu trữ và bảo mật thông tin khi bạn sử dụng ứng dụng di động cũng như hệ thống quản lý web của chúng tôi.
           </p>
 
           {/* Section 1 */}
@@ -114,7 +114,7 @@ export default function PrivacyPolicyPage() {
               5. Quyền Riêng Tư Trẻ Em
             </h2>
             <p>
-              Ứng dụng Chấm Công Trạm được thiết kế dành cho người lao động, doanh nghiệp và các chuỗi bán lẻ. Chúng tôi không cố ý thu thập bất kỳ thông tin nào từ trẻ em dưới 13 tuổi.
+              Ứng dụng Chấm Công Trạm Blao được thiết kế dành cho người lao động, doanh nghiệp và các chuỗi bán lẻ. Chúng tôi không cố ý thu thập bất kỳ thông tin nào từ trẻ em dưới 13 tuổi.
             </p>
           </div>
 
@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
               </div>
               <div>
                 <span className="text-slate-500 block">Ứng dụng:</span>
-                <strong className="text-slate-900">Chấm Công Trạm</strong>
+                <strong className="text-slate-900">Chấm Công Trạm Blao</strong>
               </div>
               <div>
                 <span className="text-slate-500 block">Email hỗ trợ:</span>
@@ -169,7 +169,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Footer */}
         <div className="border-t border-slate-100 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>© 2026 Chấm Công Trạm. Tất cả các quyền được bảo lưu.</p>
+          <p>© 2026 Chấm Công Trạm Blao. Tất cả các quyền được bảo lưu.</p>
           <div className="mt-3 sm:mt-0 space-x-4">
             <Link href="/login" className="hover:text-red-600 underline">
               Cổng Quản Lý Web

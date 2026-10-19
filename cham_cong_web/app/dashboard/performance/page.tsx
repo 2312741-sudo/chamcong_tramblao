@@ -530,14 +530,14 @@ export default function PerformanceOverviewPage() {
         </div>
 
         {/* SỰ CỐ */}
-        <div className="card" style={{ borderLeft: '4px solid #7E2930', padding: '16px 20px' }}>
+        <div className="card" style={{ borderLeft: '4px solid #1B4D3E', padding: '16px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-secondary)' }}>⚠️ SỰ CỐ PHÁT SINH</span>
             <span style={{ fontSize: 11, background: '#FEE2E2', color: '#B91C1C', padding: '2px 8px', borderRadius: 10, fontWeight: 600 }}>
               Trong ca
             </span>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: stats.totalIncidents > 0 ? '#7E2930' : '#146A65' }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: stats.totalIncidents > 0 ? '#1B4D3E' : '#146A65' }}>
             {stats.totalIncidents}
           </div>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 6 }}>

@@ -311,7 +311,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
               <img src="/logo.jpg" alt="Logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />
               <div>
-                <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm</div>
+                <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm Blao</div>
                 <div style={{ fontSize:11, opacity:0.6, marginTop:2 }}>Cổng quản lý Web</div>
               </div>
             </div>

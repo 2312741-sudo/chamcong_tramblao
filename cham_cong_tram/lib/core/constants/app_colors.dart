@@ -3,21 +3,20 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Brand Colors
-  // Brand palette from webtram. The vivid logo red is kept separate from
-  // interface actions, which use the website's darker maroon.
-  static const Color primary = Color(0xFF7E2930);
-  static const Color primaryDark = Color(0xFF5C1F24);
-  static const Color logoRed = Color(0xFFCB2D2E);
+  // Brand Colors - Trạm Blao Ecosystem
+  static const Color primary = Color(0xFF1B4D3E); // Xanh thông Trạm Blao
+  static const Color primaryDark = Color(0xFF13382D);
+  static const Color logoRed = Color(0xFFC91506); // Đỏ thương hiệu Trạm trên logo
+  static const Color mintAccent = Color(0xFF95E4D1); // Tone màu tươi mát Trạm Blao
   static const Color success = Color(0xFF146A65); // Accessible teal for white text
   static const Color tealAccent = Color(0xFF1E8E87);
-  static const Color accent = Color(0xFFE3A94C);
-  static const Color accentInk = Color(0xFF805214);
+  static const Color accent = Color(0xFF95E4D1);
+  static const Color accentInk = Color(0xFF1B4D3E);
   static const Color info = Color(0xFF2D2A4A);
   static const Color neutral = Color(0xFF1C1A2D);
-  static const Color surface = Color(0xFFF6EFDF);
+  static const Color surface = Color(0xFFF4E9D5); // Nền kem chuẩn logo
   static const Color background = surface;
-  static const Color paperInk = Color(0xFFE9E1CF);
+  static const Color paperInk = Color(0xFFE8DCB8);
   static const Color cardOutline = info;
   static const Color white = Colors.white;
 
@@ -71,7 +70,7 @@ class AppColors {
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF7E2930), Color(0xFF5C1F24)],
+    colors: [Color(0xFF1B4D3E), Color(0xFF13382D)],
   );
 
   static const LinearGradient darkGradient = LinearGradient(
@@ -89,7 +88,7 @@ class AppColors {
   static const LinearGradient surfaceGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF7E2930), Color(0xFFF6EFDF)],
+    colors: [Color(0xFF1B4D3E), Color(0xFFF4E9D5)],
     stops: [0.0, 0.45],
   );
 
@@ -99,7 +98,7 @@ class AppColors {
   );
 
   static const RadialGradient checkOutButtonGradient = RadialGradient(
-    colors: [Color(0xFF7E2930), Color(0xFF5C1F24)],
+    colors: [Color(0xFF1B4D3E), Color(0xFF13382D)],
     radius: 0.85,
   );
 }

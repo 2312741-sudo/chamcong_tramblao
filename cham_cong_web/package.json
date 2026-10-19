@@ -1,9 +1,9 @@
 {
-  "name": "cham_cong_web",
+  "name": "web_cham_cong_blao",
   "version": "1.1.8",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3010",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

@@ -381,7 +381,7 @@ export default function PerformanceLeaderboardPage() {
                       <td style={{ padding: '12px 16px' }}>
                         {staff.sessionCount} ca
                       </td>
-                      <td style={{ padding: '12px 16px', fontWeight: 700, color: isDrinkPass ? '#146A65' : '#7E2930' }}>
+                      <td style={{ padding: '12px 16px', fontWeight: 700, color: isDrinkPass ? '#146A65' : '#1B4D3E' }}>
                         {staff.avgDrinkSec > 0 ? `${staff.avgDrinkSec}s (${formatSecondsToMMSS(staff.avgDrinkSec)})` : '--'}
                       </td>
                       <td style={{ padding: '12px 16px' }}>
@@ -402,7 +402,7 @@ export default function PerformanceLeaderboardPage() {
                       </td>
                       <td style={{ padding: '12px 16px' }}>
                         {staff.incidentCount > 0 ? (
-                          <span style={{ color: '#7E2930', fontWeight: 600 }}>{staff.incidentCount} vụ</span>
+                          <span style={{ color: '#1B4D3E', fontWeight: 600 }}>{staff.incidentCount} vụ</span>
                         ) : (
                           <span style={{ color: '#146A65' }}>0</span>
                         )}

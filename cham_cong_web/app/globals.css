@@ -1,14 +1,15 @@
 :root {
-  --primary: #7E2930;
-  --primary-dark: #5C1F24;
-  --primary-light: #F4E8E5;
+  --primary: #1B4D3E;
+  --primary-dark: #13382D;
+  --primary-light: #E4F4EF;
+  --logo-red: #C91506;
   --success: #146A65;
   --success-light: #E4F2EC;
-  --accent: #805214;
-  --accent-light: #FBEFD4;
+  --accent: #95E4D1;
+  --accent-light: #E4F9F4;
   --info: #1C4E6B;
   --info-light: #E3EEF5;
-  --surface: #F6EFDF;
+  --surface: #F4E9D5;
   --white: #FFFFFF;
   --neutral: #1C1A2D;
   --text-primary: #1C1A2D;
@@ -21,9 +22,9 @@
   --owner-accent: #171717;
   --manager-accent: #126CC3;
   --sidebar-bg: #1C1A2D;
-  --sidebar-active: #7E2930;
+  --sidebar-active: #1B4D3E;
   --sidebar-active-text: #FFFFFF;
-  --sidebar-role: #F4E8E5;
+  --sidebar-role: #E4F4EF;
   --shadow: rgba(0,0,0,0.06);
   --sidebar-width: 240px;
   --radius-sm: 8px;

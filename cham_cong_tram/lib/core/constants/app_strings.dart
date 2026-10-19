@@ -2,7 +2,7 @@ class AppStrings {
   AppStrings._();
 
   // ── App Info ──────────────────────────────────────────────────────────────
-  static const String appName = 'Chấm Công Trạm';
+  static const String appName = 'Chấm Công Trạm Blao';
   static const String appTagline = 'Luôn tươi ngon vì sức khoẻ';
   static const String appVersion = 'Phiên bản 1.0.9';
 

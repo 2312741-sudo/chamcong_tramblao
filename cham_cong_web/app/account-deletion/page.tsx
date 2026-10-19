@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Yêu Cầu Xóa Tài Khoản & Dữ Liệu | Chấm Công Trạm',
-  description: 'Hướng dẫn quy trình xóa tài khoản và xóa dữ liệu người dùng ứng dụng Chấm Công Trạm',
+  title: 'Yêu Cầu Xóa Tài Khoản & Dữ Liệu | Chấm Công Trạm Blao',
+  description: 'Hướng dẫn quy trình xóa tài khoản và xóa dữ liệu người dùng ứng dụng Chấm Công Trạm Blao',
 };
 
 export default function AccountDeletionPage() {
@@ -19,13 +19,13 @@ export default function AccountDeletionPage() {
             Quy Trình & Hướng Dẫn Xóa Dữ Liệu Tài Khoản
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Ứng dụng <strong>Chấm Công Trạm</strong> tuân thủ quy chuẩn bảo mật của Apple App Store & Google Play Console.
+            Ứng dụng <strong>Chấm Công Trạm Blao</strong> tuân thủ quy chuẩn bảo mật của Apple App Store & Google Play Console.
           </p>
         </div>
 
         <div className="space-y-6 text-sm sm:text-base text-slate-700 leading-relaxed">
           <p>
-            Người dùng ứng dụng <strong>Chấm Công Trạm</strong> có quyền yêu cầu xóa toàn bộ thông tin cá nhân và dữ liệu liên quan đến tài khoản của mình bất cứ lúc nào.
+            Người dùng ứng dụng <strong>Chấm Công Trạm Blao</strong> có quyền yêu cầu xóa toàn bộ thông tin cá nhân và dữ liệu liên quan đến tài khoản của mình bất cứ lúc nào.
           </p>
 
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
@@ -33,7 +33,7 @@ export default function AccountDeletionPage() {
               Cách 1: Tự xóa tài khoản trực tiếp trong ứng dụng di động (Tức thì)
             </h2>
             <ol className="list-decimal pl-5 space-y-2 text-sm">
-              <li>Mở ứng dụng <strong>Chấm Công Trạm</strong> trên điện thoại và đăng nhập tài khoản của bạn.</li>
+              <li>Mở ứng dụng <strong>Chấm Công Trạm Blao</strong> trên điện thoại và đăng nhập tài khoản của bạn.</li>
               <li>Tại thanh điều hướng dưới cùng, chọn tab <strong>Hồ sơ</strong> (Profile) hoặc <strong>Cài đặt</strong>.</li>
               <li>Chọn mục <strong>Quản lý tài khoản</strong> ➔ <strong>Xóa tài khoản</strong>.</li>
               <li>Đọc kỹ cảnh báo xác nhận và bấm <strong>Xác nhận xóa tài khoản</strong>.</li>
@@ -50,7 +50,7 @@ export default function AccountDeletionPage() {
             </p>
             <div className="bg-white border border-slate-200 p-4 rounded-lg text-sm space-y-1">
               <p>• <strong>Địa chỉ email tiếp nhận:</strong> <a href="mailto:nthanhtam.402@gmail.com" className="text-red-600 font-semibold">nthanhtam.402@gmail.com</a></p>
-              <p>• <strong>Tiêu đề:</strong> Yêu cầu xóa tài khoản Chấm Công Trạm</p>
+              <p>• <strong>Tiêu đề:</strong> Yêu cầu xóa tài khoản Chấm Công Trạm Blao</p>
               <p>• <strong>Nội dung:</strong> Cung cấp địa chỉ email hoặc số điện thoại đã đăng ký tài khoản cần xóa.</p>
             </div>
             <p className="text-xs text-slate-500 mt-2">

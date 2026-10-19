@@ -624,7 +624,7 @@ function PerformanceReportsContent() {
                                 {isPass ? (
                                   <span style={{ color: '#146A65', fontWeight: 600 }}>✅ Đạt</span>
                                 ) : (
-                                  <span style={{ color: '#7E2930', fontWeight: 700 }}>+{avgSec - std}s</span>
+                                  <span style={{ color: '#1B4D3E', fontWeight: 700 }}>+{avgSec - std}s</span>
                                 )}
                               </td>
                             </tr>

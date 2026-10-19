@@ -188,7 +188,7 @@ class QrDisplayScreen extends ConsumerWidget {
                         child: ElevatedButton.icon(
                           onPressed: () {
                             ShareUtils.shareText(
-                              'Tham gia cửa hàng "${store.name}" với mã: ${store.code}\n\nTải ứng dụng Chấm Công Trạm để tham gia!',
+                              'Tham gia cửa hàng "${store.name}" với mã: ${store.code}\n\nTải ứng dụng Chấm Công Trạm Blao để tham gia!',
                               subject: 'Mời tham gia ${store.name}',
                               context: context,
                             );

@@ -269,7 +269,7 @@ export default function PerformanceSettingsPage() {
               {savingStandards ? 'Đang lưu...' : 'Lưu Thay Đổi Tiêu Chuẩn'}
             </button>
             {standardsMsg && (
-              <span style={{ fontSize: 13, color: standardsMsg.type === 'success' ? '#146A65' : '#7E2930', fontWeight: 600 }}>
+              <span style={{ fontSize: 13, color: standardsMsg.type === 'success' ? '#146A65' : '#1B4D3E', fontWeight: 600 }}>
                 {standardsMsg.text}
               </span>
             )}
@@ -319,7 +319,7 @@ export default function PerformanceSettingsPage() {
                   <button
                     type="button"
                     onClick={() => handleRemoveCriterion(item.id)}
-                    style={{ background: 'none', border: 'none', color: '#7E2930', cursor: 'pointer', fontSize: 14 }}
+                    style={{ background: 'none', border: 'none', color: '#1B4D3E', cursor: 'pointer', fontSize: 14 }}
                   >
                     Xóa
                   </button>
@@ -381,7 +381,7 @@ export default function PerformanceSettingsPage() {
             {savingCriteria ? 'Đang lưu...' : 'Lưu Danh Sách Tiêu Chí'}
           </button>
           {criteriaMsg && (
-            <span style={{ fontSize: 13, color: criteriaMsg.type === 'success' ? '#146A65' : '#7E2930', fontWeight: 600 }}>
+            <span style={{ fontSize: 13, color: criteriaMsg.type === 'success' ? '#146A65' : '#1B4D3E', fontWeight: 600 }}>
               {criteriaMsg.text}
             </span>
           )}
@@ -420,13 +420,13 @@ export default function PerformanceSettingsPage() {
                 style={{
                   padding: '12px 14px',
                   borderRadius: 8,
-                  border: deleteMode === m.id ? '2px solid #7E2930' : '1px solid var(--border)',
+                  border: deleteMode === m.id ? '2px solid #1B4D3E' : '1px solid var(--border)',
                   background: deleteMode === m.id ? '#FFF1F2' : 'white',
                   cursor: 'pointer',
                   transition: 'all 0.15s',
                 }}
               >
-                <div style={{ fontWeight: 700, fontSize: 13, color: deleteMode === m.id ? '#7E2930' : 'var(--neutral)' }}>
+                <div style={{ fontWeight: 700, fontSize: 13, color: deleteMode === m.id ? '#1B4D3E' : 'var(--neutral)' }}>
                   {m.label}
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>

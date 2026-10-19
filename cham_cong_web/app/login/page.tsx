@@ -144,7 +144,7 @@ export default function LoginPage() {
               boxShadow:'0 8px 32px rgba(0,0,0,0.15)'
             }} 
           />
-          <h1 style={{ fontSize:26, fontWeight:800, letterSpacing:'-0.5px' }}>Chấm Công Trạm</h1>
+          <h1 style={{ fontSize:26, fontWeight:800, letterSpacing:'-0.5px' }}>Chấm Công Trạm Blao</h1>
           <p style={{ opacity:0.7, marginTop:6, fontSize:14 }}>Cổng quản lý dành cho chủ cửa hàng</p>
         </div>
 
