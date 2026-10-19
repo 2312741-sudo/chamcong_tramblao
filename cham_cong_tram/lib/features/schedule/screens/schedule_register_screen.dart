@@ -266,7 +266,7 @@ class _ScheduleRegisterScreenState
                             });
                             Navigator.pop(ctx);
                           },
-                          style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)),
+                          style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: _palette.onAccent, padding: const EdgeInsets.symmetric(vertical: 14)),
                           child: const Text('Xác nhận'),
                         ),
                       )
@@ -505,17 +505,17 @@ class _ScheduleRegisterScreenState
         onPressed: (!disabled && !_saving) ? _save : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: _palette.accent,
-          foregroundColor: Colors.white,
+          foregroundColor: _palette.onAccent,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 0,
         ),
         child: _saving
-            ? const SizedBox(
+            ? SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
-                    strokeWidth: 2, color: Colors.white))
+                    strokeWidth: 2, color: _palette.onAccent))
             : Text(
                 'Lưu lịch',
                 style: GoogleFonts.beVietnamPro(

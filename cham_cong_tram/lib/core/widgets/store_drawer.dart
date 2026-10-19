@@ -29,9 +29,12 @@ class StoreDrawer extends ConsumerWidget {
             decoration: const BoxDecoration(color: AppColors.primary),
             accountName: Text(
               user?.name ?? 'Người dùng',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro'),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro', color: Color(0xFF143A2F)),
             ),
-            accountEmail: Text(user?.email ?? '', style: const TextStyle(fontFamily: 'BeVietnamPro')),
+            accountEmail: Text(
+              user?.email ?? '',
+              style: const TextStyle(fontFamily: 'BeVietnamPro', color: Color(0xFF143A2F)),
+            ),
             currentAccountPicture: AvatarWidget(
               avatarUrl: user?.avatarUrl ?? ref.watch(currentFirebaseUserProvider)?.photoURL,
               name: user?.name ?? 'Người dùng',

@@ -293,7 +293,7 @@ class SalaryOverviewScreen extends ConsumerWidget {
               ),
               Text(
                 currencyFormat.format(netSalary),
-                style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w800, fontSize: 16, color: AppColors.primary),
+                style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w800, fontSize: 16, color: AppColors.primaryDark),
               ),
             ],
           ),

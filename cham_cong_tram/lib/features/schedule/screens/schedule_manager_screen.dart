@@ -253,7 +253,7 @@ class _ScheduleManagerScreenState
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () { _setShift(userId, dayIndex, selectedShifts); Navigator.pop(ctx); },
-                      style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)),
+                      style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: _palette.onAccent, padding: const EdgeInsets.symmetric(vertical: 14)),
                       child: const Text('Xác nhận'),
                     ),
                   )
@@ -676,7 +676,7 @@ class _ScheduleManagerScreenState
                             onPressed: () => Navigator.pop(ctx),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _palette.accent,
-                              foregroundColor: Colors.white,
+                              foregroundColor: _palette.onAccent,
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -699,7 +699,7 @@ class _ScheduleManagerScreenState
                         onPressed: () => Navigator.pop(ctx),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _palette.accent,
-                          foregroundColor: Colors.white,
+                          foregroundColor: _palette.onAccent,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),

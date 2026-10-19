@@ -128,7 +128,7 @@ class _MonthlyAttendanceScreenState
                   onPressed: () => context.pop(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF143A2F),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Quay lại', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
@@ -936,7 +936,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                             onPressed: _saving ? null : _save,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
+                              foregroundColor: const Color(0xFF143A2F),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -947,7 +947,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Colors.white))
+                                        color: Color(0xFF143A2F)))
                                 : const Text('Lưu thay đổi',
                                     style: TextStyle(
                                         fontFamily: 'BeVietnamPro',
@@ -970,7 +970,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
+                              foregroundColor: const Color(0xFF143A2F),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               padding: const EdgeInsets.symmetric(vertical: 14),

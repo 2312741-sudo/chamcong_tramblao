@@ -137,7 +137,7 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
                 ),
                 Text(
                   formatCurrency.format(advance.amount),
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'BeVietnamPro'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryDark, fontFamily: 'BeVietnamPro'),
                 ),
               ],
             ),

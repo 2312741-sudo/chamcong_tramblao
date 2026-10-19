@@ -133,7 +133,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                       child: const Icon(
                         Icons.person_off_rounded,
                         size: 40,
-                        color: AppColors.primary,
+                        color: AppColors.primaryDark,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -339,7 +339,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                             style: const TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
-                                              color: AppColors.primary,
+                                              color: AppColors.primaryDark,
                                               fontFamily: 'BeVietnamPro',
                                             ),
                                           ),

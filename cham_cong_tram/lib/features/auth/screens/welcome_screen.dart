@@ -17,7 +17,7 @@ class WelcomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: FirebaseAuth.instance.currentUser == null ? null : AppBar(
         backgroundColor: AppColors.surface, automaticallyImplyLeading: false,
-        actions: const [NotificationBellIcon(iconColor: AppColors.primary)]),
+        actions: const [NotificationBellIcon(iconColor: AppColors.primaryDark)]),
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.surfaceGradient,

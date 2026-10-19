@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cham_cong_tram/core/constants/app_colors.dart';
 import 'package:cham_cong_tram/features/schedule/screens/schedule_palette.dart';
@@ -21,6 +22,10 @@ void main() {
     expect(
         SchedulePalette.forRole(UserRole.owner).accent, AppColors.ownerAccent);
     expect(
+        SchedulePalette.forRole(UserRole.owner).onAccent, const Color(0xFFFFFFFF));
+    expect(
         SchedulePalette.forRole(UserRole.employee).accent, AppColors.primary);
+    expect(
+        SchedulePalette.forRole(UserRole.employee).onAccent, const Color(0xFF143A2F));
   });
 }

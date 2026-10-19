@@ -365,7 +365,7 @@ class _ManagerHomeTab extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () => GoRouter.of(context).push(AppRoutes.activeStaff),
-                      child: const Text('Xem tất cả', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro')),
+                      child: const Text('Xem tất cả', style: TextStyle(color: AppColors.managerAccent, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro')),
                     ),
                   ],
                 ),

@@ -48,7 +48,7 @@ class _PendingApprovalScreenState
     return Scaffold(
       backgroundColor: AppColors.surface,
       appBar: AppBar(backgroundColor: AppColors.surface,
-        actions: const [NotificationBellIcon(iconColor: AppColors.primary)]),
+        actions: const [NotificationBellIcon(iconColor: AppColors.primaryDark)]),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

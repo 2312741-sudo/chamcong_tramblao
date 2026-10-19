@@ -425,7 +425,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
             onPressed: () => Navigator.pop(dialogCtx, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              foregroundColor: const Color(0xFF143A2F),
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
@@ -534,13 +534,14 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
               appBar: AppBar(
                 title: const Text('Chấm Công',
                     style: TextStyle(
-                        fontWeight: FontWeight.w700, color: AppColors.info)),
+                        fontWeight: FontWeight.w700, color: Color(0xFF143A2F))),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
+                foregroundColor: const Color(0xFF143A2F),
                 elevation: 0,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                        color: AppColors.info),
+                        color: Color(0xFF143A2F)),
                     onPressed: () => context.pop()),
               ),
               body: SafeArea(
@@ -1081,6 +1082,7 @@ class _ProductionChecklistDialogState
               onPressed: _isSubmitting ? null : _submit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
+                foregroundColor: const Color(0xFF143A2F),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
@@ -1090,7 +1092,7 @@ class _ProductionChecklistDialogState
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                          color: Colors.white, strokeWidth: 2))
+                          color: Color(0xFF143A2F), strokeWidth: 2))
                   : const Text('HOÀN TẤT & RA CA',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
@@ -1443,7 +1445,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF143A2F),
                                 elevation: 0,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 14, vertical: 9),
@@ -1487,7 +1489,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: const Color(0xFF143A2F),
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(

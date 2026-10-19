@@ -56,7 +56,7 @@ class NotificationBellIcon extends ConsumerWidget {
                 child: Text(
                   unreadCount > 9 ? '9+' : '$unreadCount',
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFF143A2F),
                     fontSize: 9.5,
                     fontWeight: FontWeight.w800,
                     fontFamily: 'BeVietnamPro',

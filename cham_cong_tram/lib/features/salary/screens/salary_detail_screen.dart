@@ -237,7 +237,7 @@ class _SalaryDetailScreenState extends ConsumerState<SalaryDetailScreen> {
     );
     final todayAttendanceAsync = isSelf ? ref.watch(myTodayAttendanceProvider) : null;
 
-    final storeName = (store?.name ?? 'TRẠM CHANH').toUpperCase();
+    final storeName = (store?.name ?? 'TRẠM BLAO').toUpperCase();
     final displayName = widget.memberName ?? storeName;
 
     return Scaffold(
@@ -993,7 +993,7 @@ class _SalaryDetailScreenState extends ConsumerState<SalaryDetailScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text('Đóng', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: AppColors.primary)),
+              child: Text('Đóng', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: AppColors.primaryDark)),
             ),
           ],
         );
@@ -1070,17 +1070,23 @@ class _SalaryDetailScreenState extends ConsumerState<SalaryDetailScreen> {
               const SizedBox(width: 12),
               ElevatedButton.icon(
                 onPressed: () => context.push(AppRoutes.checkIn),
-                icon: const Icon(Icons.fingerprint_rounded, color: Colors.white, size: 20),
+                icon: Icon(
+                  Icons.fingerprint_rounded,
+                  color: isActive ? Colors.white : const Color(0xFF143A2F),
+                  size: 20,
+                ),
                 label: Text(
                   isActive ? 'Ra ca' : 'Chấm công',
                   style: GoogleFonts.beVietnamPro(
-                    color: Colors.white,
+                    color: isActive ? Colors.white : const Color(0xFF143A2F),
                     fontWeight: FontWeight.w800,
                     fontSize: 14,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isActive ? AppColors.success : AppColors.primary,
+                  foregroundColor:
+                      isActive ? Colors.white : const Color(0xFF143A2F),
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
