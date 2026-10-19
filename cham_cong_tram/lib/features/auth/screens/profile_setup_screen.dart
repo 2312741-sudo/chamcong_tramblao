@@ -88,7 +88,10 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   : () => context.go(AppRoutes.welcome),
               child: const Text(
                 AppStrings.skip,
-                style: TextStyle(color: AppColors.white),
+                style: TextStyle(
+                    color: Color(0xFF143A2F),
+                    fontFamily: 'BeVietnamPro',
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ],

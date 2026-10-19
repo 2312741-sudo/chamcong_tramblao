@@ -69,13 +69,14 @@ class AvatarWidget extends StatelessWidget {
   }
 
   Widget _buildFallback(Color bgColor) {
+    final textColor = bgColor.computeLuminance() > 0.45 ? const Color(0xFF143A2F) : AppColors.white;
     return CircleAvatar(
       radius: radius,
       backgroundColor: bgColor,
       child: Text(
         _initials,
         style: TextStyle(
-          color: AppColors.white,
+          color: textColor,
           fontSize: radius * 0.6,
           fontWeight: FontWeight.w700,
         ),

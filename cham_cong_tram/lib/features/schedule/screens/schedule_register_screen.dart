@@ -310,11 +310,11 @@ class _ScheduleRegisterScreenState
       appBar: widget.showAppBar
           ? AppBar(
               backgroundColor: _palette.accent,
-              foregroundColor: Colors.white,
+              foregroundColor: _palette.onAccent,
               title: Text(
                 'Đăng ký lịch làm',
                 style: GoogleFonts.merriweather(
-                    fontWeight: FontWeight.w700, color: Colors.white),
+                    fontWeight: FontWeight.w700, color: _palette.onAccent),
               ),
               elevation: 0,
             )

@@ -165,7 +165,7 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Colors.white,
+              onPrimary: Color(0xFF143A2F),
               onSurface: AppColors.textPrimary,
             ),
           ),
@@ -819,7 +819,7 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
                         onPressed: _isSubmitting ? null : _submitTask,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF143A2F),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -832,7 +832,7 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
                                 width: 22,
                                 height: 22,
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: Color(0xFF143A2F),
                                   strokeWidth: 2.5,
                                 ),
                               )
@@ -1334,7 +1334,7 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
         style: GoogleFonts.beVietnamPro(
           fontSize: 12,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-          color: isSelected ? Colors.white : AppColors.textPrimary,
+          color: isSelected ? const Color(0xFF143A2F) : AppColors.textPrimary,
         ),
       ),
       selectedColor: AppColors.primary,

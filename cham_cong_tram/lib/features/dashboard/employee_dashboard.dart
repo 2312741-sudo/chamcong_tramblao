@@ -464,7 +464,7 @@ class _StatusCard extends StatelessWidget {
               onPressed: () => GoRouter.of(context).push(AppRoutes.checkIn),
               style: ElevatedButton.styleFrom(
                 backgroundColor: isActive ? AppColors.primary : AppColors.success,
-                foregroundColor: Colors.white,
+                foregroundColor: isActive ? const Color(0xFF143A2F) : Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 elevation: 0,
@@ -757,7 +757,7 @@ class _ProfileTab extends ConsumerWidget {
                   backgroundColor: AppColors.primary,
                   backgroundImage: getAvatarImageProvider(user?.avatarUrl),
                   child: getAvatarImageProvider(user?.avatarUrl) == null
-                      ? Text((user?.name ?? 'U')[0].toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w800))
+                      ? Text((user?.name ?? 'U')[0].toUpperCase(), style: const TextStyle(color: Color(0xFF143A2F), fontSize: 28, fontWeight: FontWeight.w800))
                       : null,
                 ),
                 const SizedBox(width: 16),

@@ -109,7 +109,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Colors.white,
+              onPrimary: Color(0xFF143A2F),
               onSurface: AppColors.textPrimary,
             ),
           ),
@@ -329,7 +329,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openCreateTaskDialog,
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 3,
         icon: const Icon(Icons.add_task_rounded, size: 20),
         label: Text(
@@ -532,7 +532,7 @@ class _TaskManagementScreenState extends ConsumerState<TaskManagementScreen> {
                 style: GoogleFonts.beVietnamPro(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: const Color(0xFF143A2F),
                 ),
               ),
               selectedColor: AppColors.primary,

@@ -37,12 +37,12 @@ class _EmployeeScheduleTabState extends ConsumerState<EmployeeScheduleTab>
       backgroundColor: palette.surface,
       appBar: AppBar(
         backgroundColor: palette.accent,
-        foregroundColor: Colors.white,
+        foregroundColor: palette.onAccent,
         title: Text(
           'Lịch làm việc',
           style: GoogleFonts.merriweather(
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: palette.onAccent,
           ),
         ),
         elevation: 0,
@@ -52,10 +52,10 @@ class _EmployeeScheduleTabState extends ConsumerState<EmployeeScheduleTab>
             color: palette.accent,
             child: TabBar(
               controller: _tabController,
-              indicatorColor: Colors.white,
+              indicatorColor: palette.onAccent,
               indicatorWeight: 3,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.white,
+              labelColor: palette.onAccent,
+              unselectedLabelColor: palette.onAccent.withOpacity(0.7),
               labelStyle: GoogleFonts.beVietnamPro(
                 fontWeight: FontWeight.w700,
                 fontSize: 14,

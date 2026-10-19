@@ -70,13 +70,13 @@ class NotificationsScreen extends ConsumerWidget {
                     if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Không thể cập nhật trạng thái đã đọc. Vui lòng thử lại.')));
                   }
                 },
-                icon: const Icon(Icons.done_all_rounded, size: 18, color: AppColors.primary),
+                icon: const Icon(Icons.done_all_rounded, size: 18, color: AppColors.success),
                 label: Text(
                   'Đã đọc tất cả',
                   style: GoogleFonts.beVietnamPro(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
+                    color: AppColors.success,
                   ),
                 ),
               );
@@ -140,7 +140,7 @@ class NotificationsScreen extends ConsumerWidget {
                       child: const Icon(
                         Icons.notifications_off_rounded,
                         size: 44,
-                        color: AppColors.primary,
+                        color: AppColors.primaryDark,
                       ),
                     ),
                     const SizedBox(height: 20),

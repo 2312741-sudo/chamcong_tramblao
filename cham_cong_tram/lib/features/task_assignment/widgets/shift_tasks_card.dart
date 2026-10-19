@@ -94,7 +94,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Colors.white,
+              onPrimary: Color(0xFF143A2F),
               onSurface: AppColors.textPrimary,
             ),
           ),

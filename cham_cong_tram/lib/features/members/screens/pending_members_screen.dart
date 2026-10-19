@@ -104,7 +104,7 @@ class _PendingMembersScreenState extends ConsumerState<PendingMembersScreen> {
                 child: getAvatarImageProvider(member.avatarUrl) == null
                     ? Text(
                         member.initials,
-                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Color(0xFF143A2F), fontWeight: FontWeight.bold),
                       )
                     : null,
               ),

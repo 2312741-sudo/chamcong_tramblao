@@ -762,15 +762,15 @@ class _ScheduleManagerScreenState
       appBar: widget.showAppBar
           ? AppBar(
               backgroundColor: _palette.accent,
-              foregroundColor: Colors.white,
+              foregroundColor: _palette.onAccent,
               title: Text(
                 canManageSchedule ? 'Quản lý lịch làm' : 'Lịch làm cửa hàng',
                 style: GoogleFonts.beVietnamPro(
-                    fontWeight: FontWeight.w600, color: Colors.white),
+                    fontWeight: FontWeight.w600, color: _palette.onAccent),
               ),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.download_rounded, color: Colors.white),
+                  icon: Icon(Icons.download_rounded, color: _palette.onAccent),
                   tooltip: 'Xuất Excel tuần',
                   onPressed: () async {
                     try {

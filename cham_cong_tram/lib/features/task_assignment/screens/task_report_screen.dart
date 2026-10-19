@@ -798,7 +798,7 @@ class _TaskReportScreenState extends ConsumerState<TaskReportScreen> {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: const Color(0xFF143A2F),
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(

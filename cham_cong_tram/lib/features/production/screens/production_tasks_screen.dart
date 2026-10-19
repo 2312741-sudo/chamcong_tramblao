@@ -168,7 +168,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF143A2F),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
@@ -253,7 +253,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                         label: const Text('Thêm công việc mới'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF143A2F),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           padding: const EdgeInsets.symmetric(
@@ -352,7 +352,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                       style: GoogleFonts.beVietnamPro(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.primary,
+                                        color: const Color(0xFF143A2F),
                                       ),
                                     ),
                                   ),
@@ -520,7 +520,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                   style: GoogleFonts.beVietnamPro(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
+                                    color: const Color(0xFF143A2F),
                                   ),
                                 ),
                               ),

@@ -414,7 +414,7 @@ class _OwnerHomeTab extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () => GoRouter.of(context).push(AppRoutes.activeStaff),
-                      child: const Text('Xem tất cả', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro')),
+                      child: const Text('Xem tất cả', style: TextStyle(color: AppColors.success, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro')),
                     ),
                   ],
                 ),
@@ -964,7 +964,8 @@ class _OwnerPersonalAttendanceCard extends StatelessWidget {
                   backgroundColor: isActive
                       ? AppColors.success
                       : AppColors.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor:
+                      isActive ? Colors.white : const Color(0xFF143A2F),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   shape: RoundedRectangleBorder(

@@ -323,7 +323,7 @@ class _MemberCard extends StatelessWidget {
                       style: const TextStyle(
                           fontFamily: 'BeVietnamPro',
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: Color(0xFF143A2F),
                           fontSize: 16))
                   : null,
             ),
