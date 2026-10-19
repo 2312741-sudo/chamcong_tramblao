@@ -76,12 +76,13 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         title: const Text(
           'Tham gia cửa hàng',
           style: TextStyle(
             fontFamily: 'BeVietnamPro',
             fontWeight: FontWeight.w700,
+            color: Color(0xFF143A2F),
           ),
         ),
         elevation: 0,
@@ -211,7 +212,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                     onPressed: _isLoading ? null : _joinStore,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF143A2F),
                       disabledBackgroundColor:
                           AppColors.primary.withOpacity(0.6),
                       elevation: 0,
@@ -225,7 +226,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                             height: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2.5,
-                              color: Colors.white,
+                              color: Color(0xFF143A2F),
                             ),
                           )
                         : const Text(
