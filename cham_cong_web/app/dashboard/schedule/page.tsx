@@ -623,7 +623,7 @@ function ScheduleContent() {
             📅 Tuần này
           </button>
           {activeTab === 'store' && (
-            <button onClick={handleExport} className="btn btn-primary btn-sm" style={{ background: 'var(--success)' }}>
+            <button onClick={handleExport} className="btn btn-primary btn-sm" style={{ background: 'var(--success)', color: '#FFFFFF' }}>
               📥 Xuất Excel
             </button>
           )}

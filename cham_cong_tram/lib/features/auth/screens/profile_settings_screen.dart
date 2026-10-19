@@ -161,7 +161,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Colors.white,
+              onPrimary: Color(0xFF143A2F),
               onSurface: AppColors.neutral,
             ),
           ),
@@ -286,10 +286,10 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         title: Text(
           'Hồ sơ của tôi',
-          style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: Colors.white),
+          style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: const Color(0xFF143A2F)),
         ),
         elevation: 0,
       ),
@@ -590,7 +590,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                     onPressed: _isSavingProfile ? null : _saveProfile,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF143A2F),
                       disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
@@ -598,7 +598,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF143A2F)),
                           )
                         : const Icon(Icons.save_rounded, size: 20),
                     label: Text(

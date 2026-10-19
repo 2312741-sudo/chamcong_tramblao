@@ -1,12 +1,12 @@
 :root {
-  --primary: #1B4D3E;
-  --primary-dark: #13382D;
-  --primary-light: #E4F4EF;
+  --primary: #7FE3C7;
+  --primary-dark: #5BD1B3;
+  --primary-light: #E8FAF4;
   --logo-red: #C91506;
   --success: #146A65;
   --success-light: #E4F2EC;
-  --accent: #95E4D1;
-  --accent-light: #E4F9F4;
+  --accent: #7FE3C7;
+  --accent-light: #E8FAF4;
   --info: #1C4E6B;
   --info-light: #E3EEF5;
   --surface: #F4E9D5;
@@ -22,8 +22,8 @@
   --owner-accent: #171717;
   --manager-accent: #126CC3;
   --sidebar-bg: #1C1A2D;
-  --sidebar-active: #1B4D3E;
-  --sidebar-active-text: #FFFFFF;
+  --sidebar-active: #7FE3C7;
+  --sidebar-active-text: #143A2F;
   --sidebar-role: #E4F4EF;
   --shadow: rgba(0,0,0,0.06);
   --sidebar-width: 240px;
@@ -35,32 +35,32 @@
 
 /* Dashboard colors follow the current store role; business status colors stay semantic. */
 .dashboard-role-owner {
-  --primary: #171717;
-  --primary-dark: #050505;
-  --primary-light: #EDEBE6;
+  --primary: #7FE3C7;
+  --primary-dark: #5BD1B3;
+  --primary-light: #E8FAF4;
   --surface: #F7F7F5;
   --neutral: #171717;
   --text-primary: #202020;
   --border: #D7D7D2;
   --divider: #E8E8E3;
   --sidebar-bg: #171717;
-  --sidebar-active: #383838;
-  --sidebar-active-text: #FFFFFF;
+  --sidebar-active: #7FE3C7;
+  --sidebar-active-text: #143A2F;
   --sidebar-role: #F1F1EE;
 }
 
 .dashboard-role-manager {
-  --primary: #126CC3;
-  --primary-dark: #095AA8;
-  --primary-light: #E8F3FE;
+  --primary: #7FE3C7;
+  --primary-dark: #5BD1B3;
+  --primary-light: #E8FAF4;
   --surface: #F7FAFE;
   --neutral: #17324A;
   --text-primary: #1E2933;
   --border: #D4E3F2;
   --divider: #E3ECF5;
   --sidebar-bg: #095AA8;
-  --sidebar-active: #E8F3FE;
-  --sidebar-active-text: #095AA8;
+  --sidebar-active: #7FE3C7;
+  --sidebar-active-text: #143A2F;
   --sidebar-role: #E8F3FE;
 }
 
@@ -140,12 +140,17 @@ input, select, textarea { font-family: inherit; }
 }
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: #143A2F;
+  font-weight: 700;
 }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-primary .spinner {
+  border-color: rgba(20, 58, 47, 0.25);
+  border-top-color: #143A2F;
+}
 .btn-secondary {
   background: transparent;
-  color: var(--primary);
+  color: #143A2F;
   border: 1.5px solid var(--primary);
 }
 .btn-secondary:hover { background: var(--primary-light); }
@@ -345,8 +350,8 @@ input, select, textarea { font-family: inherit; }
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: var(--primary);
-  background: var(--primary-light);
+  color: #143A2F;
+  background: var(--primary);
   flex-shrink: 0;
 }
 
@@ -479,7 +484,8 @@ input, select, textarea { font-family: inherit; }
 }
 
 .mobile-bottom-nav-item.active {
-  color: var(--primary);
+  color: #0E382B;
+  background: rgba(127, 227, 199, 0.22);
   font-weight: 700;
 }
 

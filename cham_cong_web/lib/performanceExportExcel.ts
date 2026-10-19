@@ -51,7 +51,7 @@ export async function exportSessionPerformanceExcel(
 ) {
   const { ExcelJS, saveAs } = await getExcelEngine();
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Trạm Blao - Đo Hiệu Năng';
+  wb.creator = 'Trạm BLAO - Đo Hiệu Năng';
   wb.created = new Date();
 
   const started = parseFirestoreTimestamp(report.startedAt);
@@ -381,7 +381,7 @@ export async function exportConsolidatedPerformanceReports(
 ) {
   const { ExcelJS, saveAs } = await getExcelEngine();
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Trạm Blao - Đo Hiệu Năng';
+  wb.creator = 'Trạm BLAO - Đo Hiệu Năng';
   wb.created = new Date();
 
   const ws = wb.addWorksheet('Danh Sách Ca Đo', { views: [{ showGridLines: true }] });

@@ -125,7 +125,7 @@ export default function DashboardPage() {
                 contentStyle={{ borderRadius:10, border:'none', boxShadow:'0 4px 20px rgba(0,0,0,0.1)', fontSize:13 }}
                 formatter={(v: any) => [`${v}h`, 'Tổng giờ']}
               />
-              <Line type="monotone" dataKey="hours" stroke="var(--primary)" strokeWidth={2.5} dot={{ r:3, fill:'var(--primary)' }} activeDot={{ r:5 }} />
+              <Line type="monotone" dataKey="hours" stroke="#146A65" strokeWidth={2.5} dot={{ r:3, fill:'#7FE3C7' }} activeDot={{ r:5, fill:'#146A65' }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
                       </div>
                       <div style={{ fontSize:11, color:'var(--text-secondary)' }}>
                         Vào: {isOvernight ? `${att.date} ` : ''}{checkInTime.toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit' })} &nbsp;·&nbsp;
-                        <span style={{ color:'var(--primary)', fontWeight:600 }}>{durationStr}</span> &nbsp;·&nbsp;
+                        <span style={{ color:'#0E382B', fontWeight:600 }}>{durationStr}</span> &nbsp;·&nbsp;
                         <span style={{ color:'var(--success)' }}>{METHOD_LABEL[att.checkInMethod] || att.checkInMethod}</span>
                       </div>
                     </div>

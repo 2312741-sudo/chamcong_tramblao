@@ -251,22 +251,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
+                  color: Color(0xFF143A2F),
                   letterSpacing: 0.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-              const SizedBox(height: 12),
-
-              // Tagline
-              const Text(
-                AppStrings.appTagline,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textSecondary,
-                  letterSpacing: 0.3,
                 ),
                 textAlign: TextAlign.center,
               ),

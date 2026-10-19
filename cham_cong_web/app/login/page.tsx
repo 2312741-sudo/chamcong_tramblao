@@ -127,7 +127,7 @@ export default function LoginPage() {
       position: 'relative',
       overflow: 'hidden',
     }}>
-      {/* Decorative ambient lighting - Trạm Blao Palette */}
+      {/* Decorative ambient lighting - Trạm BLAO Palette */}
       <div style={{
         position: 'fixed',
         top: -120,
@@ -135,7 +135,7 @@ export default function LoginPage() {
         width: 480,
         height: 480,
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(149, 228, 209, 0.25) 0%, rgba(244, 233, 213, 0) 70%)',
+        background: 'radial-gradient(circle, rgba(127, 227, 199, 0.25) 0%, rgba(244, 233, 213, 0) 70%)',
         filter: 'blur(40px)',
         pointerEvents: 'none',
       }} />
@@ -146,7 +146,7 @@ export default function LoginPage() {
         width: 520,
         height: 520,
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(27, 77, 62, 0.08) 0%, rgba(244, 233, 213, 0) 70%)',
+        background: 'radial-gradient(circle, rgba(127, 227, 199, 0.15) 0%, rgba(244, 233, 213, 0) 70%)',
         filter: 'blur(50px)',
         pointerEvents: 'none',
       }} />
@@ -161,14 +161,14 @@ export default function LoginPage() {
           }}>
             <img 
               src="/logo.jpg" 
-              alt="Logo Chấm Công Trạm Blao" 
+              alt="Logo Chấm Công Trạm BLAO" 
               style={{
                 width: 76,
                 height: 76,
                 borderRadius: 20,
                 objectFit: 'cover',
-                border: '1.5px solid rgba(27, 77, 62, 0.15)',
-                boxShadow: '0 8px 24px rgba(27, 77, 62, 0.1)',
+                border: '2px solid #7FE3C7',
+                boxShadow: '0 8px 24px rgba(127, 227, 199, 0.25)',
                 display: 'block',
               }} 
             />
@@ -177,10 +177,10 @@ export default function LoginPage() {
             fontSize: 26,
             fontWeight: 800,
             letterSpacing: '-0.5px',
-            color: '#1B4D3E',
+            color: '#0E382B',
             marginBottom: 6,
           }}>
-            Chấm Công Trạm Blao
+            Chấm Công Trạm BLAO
           </h1>
           <p style={{
             color: '#5D5B63',
@@ -199,7 +199,7 @@ export default function LoginPage() {
           borderRadius: 24,
           padding: 32,
           border: '1px solid rgba(216, 207, 189, 0.8)',
-          boxShadow: '0 20px 60px -15px rgba(27, 77, 62, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04)',
+          boxShadow: '0 20px 60px -15px rgba(20, 58, 47, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04)',
         }}>
           <h2 style={{
             fontSize: 22,
@@ -270,7 +270,7 @@ export default function LoginPage() {
                     background: 'none',
                     border: 'none',
                     padding: 0,
-                    color: '#1B4D3E',
+                    color: '#0E382B',
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -313,13 +313,14 @@ export default function LoginPage() {
                 fontSize: 15,
                 fontWeight: 700,
                 borderRadius: 12,
-                background: '#1B4D3E',
-                color: '#FFFFFF',
-                boxShadow: '0 4px 14px rgba(27, 77, 62, 0.28)',
+                background: '#7FE3C7',
+                color: '#143A2F',
+                boxShadow: '0 4px 14px rgba(127, 227, 199, 0.35)',
                 cursor: isAnyLoading ? 'not-allowed' : 'pointer',
+                border: 'none',
               }}
             >
-              {loading ? <span className="spinner" /> : null}
+              {loading ? <span className="spinner" style={{ borderColor: 'rgba(20, 58, 47, 0.25)', borderTopColor: '#143A2F' }} /> : null}
               {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </button>
           </form>
@@ -364,7 +365,7 @@ export default function LoginPage() {
               }}
               onMouseEnter={e => {
                 if (!isAnyLoading) {
-                  e.currentTarget.style.borderColor = '#1B4D3E';
+                  e.currentTarget.style.borderColor = '#7FE3C7';
                   e.currentTarget.style.background = '#F9FBF9';
                 }
               }}
@@ -442,7 +443,7 @@ export default function LoginPage() {
           </div>
 
           <p style={{ textAlign: 'center', marginTop: 24, fontSize: 13, color: '#5D5B63' }}>
-            Chỉ dành cho <strong style={{ color: '#1B4D3E' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
+            Chỉ dành cho <strong style={{ color: '#0E382B' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
           </p>
         </div>
       </div>
@@ -477,12 +478,12 @@ export default function LoginPage() {
                   width: 60,
                   height: 60,
                   borderRadius: '50%',
-                  background: 'rgba(27, 77, 62, 0.1)',
+                  background: 'rgba(127, 227, 199, 0.25)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 16px',
-                  color: 'var(--primary)',
+                  color: '#0E382B',
                 }}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
@@ -556,7 +557,7 @@ export default function LoginPage() {
                 {resetError && (
                   <div style={{
                     background: 'var(--primary-light)',
-                    color: 'var(--primary)',
+                    color: '#0E382B',
                     padding: '10px 14px',
                     borderRadius: 8,
                     fontSize: 13,

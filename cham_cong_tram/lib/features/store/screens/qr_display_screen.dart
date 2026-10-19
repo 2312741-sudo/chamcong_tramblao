@@ -17,11 +17,13 @@ class QrDisplayScreen extends ConsumerWidget {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         title: const Text(
           'Mã QR cửa hàng',
           style: TextStyle(
-              fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w700),
+              fontFamily: 'BeVietnamPro',
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF143A2F)),
         ),
       ),
       body: storeAsync.when(
@@ -188,7 +190,7 @@ class QrDisplayScreen extends ConsumerWidget {
                         child: ElevatedButton.icon(
                           onPressed: () {
                             ShareUtils.shareText(
-                              'Tham gia cửa hàng "${store.name}" với mã: ${store.code}\n\nTải ứng dụng Chấm Công Trạm Blao để tham gia!',
+                              'Tham gia cửa hàng "${store.name}" với mã: ${store.code}\n\nTải ứng dụng Chấm Công Trạm BLAO để tham gia!',
                               subject: 'Mời tham gia ${store.name}',
                               context: context,
                             );
@@ -197,7 +199,7 @@ class QrDisplayScreen extends ConsumerWidget {
                           label: const Text('Chia sẻ'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
+                            foregroundColor: const Color(0xFF143A2F),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 14),
                             shape: RoundedRectangleBorder(

@@ -68,7 +68,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Colors.white,
+              color: Color(0xFF143A2F),
             ),
           ),
           loading: () => const Text(
@@ -77,7 +77,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Colors.white,
+              color: Color(0xFF143A2F),
             ),
           ),
           error: (_, __) => const Text(
@@ -86,12 +86,12 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Colors.white,
+              color: Color(0xFF143A2F),
             ),
           ),
         ),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         centerTitle: true,
         leading: IconButton(

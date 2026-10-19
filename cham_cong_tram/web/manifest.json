@@ -1,11 +1,11 @@
 {
-    "name": "Chấm Công Trạm Blao",
-    "short_name": "Chấm Công Blao",
+    "name": "Chấm Công Trạm BLAO",
+    "short_name": "Chấm Công BLAO",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#F4E9D5",
-    "theme_color": "#1B4D3E",
-    "description": "Hệ thống Quản lý Chấm Công Trạm Blao",
+    "theme_color": "#7FE3C7",
+    "description": "Hệ thống Quản lý Chấm Công Trạm BLAO",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

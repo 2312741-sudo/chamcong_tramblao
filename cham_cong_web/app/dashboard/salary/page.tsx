@@ -223,7 +223,7 @@ export default function SalaryPage() {
               💵 Xin ứng lương
             </button>
           )}
-          <button onClick={handleExportClick} className="btn btn-primary" style={{ background: 'var(--success)' }}>
+          <button onClick={handleExportClick} className="btn btn-primary" style={{ background: 'var(--success)', color: '#FFFFFF' }}>
             <span className="material-icons" style={{ fontSize: 18 }}>download</span> Xuất Excel
           </button>
         </div>

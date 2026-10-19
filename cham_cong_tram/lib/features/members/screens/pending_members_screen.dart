@@ -47,9 +47,13 @@ class _PendingMembersScreenState extends ConsumerState<PendingMembersScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Yêu cầu tham gia', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+        title: const Text('Yêu cầu tham gia',
+            style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
       ),
       body: pendingMembersAsync.when(

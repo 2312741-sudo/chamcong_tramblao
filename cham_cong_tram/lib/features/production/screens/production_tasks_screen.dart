@@ -196,9 +196,11 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
       appBar: AppBar(
         title: const Text('Danh mục Checklist Sản xuất',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         actions: [
           if (isOwner)

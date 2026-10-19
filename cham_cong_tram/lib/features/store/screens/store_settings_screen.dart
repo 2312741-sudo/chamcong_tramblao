@@ -264,7 +264,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: const Color(0xFF143A2F),
               ),
               onPressed: () {
                 final name = nameCtrl.text.trim();
@@ -424,7 +424,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: const Color(0xFF143A2F),
               ),
               onPressed: () {
                 final newName = nameCtrl.text.trim();
@@ -526,7 +526,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white),
+                foregroundColor: const Color(0xFF143A2F)),
             onPressed: () {
               final name = _deptNameCtrl.text.trim();
               if (name.isEmpty) return;
@@ -946,11 +946,13 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           backgroundColor: AppColors.surface,
           appBar: AppBar(
             backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
+            foregroundColor: const Color(0xFF143A2F),
             title: const Text(
               'Cài đặt cửa hàng',
               style: TextStyle(
-                  fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w700),
+                  fontFamily: 'BeVietnamPro',
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF143A2F)),
             ),
           ),
           body: Form(
@@ -1186,7 +1188,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                   'Thêm vào danh sách cho phép (Tối đa 10)'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF143A2F),
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 11),
                                 shape: RoundedRectangleBorder(
@@ -1947,7 +1949,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                       onPressed: _isSaving ? null : () => _save(store.id),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF143A2F),
                         disabledBackgroundColor:
                             AppColors.primary.withOpacity(0.6),
                         shape: RoundedRectangleBorder(

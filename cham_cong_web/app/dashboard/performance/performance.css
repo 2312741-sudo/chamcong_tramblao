@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap');
 
-/* Trạm Blao: scoped to the performance workspace. */
+/* Trạm BLAO: scoped to the performance workspace. */
 .performance-shell {
-  --primary: #1B4D3E;
-  --primary-dark: #13382D;
-  --primary-light: #E4F4EF;
+  --primary: #7FE3C7;
+  --primary-dark: #5BD1B3;
+  --primary-light: #E8FAF4;
   --logo-red: #C91506;
   --success: #146A65;
   --success-light: #E4F2EC;
-  --accent: #95E4D1;
-  --accent-light: #E4F9F4;
+  --accent: #7FE3C7;
+  --accent-light: #E8FAF4;
   --info: #1C4E6B;
   --info-light: #E3EEF5;
   --surface: #F4E9D5;
@@ -19,7 +19,7 @@
   --text-secondary: #5D5B63;
   --border: #D8CFBD;
   --divider: #E9E1CF;
-  --shadow: rgba(27, 77, 62, 0.12);
+  --shadow: rgba(20, 58, 47, 0.12);
 
   max-width: 1400px;
   min-height: 100%;
@@ -53,7 +53,7 @@
   justify-content: center;
   width: 38px;
   height: 38px;
-  color: var(--white);
+  color: #143A2F;
   background: var(--primary);
   border: 1.5px solid var(--info);
   border-radius: 10px;

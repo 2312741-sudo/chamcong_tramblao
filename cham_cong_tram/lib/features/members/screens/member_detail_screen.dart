@@ -147,9 +147,13 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Chi tiết nhân viên', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+        title: const Text('Chi tiết nhân viên',
+            style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
       ),
       body: membersAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -417,12 +421,12 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
                     onPressed: _isLoading || storeId == null ? null : () => _saveChanges(storeId),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF143A2F),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: _isLoading 
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text('Lưu thay đổi', style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 16, fontWeight: FontWeight.bold)),
+                        ? const CircularProgressIndicator(color: Color(0xFF143A2F))
+                        : const Text('Lưu thay đổi', style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF143A2F))),
                   ),
                 ),
                 if (isOwner) ...[

@@ -10,12 +10,12 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'Chấm Công Trạm Blao - Quản Trị',
-  description: 'Hệ thống quản lý chấm công và ca làm việc Trạm Blao',
+  title: 'Chấm Công Trạm BLAO - Quản Trị',
+  description: 'Hệ thống quản lý chấm công và ca làm việc Trạm BLAO',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Chấm Công Trạm Blao',
+    title: 'Chấm Công Trạm BLAO',
   },
   formatDetection: {
     telephone: false,
@@ -27,7 +27,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: 'cover',
-  themeColor: '#1B4D3E',
+  themeColor: '#7FE3C7',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

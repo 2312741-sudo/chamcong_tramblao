@@ -38,9 +38,13 @@ class AttendanceTableScreen extends ConsumerWidget {
       return Scaffold(
         backgroundColor: AppColors.surface,
         appBar: AppBar(
-          title: const Text('Bảng công', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+          title: const Text('Bảng công',
+              style: TextStyle(
+                  fontFamily: 'BeVietnamPro',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF143A2F))),
           backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: const Color(0xFF143A2F),
         ),
         body: Center(
           child: Padding(
@@ -82,7 +86,7 @@ class AttendanceTableScreen extends ConsumerWidget {
                   onPressed: () => context.pop(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF143A2F),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Quay lại', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
@@ -99,9 +103,11 @@ class AttendanceTableScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Bảng công',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         actions: [
           IconButton(

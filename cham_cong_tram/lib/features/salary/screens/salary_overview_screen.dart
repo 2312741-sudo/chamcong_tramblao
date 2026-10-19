@@ -35,7 +35,7 @@ class SalaryOverviewScreen extends ConsumerWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(primary: AppColors.primary, onPrimary: Colors.white, onSurface: AppColors.neutral),
+            colorScheme: const ColorScheme.light(primary: AppColors.primary, onPrimary: Color(0xFF143A2F), onSurface: AppColors.neutral),
           ),
           child: child!,
         );
@@ -125,9 +125,13 @@ class SalaryOverviewScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Báo cáo Lương', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
+        title: const Text('Báo cáo Lương',
+            style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         actions: [
           IconButton(

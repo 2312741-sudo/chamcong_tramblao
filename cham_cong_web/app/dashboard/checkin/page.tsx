@@ -668,7 +668,7 @@ export default function CheckInPage() {
                     <div style={{
                       width: 32, height: 32, borderRadius: '50%',
                       background: isActive ? 'var(--primary)' : '#e0e0e0',
-                      color: isActive ? 'white' : 'var(--text-secondary)',
+                      color: isActive ? '#143A2F' : 'var(--text-secondary)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontWeight: 700, fontSize: 12
                     }}>
@@ -676,7 +676,7 @@ export default function CheckInPage() {
                     </div>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: 14 }}>
-                        Vào: <strong>{formatTime(att.checkIn)}</strong>{att.date !== todayStr ? <span style={{ color: 'var(--accent)', fontSize: 12 }}> ({att.date})</span> : ''} → Ra: <strong>{att.checkOut ? formatTime(att.checkOut) : 'Đang làm việc...'}</strong>
+                        Vào: <strong>{formatTime(att.checkIn)}</strong>{att.date !== todayStr ? <span style={{ color: '#0E382B', fontSize: 12 }}> ({att.date})</span> : ''} → Ra: <strong>{att.checkOut ? formatTime(att.checkOut) : 'Đang làm việc...'}</strong>
                       </div>
                       <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                         <span>Phương thức: {getMethodLabel(att.checkInMethod)}</span>
@@ -691,7 +691,7 @@ export default function CheckInPage() {
 
                   <div style={{ textAlign: 'right' }}>
                     {isActive ? (
-                      <span style={{ color: 'var(--primary)', fontWeight: 700, fontSize: 14 }}>
+                      <span style={{ color: '#0E382B', fontWeight: 700, fontSize: 14 }}>
                         Đang làm ({getElapsedDuration(att.checkIn)})
                       </span>
                     ) : (
@@ -725,8 +725,8 @@ export default function CheckInPage() {
         {/* Stats tiles */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 20 }}>
           <div style={{ background: 'var(--primary-light)', padding: 16, borderRadius: 12 }}>
-            <div style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 600 }}>TỔNG GIỜ LÀM</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary)', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: '#0E382B', fontWeight: 600 }}>TỔNG GIỜ LÀM</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: '#0E382B', marginTop: 4 }}>
               {totalMonthHours.toFixed(1)}h
             </div>
           </div>
@@ -761,9 +761,9 @@ export default function CheckInPage() {
                   <tr key={att.id}>
                     <td style={{ fontWeight: 600 }}>{att.date}</td>
                     <td>{formatTime(att.checkIn)}</td>
-                    <td>{att.checkOut ? formatTime(att.checkOut) : <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Đang làm việc</span>}</td>
+                    <td>{att.checkOut ? formatTime(att.checkOut) : <span style={{ color: '#0E382B', fontWeight: 600 }}>Đang làm việc</span>}</td>
                     <td>{getMethodLabel(att.checkInMethod)}</td>
-                    <td style={{ textAlign: 'right', fontWeight: 700, color: 'var(--primary)' }}>
+                    <td style={{ textAlign: 'right', fontWeight: 700, color: '#0E382B' }}>
                       {(att.totalHours || 0).toFixed(2)}h
                     </td>
                   </tr>

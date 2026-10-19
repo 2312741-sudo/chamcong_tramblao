@@ -69,19 +69,6 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-
-                          const SizedBox(height: 10),
-
-                          // Tagline
-                          const Text(
-                            AppStrings.appTagline,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
                         ],
                       ),
                     ),

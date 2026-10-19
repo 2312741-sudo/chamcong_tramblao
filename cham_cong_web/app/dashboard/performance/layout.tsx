@@ -113,8 +113,8 @@ export default function PerformanceLayout({ children }: { children: React.ReactN
                   alignItems: 'center',
                   gap: 8,
                   padding: '10px 18px',
-                  borderBottom: active ? '3px solid var(--primary)' : '3px solid transparent',
-                  color: active ? 'var(--primary)' : 'var(--text-secondary)',
+                  borderBottom: active ? '3px solid #143A2F' : '3px solid transparent',
+                  color: active ? '#143A2F' : 'var(--text-secondary)',
                   fontWeight: active ? 700 : 500,
                   fontSize: 14,
                   textDecoration: 'none',
@@ -128,7 +128,7 @@ export default function PerformanceLayout({ children }: { children: React.ReactN
                   <span
                     style={{
                       background: 'var(--primary)',
-                      color: 'white',
+                      color: '#143A2F',
                       fontSize: 11,
                       fontWeight: 700,
                       padding: '1px 6px',

@@ -79,12 +79,13 @@ class _MonthlyAttendanceScreenState
         backgroundColor: AppColors.surface,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: const Color(0xFF143A2F),
           elevation: 0,
           title: Text(widget.memberName,
               style: const TextStyle(
                   fontFamily: 'BeVietnamPro',
                   fontWeight: FontWeight.bold,
+                  color: Color(0xFF143A2F),
                   fontSize: 16)),
         ),
         body: Center(
@@ -154,7 +155,7 @@ class _MonthlyAttendanceScreenState
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,12 +164,13 @@ class _MonthlyAttendanceScreenState
                 style: const TextStyle(
                     fontFamily: 'BeVietnamPro',
                     fontWeight: FontWeight.bold,
+                    color: Color(0xFF143A2F),
                     fontSize: 16)),
             const Text('Bảng công tháng',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro',
                     fontSize: 12,
-                    color: Colors.white70)),
+                    color: Color(0xB3143A2F))),
           ],
         ),
       ),
@@ -692,7 +694,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
         data: Theme.of(ctx).copyWith(
           colorScheme: const ColorScheme.light(
             primary: AppColors.primary,
-            onPrimary: Colors.white,
+            onPrimary: Color(0xFF143A2F),
           ),
         ),
         child: child!,
@@ -721,7 +723,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
         data: Theme.of(ctx).copyWith(
           colorScheme: const ColorScheme.light(
             primary: AppColors.primary,
-            onPrimary: Colors.white,
+            onPrimary: Color(0xFF143A2F),
           ),
         ),
         child: child!,

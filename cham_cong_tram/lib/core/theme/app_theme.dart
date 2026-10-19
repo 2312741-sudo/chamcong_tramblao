@@ -10,10 +10,10 @@ class AppTheme {
       seedColor: AppColors.primary,
       brightness: Brightness.light,
       primary: AppColors.primary,
-      onPrimary: AppColors.white,
+      onPrimary: AppColors.textOnPrimary,
       secondary: AppColors.accent,
       onSecondary: AppColors.neutral,
-      error: AppColors.primary,
+      error: AppColors.danger,
       surface: AppColors.surface,
       onSurface: AppColors.neutral,
     );
@@ -94,26 +94,24 @@ class AppTheme {
         ),
       ),
 
-      // Webtram's cream header and navy ink carry through the app shell.
+      // Trạm BLAO app bar shell
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.surface,
-        foregroundColor: AppColors.info,
+        foregroundColor: const Color(0xFF143A2F),
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.merriweather(
+        titleTextStyle: GoogleFonts.beVietnamPro(
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: AppColors.info,
+          color: const Color(0xFF143A2F),
         ),
-        iconTheme: const IconThemeData(color: AppColors.info),
-        actionsIconTheme: const IconThemeData(color: AppColors.info),
       ),
 
       // Elevated Button
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.white,
+          foregroundColor: AppColors.textOnPrimary,
           disabledBackgroundColor: AppColors.textDisabled,
           disabledForegroundColor: AppColors.white,
           elevation: 2,
@@ -125,7 +123,7 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           textStyle: GoogleFonts.beVietnamPro(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
           minimumSize: const Size(double.infinity, 52),
         ),
@@ -134,7 +132,7 @@ class AppTheme {
       // Outlined Button
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: const Color(0xFF143A2F),
           side: const BorderSide(color: AppColors.cardOutline, width: 1.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -151,7 +149,7 @@ class AppTheme {
       // Text Button
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: const Color(0xFF143A2F),
           textStyle: GoogleFonts.beVietnamPro(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -273,7 +271,7 @@ class AppTheme {
       // FloatingActionButton
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
+        foregroundColor: AppColors.textOnPrimary,
         elevation: 4,
       ),
 

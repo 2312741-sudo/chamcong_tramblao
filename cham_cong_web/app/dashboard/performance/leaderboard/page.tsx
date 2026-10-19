@@ -201,7 +201,7 @@ export default function PerformanceLeaderboardPage() {
                   fontSize: 12,
                   fontWeight: timeFilter === f.id ? 700 : 500,
                   background: timeFilter === f.id ? 'white' : 'transparent',
-                  color: timeFilter === f.id ? 'var(--primary)' : 'var(--text-secondary)',
+                  color: timeFilter === f.id ? '#143A2F' : 'var(--text-secondary)',
                   boxShadow: timeFilter === f.id ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                 }}
               >
@@ -381,7 +381,7 @@ export default function PerformanceLeaderboardPage() {
                       <td style={{ padding: '12px 16px' }}>
                         {staff.sessionCount} ca
                       </td>
-                      <td style={{ padding: '12px 16px', fontWeight: 700, color: isDrinkPass ? '#146A65' : '#1B4D3E' }}>
+                      <td style={{ padding: '12px 16px', fontWeight: 700, color: isDrinkPass ? '#146A65' : '#B4232C' }}>
                         {staff.avgDrinkSec > 0 ? `${staff.avgDrinkSec}s (${formatSecondsToMMSS(staff.avgDrinkSec)})` : '--'}
                       </td>
                       <td style={{ padding: '12px 16px' }}>
@@ -402,7 +402,7 @@ export default function PerformanceLeaderboardPage() {
                       </td>
                       <td style={{ padding: '12px 16px' }}>
                         {staff.incidentCount > 0 ? (
-                          <span style={{ color: '#1B4D3E', fontWeight: 600 }}>{staff.incidentCount} vụ</span>
+                          <span style={{ color: '#B4232C', fontWeight: 600 }}>{staff.incidentCount} vụ</span>
                         ) : (
                           <span style={{ color: '#146A65' }}>0</span>
                         )}

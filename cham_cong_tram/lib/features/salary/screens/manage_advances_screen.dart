@@ -39,9 +39,13 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       appBar: AppBar(
-        title: const Text('Duyệt Ứng Lương', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro')),
+        title: const Text('Duyệt Ứng Lương',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'BeVietnamPro',
+                color: Color(0xFF143A2F))),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color(0xFF143A2F),
       ),
       body: Column(
         children: [

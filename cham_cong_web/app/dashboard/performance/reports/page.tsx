@@ -218,7 +218,7 @@ function PerformanceReportsContent() {
                   fontSize: 12,
                   fontWeight: statusFilter === s.id ? 700 : 500,
                   background: statusFilter === s.id ? 'white' : 'transparent',
-                  color: statusFilter === s.id ? 'var(--primary)' : 'var(--text-secondary)',
+                  color: statusFilter === s.id ? '#143A2F' : 'var(--text-secondary)',
                   boxShadow: statusFilter === s.id ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                 }}
               >
@@ -564,7 +564,7 @@ function PerformanceReportsContent() {
                           fontSize: 11,
                           fontWeight: measurementCategoryFilter === cat.id ? 700 : 500,
                           background: measurementCategoryFilter === cat.id ? 'white' : 'transparent',
-                          color: measurementCategoryFilter === cat.id ? 'var(--primary)' : 'var(--text-secondary)',
+                          color: measurementCategoryFilter === cat.id ? '#143A2F' : 'var(--text-secondary)',
                         }}
                       >
                         {cat.label}
@@ -624,7 +624,7 @@ function PerformanceReportsContent() {
                                 {isPass ? (
                                   <span style={{ color: '#146A65', fontWeight: 600 }}>✅ Đạt</span>
                                 ) : (
-                                  <span style={{ color: '#1B4D3E', fontWeight: 700 }}>+{avgSec - std}s</span>
+                                  <span style={{ color: '#B4232C', fontWeight: 700 }}>+{avgSec - std}s</span>
                                 )}
                               </td>
                             </tr>

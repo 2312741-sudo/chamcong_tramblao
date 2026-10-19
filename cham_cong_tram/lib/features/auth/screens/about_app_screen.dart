@@ -114,20 +114,11 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Chấm Công Trạm Blao',
+                    'Chấm Công Trạm BLAO',
                     style: GoogleFonts.beVietnamPro(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
                       color: const Color(0xFF1E293B),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Luôn tươi ngon vì sức khoẻ',
-                    style: GoogleFonts.beVietnamPro(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF64748B),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -203,7 +194,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     iconColor: const Color(0xFF16A34A),
                     title: 'Hỗ trợ & Liên hệ',
                     subtitle: 'nthanhtam.402@gmail.com',
-                    onTap: () => _launchUrl('mailto:nthanhtam.402@gmail.com?subject=Hỗ trợ ứng dụng Chấm Công Trạm Blao'),
+                    onTap: () => _launchUrl('mailto:nthanhtam.402@gmail.com?subject=Hỗ trợ ứng dụng Chấm Công Trạm BLAO'),
                   ),
                 ],
               ),
@@ -256,7 +247,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     ],
                   ),
                   const SizedBox(height: 14),
-                  const _InfoRow(label: 'Ứng dụng', value: 'Chấm Công Trạm Blao'),
+                  const _InfoRow(label: 'Ứng dụng', value: 'Chấm Công Trạm BLAO'),
                   const SizedBox(height: 8),
                   const _InfoRow(label: 'Tác giả', value: 'Nguyễn Thanh Tâm'),
                   const SizedBox(height: 8),
@@ -271,7 +262,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
 
             // Footer Note
             Text(
-              'Chấm Công Trạm Blao — Giải pháp chấm công thông minh\nvà quản lý nhân sự chuyên nghiệp cho F&B & Bán lẻ.',
+              'Chấm Công Trạm BLAO — Giải pháp chấm công thông minh\nvà quản lý nhân sự chuyên nghiệp cho F&B & Bán lẻ.',
               textAlign: TextAlign.center,
               style: GoogleFonts.beVietnamPro(
                 fontSize: 12,

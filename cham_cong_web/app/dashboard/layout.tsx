@@ -311,7 +311,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
               <img src="/logo.jpg" alt="Logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />
               <div>
-                <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm Blao</div>
+                <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm BLAO</div>
                 <div style={{ fontSize:11, opacity:0.6, marginTop:2 }}>Cổng quản lý Web</div>
               </div>
             </div>
@@ -347,7 +347,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 }}>
                   <span style={{ fontSize:16 }}>{item.icon}</span>
                   {item.label}
-                  {active && <div style={{ marginLeft:'auto', width:6, height:6, borderRadius:'50%', background:'rgba(255,255,255,0.8)' }} />}
+                  {active && <div style={{ marginLeft:'auto', width:6, height:6, borderRadius:'50%', background:'var(--sidebar-active-text)' }} />}
                 </Link>
               );
             })}

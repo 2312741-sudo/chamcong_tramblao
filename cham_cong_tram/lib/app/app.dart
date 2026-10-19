@@ -13,7 +13,7 @@ class ChamCongTramApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'Chấm Công Trạm Blao',
+      title: 'Chấm Công Trạm BLAO',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.tramTheme,
       routerConfig: router,

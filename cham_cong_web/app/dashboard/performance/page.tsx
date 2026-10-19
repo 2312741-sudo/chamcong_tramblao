@@ -414,7 +414,7 @@ export default function PerformanceOverviewPage() {
                   fontSize: 12,
                   fontWeight: timePreset === p.id ? 700 : 500,
                   background: timePreset === p.id ? 'white' : 'transparent',
-                  color: timePreset === p.id ? 'var(--primary)' : 'var(--text-secondary)',
+                  color: timePreset === p.id ? '#143A2F' : 'var(--text-secondary)',
                   boxShadow: timePreset === p.id ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                 }}
               >
@@ -443,7 +443,7 @@ export default function PerformanceOverviewPage() {
         </div>
 
         <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-          Cửa hàng: <strong style={{ color: 'var(--neutral)' }}>{store?.name || 'Tất cả'}</strong> • Tổng <strong style={{ color: 'var(--primary)' }}>{filteredReports.length}</strong> ca đo
+          Cửa hàng: <strong style={{ color: 'var(--neutral)' }}>{store?.name || 'Tất cả'}</strong> • Tổng <strong style={{ color: '#0E382B' }}>{filteredReports.length}</strong> ca đo
         </div>
       </div>
 
@@ -530,14 +530,14 @@ export default function PerformanceOverviewPage() {
         </div>
 
         {/* SỰ CỐ */}
-        <div className="card" style={{ borderLeft: '4px solid #1B4D3E', padding: '16px 20px' }}>
+        <div className="card" style={{ borderLeft: '4px solid #7FE3C7', padding: '16px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-secondary)' }}>⚠️ SỰ CỐ PHÁT SINH</span>
             <span style={{ fontSize: 11, background: '#FEE2E2', color: '#B91C1C', padding: '2px 8px', borderRadius: 10, fontWeight: 600 }}>
               Trong ca
             </span>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: stats.totalIncidents > 0 ? '#1B4D3E' : '#146A65' }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: stats.totalIncidents > 0 ? '#B4232C' : '#146A65' }}>
             {stats.totalIncidents}
           </div>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 6 }}>
@@ -719,7 +719,7 @@ export default function PerformanceOverviewPage() {
                 </p>
               </div>
               <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                Tổng cộng: <strong style={{ color: 'var(--primary)' }}>{dailyComparison.length} ngày</strong> có số liệu
+                Tổng cộng: <strong style={{ color: '#0E382B' }}>{dailyComparison.length} ngày</strong> có số liệu
               </div>
             </div>
 
@@ -889,7 +889,7 @@ export default function PerformanceOverviewPage() {
           </div>
           <Link
             href="/dashboard/performance/reports"
-            style={{ fontSize: 13, fontWeight: 600, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}
+            style={{ fontSize: 13, fontWeight: 600, color: '#0E382B', display: 'flex', alignItems: 'center', gap: 4 }}
           >
             Xem tất cả báo cáo &rarr;
           </Link>
@@ -929,15 +929,15 @@ export default function PerformanceOverviewPage() {
                       <td style={{ padding: '10px 12px' }}>
                         {rep.managerOnDutyName || rep.managerName || 'Quản lý'}
                       </td>
-                      <td style={{ padding: '10px 12px', color: isSlowDrink ? 'var(--primary)' : 'inherit', fontWeight: isSlowDrink ? 700 : 400 }}>
+                      <td style={{ padding: '10px 12px', color: isSlowDrink ? '#B4232C' : 'inherit', fontWeight: isSlowDrink ? 700 : 400 }}>
                         {rep.drinkAverageSeconds ? `${rep.drinkAverageSeconds}s` : '-'}
                         {isSlowDrink && <span style={{ fontSize: 10, marginLeft: 4 }}>⚠️</span>}
                       </td>
-                      <td style={{ padding: '10px 12px', color: isSlowCake ? 'var(--primary)' : 'inherit', fontWeight: isSlowCake ? 700 : 400 }}>
+                      <td style={{ padding: '10px 12px', color: isSlowCake ? '#B4232C' : 'inherit', fontWeight: isSlowCake ? 700 : 400 }}>
                         {rep.cakeAverageSeconds ? `${rep.cakeAverageSeconds}s` : '-'}
                         {isSlowCake && <span style={{ fontSize: 10, marginLeft: 4 }}>⚠️</span>}
                       </td>
-                      <td style={{ padding: '10px 12px', color: isSlowOrder ? 'var(--primary)' : 'inherit', fontWeight: isSlowOrder ? 700 : 400 }}>
+                      <td style={{ padding: '10px 12px', color: isSlowOrder ? '#B4232C' : 'inherit', fontWeight: isSlowOrder ? 700 : 400 }}>
                         {rep.orderAverageSeconds ? `${rep.orderAverageSeconds}s` : '-'}
                         {isSlowOrder && <span style={{ fontSize: 10, marginLeft: 4 }}>⚠️</span>}
                       </td>

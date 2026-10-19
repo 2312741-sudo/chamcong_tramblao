@@ -464,10 +464,10 @@ export default function AttendancePage() {
             onChange={e => setCurrentMonth(e.target.value)}
             style={{ width: 150 }}
           />
-          <button onClick={handleExportSummary} className="btn btn-primary" style={{ background: 'var(--success)' }}>
+          <button onClick={handleExportSummary} className="btn btn-primary" style={{ background: 'var(--success)', color: '#FFFFFF' }}>
             <span className="material-icons" style={{ fontSize: 18 }}>download</span> Tổng Hợp
           </button>
-          <button onClick={handleExportDetailed} className="btn btn-primary" style={{ background: 'var(--accent)' }}>
+          <button onClick={handleExportDetailed} className="btn btn-primary" style={{ background: 'var(--accent)', color: '#143A2F' }}>
             <span className="material-icons" style={{ fontSize: 18 }}>download</span> IN-OUT
           </button>
         </div>
