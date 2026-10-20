@@ -137,8 +137,7 @@ class WelcomeScreen extends ConsumerWidget {
                                 if (user != null) {
                                   context.push(AppRoutes.createStore);
                                 } else {
-                                  context.push(AppRoutes.login,
-                                      extra: {'mode': 'create'});
+                                  context.push(AppRoutes.login);
                                 }
                               },
                               icon: const Icon(Icons.add_business_rounded,
@@ -182,8 +181,7 @@ class WelcomeScreen extends ConsumerWidget {
                                 if (user != null) {
                                   context.push(AppRoutes.joinStore);
                                 } else {
-                                  context.push(AppRoutes.login,
-                                      extra: {'mode': 'join'});
+                                  context.push(AppRoutes.login);
                                 }
                               },
                               icon:

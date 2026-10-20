@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/location_utils.dart';
+import '../../auth/providers/auth_notifier.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_repository.dart';
 import '../../../app/router.dart';
@@ -191,6 +192,16 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
             color: Color(0xFF143A2F),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout_rounded, color: Color(0xFF143A2F)),
+            tooltip: 'Đăng xuất',
+            onPressed: () async {
+              await ref.read(authNotifierProvider.notifier).signOut();
+              if (context.mounted) context.go(AppRoutes.login);
+            },
+          ),
+        ],
         elevation: 0,
       ),
       body: SafeArea(

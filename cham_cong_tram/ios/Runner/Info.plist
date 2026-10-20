@@ -2,18 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>app-1-476583007511-ios-53970f3be146a349ce1352</string>
-				<string>com.googleusercontent.apps.476583007511-omp1468ikqpdai6kvrkjc2btqmkakbt2</string>
-			</array>
-		</dict>
-	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -34,37 +22,39 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập camera để quét mã QR tham gia cửa hàng và xác thực chấm công.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập thư viện ảnh để chọn và quét mã QR tham gia cửa hàng hoặc chấm công.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Ứng dụng cần quyền lưu ảnh vào thư viện để tải về mã QR cửa hàng.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập vị trí khi dùng ứng dụng để xác thực bạn có mặt tại cửa hàng khi chấm công.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập vị trí để xác thực bạn có mặt tại cửa hàng khi chấm công.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập vị trí để xác thực chấm công tại cửa hàng.</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>chamcong-google-signin</string>
+			<string>Firebase Auth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>app-1-476583007511-ios-53970f3be146a349ce1352</string>
+				<string>com.googleusercontent.apps.476583007511-omp1468ikqpdai6kvrkjc2btqmkakbt2</string>
 				<string>com.googleusercontent.apps.744729032681-k9886g97cunj6srep0tdj0udt349e093</string>
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần quyền truy cập máy ảnh để quét mã QR tham gia cửa hàng và xác thực vào ca làm việc.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần quyền truy cập thư viện ảnh để quét mã QR cửa hàng từ hình ảnh.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần quyền lưu ảnh để bạn tải mã QR điểm danh của cửa hàng về máy.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác thực bạn đang có mặt tại cửa hàng.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác minh tọa độ vào/ra ca làm việc.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác minh tọa độ vào/ra ca làm việc.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
