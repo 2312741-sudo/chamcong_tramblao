@@ -178,10 +178,19 @@ export default function LoginPage() {
             fontWeight: 800,
             letterSpacing: '-0.5px',
             color: '#0E382B',
-            marginBottom: 6,
+            marginBottom: 4,
           }}>
             Chấm Công Trạm BLAO
           </h1>
+          <div style={{
+            color: '#143A2F',
+            fontSize: 13,
+            fontWeight: 700,
+            marginBottom: 6,
+            letterSpacing: '0.02em',
+          }}>
+            Trạm trà - Trạm bánh
+          </div>
           <p style={{
             color: '#5D5B63',
             fontSize: 14,

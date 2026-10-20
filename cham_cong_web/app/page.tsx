@@ -35,8 +35,11 @@ export default function Home() {
             display: 'block',
           }}
         />
-        <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 8, color: '#0E382B', letterSpacing: '-0.5px' }}>
+        <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 4, color: '#0E382B', letterSpacing: '-0.5px' }}>
           Chấm Công Trạm BLAO
+        </div>
+        <div style={{ color: '#143A2F', fontSize: 13, fontWeight: 700, marginBottom: 8 }}>
+          Trạm trà - Trạm bánh
         </div>
         <div style={{ color: '#5D5B63', fontSize: 14, fontWeight: 500 }}>
           Đang tải dữ liệu...

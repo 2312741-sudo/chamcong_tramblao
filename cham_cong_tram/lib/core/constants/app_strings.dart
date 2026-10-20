@@ -3,7 +3,7 @@ class AppStrings {
 
   // ── App Info ──────────────────────────────────────────────────────────────
   static const String appName = 'Chấm Công Trạm BLAO';
-  static const String appTagline = '';
+  static const String appTagline = 'Trạm trà - Trạm bánh';
   static const String appVersion = 'Phiên bản 1.0.9';
 
   // ── Auth ──────────────────────────────────────────────────────────────────

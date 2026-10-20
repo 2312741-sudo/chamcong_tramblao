@@ -399,6 +399,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
 
+                  const SizedBox(height: 4),
+
+                  Center(
+                    child: Text(
+                      AppStrings.appTagline,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primaryDark,
+                            letterSpacing: 0.2,
+                          ),
+                    ),
+                  ),
+
                   const SizedBox(height: 8),
 
                   Center(

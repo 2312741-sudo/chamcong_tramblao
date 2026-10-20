@@ -69,6 +69,20 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
+
+                          const SizedBox(height: 8),
+
+                          // Slogan thương hiệu
+                          const Text(
+                            AppStrings.appTagline,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primary,
+                              letterSpacing: 0.3,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ],
                       ),
                     ),

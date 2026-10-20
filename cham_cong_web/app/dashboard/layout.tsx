@@ -312,7 +312,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <img src="/logo.jpg" alt="Logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />
               <div>
                 <div style={{ fontWeight:800, fontSize:14, lineHeight:1.2 }}>Chấm Công Trạm BLAO</div>
-                <div style={{ fontSize:11, opacity:0.6, marginTop:2 }}>Cổng quản lý Web</div>
+                <div style={{ fontSize:11, color:'#7FE3C7', fontWeight:600, marginTop:2 }}>Trạm trà - Trạm bánh</div>
               </div>
             </div>
           </div>

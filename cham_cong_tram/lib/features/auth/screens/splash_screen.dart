@@ -257,7 +257,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 64),
+              const SizedBox(height: 10),
+
+              // Slogan thương hiệu
+              const Text(
+                AppStrings.appTagline,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF143A2F),
+                  letterSpacing: 0.3,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 48),
 
               // Loading Indicator
               const SizedBox(

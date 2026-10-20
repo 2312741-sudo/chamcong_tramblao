@@ -10,8 +10,8 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'Chấm Công Trạm BLAO - Quản Trị',
-  description: 'Hệ thống quản lý chấm công và ca làm việc Trạm BLAO',
+  title: 'Chấm Công Trạm BLAO • Trạm trà - Trạm bánh',
+  description: 'Chấm Công Trạm BLAO — Trạm trà - Trạm bánh. Hệ thống quản lý chấm công và ca làm việc thông minh.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
