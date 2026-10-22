@@ -150,7 +150,7 @@ class AuthRepository {
       );
       await createUserDocument(userModel);
     } else {
-      final data = doc.data() ?? {};
+      final data = doc.data() as Map<String, dynamic>? ?? {};
       final existingAvatar = data['avatarUrl'] as String?;
       if ((existingAvatar == null || existingAvatar.trim().isEmpty) &&
           user.photoURL != null &&
