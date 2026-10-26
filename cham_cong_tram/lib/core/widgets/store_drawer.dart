@@ -11,6 +11,7 @@ import '../../models/member_model.dart';
 import '../constants/app_colors.dart';
 
 import 'avatar_widget.dart';
+import 'store_creation_locked_dialog.dart';
 
 class StoreDrawer extends ConsumerWidget {
   const StoreDrawer({super.key});
@@ -179,7 +180,7 @@ class StoreDrawer extends ConsumerWidget {
             title: const Text('Tạo cửa hàng mới', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {
               Navigator.pop(context);
-              context.push(AppRoutes.createStore);
+              StoreCreationLockedDialog.show(context);
             },
           ),
           ListTile(

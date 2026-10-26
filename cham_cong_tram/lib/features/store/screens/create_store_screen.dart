@@ -8,6 +8,7 @@ import '../../auth/providers/auth_notifier.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_repository.dart';
 import '../../../app/router.dart';
+import '../../../core/widgets/store_creation_locked_dialog.dart';
 
 class CreateStoreScreen extends ConsumerStatefulWidget {
   const CreateStoreScreen({super.key});
@@ -128,42 +129,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() => _isLoading = true);
-
-    try {
-      final repo = ref.read(storeRepositoryProvider);
-      final userRepo = ref.read(userRepositoryProvider);
-      final user = ref.read(userProvider).value;
-      if (user == null) throw Exception('Chưa đăng nhập');
-
-      final store = await repo.createStore(
-        _nameCtrl.text.trim(),
-        _addressCtrl.text.trim(),
-        '',
-        _lat,
-        _lng,
-        _radius.round(),
-        wifiName: _wifiNameCtrl.text.trim().isNotEmpty
-            ? _wifiNameCtrl.text.trim()
-            : (_detectedSsid ?? 'WiFi Chính'),
-        wifiSsid: _detectedSsid,
-        wifiBssid: _detectedBssid,
-        locationName: _locationNameCtrl.text.trim().isNotEmpty
-            ? _locationNameCtrl.text.trim()
-            : 'Cơ sở chính',
-      );
-
-      await userRepo.updateCurrentStoreId(user.id, store.id);
-
-      ref.invalidate(userStoresProvider);
-
-      if (mounted) context.go(AppRoutes.splash);
-    } catch (e) {
-      _showError(e.toString().replaceFirst('Exception: ', ''));
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+    StoreCreationLockedDialog.show(context);
   }
 
   void _showError(String msg) {
@@ -212,32 +178,51 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.2),
+                // Header Locked Notice
+                InkWell(
+                  onTap: () => StoreCreationLockedDialog.show(context),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: AppColors.primaryDark.withValues(alpha: 0.3),
+                      ),
                     ),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.store_rounded,
-                          color: AppColors.primary, size: 24),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Điền thông tin cửa hàng của bạn để bắt đầu quản lý chấm công',
-                          style: TextStyle(
-                            fontFamily: 'BeVietnamPro',
-                            fontSize: 13,
-                            color: AppColors.primary,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.lock_rounded,
+                            color: AppColors.primaryDark, size: 24),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Tính năng tạo cửa hàng mới đang tạm khóa',
+                                style: TextStyle(
+                                  fontFamily: 'BeVietnamPro',
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primaryDark,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Vui lòng liên hệ quản trị viên Nguyễn Thanh Tâm (0865.062.205) để được hỗ trợ khởi tạo chi nhánh.',
+                                style: TextStyle(
+                                  fontFamily: 'BeVietnamPro',
+                                  fontSize: 12,
+                                  color: Color(0xFF334155),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),

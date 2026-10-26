@@ -35,22 +35,22 @@ class AppVersionControlModel {
       updateUrlIos: data['updateUrlIos'] as String? ??
           'https://apps.apple.com/app/id6742385802',
       updateUrlAndroid: data['updateUrlAndroid'] as String? ??
-          'https://play.google.com/store/apps/details?id=com.chamcong.chamCongTram',
-      updateUrl: data['updateUrl'] as String?,
+          'https://play.google.com/store/apps/details?id=com.tramblao.chamcong',
+      updateUrl: data['updateUrl'] as String? ?? 'https://web-cham-cong-blao.vercel.app',
     );
   }
 
   String get targetStoreUrl {
     if (kIsWeb) {
-      return updateUrl ?? 'https://webquanlychamcong.vercel.app';
+      return updateUrl ?? 'https://web-cham-cong-blao.vercel.app';
     }
     if (Platform.isIOS) {
       return updateUrlIos ?? updateUrl ?? 'https://apps.apple.com/app/id6742385802';
     }
     if (Platform.isAndroid) {
-      return updateUrlAndroid ?? updateUrl ?? 'https://play.google.com/store/apps/details?id=com.chamcong.chamCongTram';
+      return updateUrlAndroid ?? updateUrl ?? 'https://play.google.com/store/apps/details?id=com.tramblao.chamcong';
     }
-    return updateUrl ?? 'https://webquanlychamcong.vercel.app';
+    return updateUrl ?? 'https://web-cham-cong-blao.vercel.app';
   }
 }
 
@@ -159,8 +159,8 @@ class AppUpdateService {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: isForce
-                  ? const Color(0xFFC8102E).withValues(alpha: 0.08)
-                  : const Color(0xFF0284C7).withValues(alpha: 0.08),
+                  ? const Color(0xFFDC2626).withValues(alpha: 0.08)
+                  : AppColors.primary.withValues(alpha: 0.12),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Column(
@@ -169,12 +169,12 @@ class AppUpdateService {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: isForce ? const Color(0xFFC8102E) : const Color(0xFF0284C7),
+                    color: isForce ? const Color(0xFFDC2626) : AppColors.primary,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     isForce ? Icons.system_update_rounded : Icons.new_releases_rounded,
-                    color: Colors.white,
+                    color: isForce ? Colors.white : AppColors.primaryDark,
                     size: 28,
                   ),
                 ),
@@ -261,8 +261,9 @@ class AppUpdateService {
               ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFC8102E),
-                foregroundColor: Colors.white,
+                backgroundColor: isForce ? const Color(0xFFDC2626) : AppColors.primary,
+                foregroundColor: isForce ? Colors.white : AppColors.primaryDark,
+                elevation: 0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               ),
@@ -282,6 +283,7 @@ class AppUpdateService {
                 style: GoogleFonts.beVietnamPro(
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
+                  color: isForce ? Colors.white : AppColors.primaryDark,
                 ),
               ),
             ),

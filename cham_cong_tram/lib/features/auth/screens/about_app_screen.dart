@@ -4,6 +4,7 @@ import '../../../core/constants/app_strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../core/services/app_update_service.dart';
 
 class AboutAppScreen extends StatefulWidget {
   const AboutAppScreen({super.key});
@@ -184,11 +185,19 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
               child: Column(
                 children: [
                   _LinkTile(
+                    icon: Icons.system_update_rounded,
+                    iconColor: AppColors.primaryDark,
+                    title: 'Kiểm tra bản cập nhật',
+                    subtitle: 'Kiểm tra phiên bản mới nhất từ máy chủ',
+                    onTap: () => AppUpdateService().checkAppVersion(context, isManualCheck: true),
+                  ),
+                  const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
+                  _LinkTile(
                     icon: Icons.language_rounded,
                     iconColor: const Color(0xFF0D9488),
                     title: 'Giới thiệu sản phẩm',
                     subtitle: 'Tổng quan giải pháp Chấm Công Trạm BLAO',
-                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/marketing.html'),
+                    onTap: () => _launchUrl('https://web-cham-cong-blao.vercel.app/marketing'),
                   ),
                   const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
                   _LinkTile(
@@ -196,7 +205,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     iconColor: const Color(0xFF6366F1),
                     title: 'Trung tâm hỗ trợ kỹ thuật',
                     subtitle: 'Câu hỏi thường gặp và xử lý sự cố 24/7',
-                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/support.html'),
+                    onTap: () => _launchUrl('https://web-cham-cong-blao.vercel.app/support'),
                   ),
                   const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
                   _LinkTile(
@@ -204,7 +213,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     iconColor: const Color(0xFF0284C7),
                     title: 'Chính sách quyền riêng tư',
                     subtitle: 'Quy định bảo mật và bảo vệ dữ liệu người dùng',
-                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/privacy.html'),
+                    onTap: () => _launchUrl('https://web-cham-cong-blao.vercel.app/privacy-policy'),
                   ),
                   const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
                   _LinkTile(
@@ -212,7 +221,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     iconColor: const Color(0xFFEA580C),
                     title: 'Quy định xóa tài khoản',
                     subtitle: 'Quy trình xóa tài khoản và dữ liệu cá nhân',
-                    onTap: () => _launchUrl('https://webquanlychamcong.vercel.app/delete-account.html'),
+                    onTap: () => _launchUrl('https://web-cham-cong-blao.vercel.app/account-deletion'),
                   ),
                   const Divider(height: 1, indent: 64, color: Color(0xFFF1F5F9)),
                   _LinkTile(

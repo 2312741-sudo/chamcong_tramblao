@@ -53,6 +53,7 @@ class StoreRepository {
     String? locationName,
     List<StoreLocation> locations = const [],
   }) async {
+    throw Exception('Tính năng tạo cửa hàng mới đang tạm khóa. Vui lòng liên hệ quản trị viên: Nguyễn Thanh Tâm (0865.062.205 / nthanhtam.402@gmail.com).');
     try {
       final uid = _getUid();
       final code = _generateCode();

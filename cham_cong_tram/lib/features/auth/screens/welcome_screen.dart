@@ -4,6 +4,7 @@ import '../../../app/router.dart';
 import '../../../core/widgets/notification_bell_icon.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/widgets/store_creation_locked_dialog.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -133,12 +134,7 @@ class WelcomeScreen extends ConsumerWidget {
                             // Create Store Button
                             ElevatedButton.icon(
                               onPressed: () {
-                                final user = FirebaseAuth.instance.currentUser;
-                                if (user != null) {
-                                  context.push(AppRoutes.createStore);
-                                } else {
-                                  context.push(AppRoutes.login);
-                                }
+                                StoreCreationLockedDialog.show(context);
                               },
                               icon: const Icon(Icons.add_business_rounded,
                                   size: 20),
