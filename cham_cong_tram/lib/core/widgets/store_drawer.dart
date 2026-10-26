@@ -180,7 +180,7 @@ class StoreDrawer extends ConsumerWidget {
             title: const Text('Tạo cửa hàng mới', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {
               Navigator.pop(context);
-              StoreCreationLockedDialog.show(context);
+              context.push(AppRoutes.createStore);
             },
           ),
           ListTile(

@@ -134,7 +134,12 @@ class WelcomeScreen extends ConsumerWidget {
                             // Create Store Button
                             ElevatedButton.icon(
                               onPressed: () {
-                                StoreCreationLockedDialog.show(context);
+                                final user = FirebaseAuth.instance.currentUser;
+                                if (user != null) {
+                                  context.push(AppRoutes.createStore);
+                                } else {
+                                  context.push(AppRoutes.login);
+                                }
                               },
                               icon: const Icon(Icons.add_business_rounded,
                                   size: 20),

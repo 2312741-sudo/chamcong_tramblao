@@ -129,7 +129,42 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
   }
 
   Future<void> _submit() async {
-    StoreCreationLockedDialog.show(context);
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
+
+    try {
+      final repo = ref.read(storeRepositoryProvider);
+      final userRepo = ref.read(userRepositoryProvider);
+      final user = ref.read(userProvider).value;
+      if (user == null) throw Exception('Chưa đăng nhập');
+
+      final store = await repo.createStore(
+        _nameCtrl.text.trim(),
+        _addressCtrl.text.trim(),
+        '',
+        _lat,
+        _lng,
+        _radius.round(),
+        wifiName: _wifiNameCtrl.text.trim().isNotEmpty
+            ? _wifiNameCtrl.text.trim()
+            : (_detectedSsid ?? 'WiFi Chính'),
+        wifiSsid: _detectedSsid,
+        wifiBssid: _detectedBssid,
+        locationName: _locationNameCtrl.text.trim().isNotEmpty
+            ? _locationNameCtrl.text.trim()
+            : 'Cơ sở chính',
+      );
+
+      await userRepo.updateCurrentStoreId(user.id, store.id);
+
+      ref.invalidate(userStoresProvider);
+
+      if (mounted) context.go(AppRoutes.splash);
+    } catch (e) {
+      _showError(e.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   void _showError(String msg) {
@@ -178,51 +213,33 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Locked Notice
-                InkWell(
-                  onTap: () => StoreCreationLockedDialog.show(context),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColors.primaryDark.withValues(alpha: 0.3),
-                      ),
+                // Header
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.primaryDark.withValues(alpha: 0.2),
                     ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.lock_rounded,
-                            color: AppColors.primaryDark, size: 24),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Tính năng tạo cửa hàng mới đang tạm khóa',
-                                style: TextStyle(
-                                  fontFamily: 'BeVietnamPro',
-                                  fontSize: 13.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.primaryDark,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                'Vui lòng liên hệ quản trị viên Nguyễn Thanh Tâm (0865.062.205) để được hỗ trợ khởi tạo chi nhánh.',
-                                style: TextStyle(
-                                  fontFamily: 'BeVietnamPro',
-                                  fontSize: 12,
-                                  color: Color(0xFF334155),
-                                ),
-                              ),
-                            ],
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.store_rounded,
+                          color: AppColors.primaryDark, size: 24),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Điền thông tin cửa hàng của bạn để bắt đầu quản lý chấm công',
+                          style: const TextStyle(
+                            fontFamily: 'BeVietnamPro',
+                            fontSize: 13,
+                            color: AppColors.primaryDark,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 24),

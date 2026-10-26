@@ -165,6 +165,19 @@ service cloud.firestore {
 
         allow create: if isSignedIn() && (
           isOwnerOrManager1(storeId) ||
+          // Cho phép chủ cửa hàng tạo bản ghi owner của chính mình khi khởi tạo cửa hàng mới
+          (
+            request.auth.uid == memberId &&
+            request.resource.data.userId == memberId &&
+            request.resource.data.role in ['owner', 'chu'] &&
+            request.resource.data.status == 'active' &&
+            (
+              (existsAfter(/databases/$(database)/documents/stores/$(storeId)) &&
+               getAfter(/databases/$(database)/documents/stores/$(storeId)).data.ownerId == request.auth.uid) ||
+              (exists(/databases/$(database)/documents/stores/$(storeId)) &&
+               getStoreData(storeId).ownerId == request.auth.uid)
+            )
+          ) ||
           (request.auth.uid == memberId &&
            request.resource.data.userId == memberId &&
            request.resource.data.role == 'employee' &&
