@@ -2,6 +2,8 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, signInWithGoogle, signInWithApple, sendPasswordReset } from '@/lib/auth';
+import PublicNav from '../components/PublicNav';
+import PublicFooter from '../components/PublicFooter';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -117,16 +119,18 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'radial-gradient(120% 120% at 50% 10%, #FAF4E8 0%, #F4E9D5 60%, #EBDDC2 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px 20px',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+    <div className="min-h-screen bg-[#FAF4E8] text-[#1C1A2D] flex flex-col font-sans">
+      <PublicNav />
+      <div style={{
+        flex: 1,
+        background: 'radial-gradient(120% 120% at 50% 10%, #FAF4E8 0%, #F4E9D5 60%, #EBDDC2 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '36px 20px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
       {/* Decorative ambient lighting - Trạm BLAO Palette */}
       <div style={{
         position: 'fixed',
@@ -455,6 +459,23 @@ export default function LoginPage() {
             Chỉ dành cho <strong style={{ color: '#0E382B' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
           </p>
         </div>
+
+        {/* Tip for Staff */}
+        <div style={{
+          marginTop: 18,
+          padding: '12px 16px',
+          background: 'rgba(255, 255, 255, 0.75)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: 16,
+          border: '1px solid rgba(216, 207, 189, 0.8)',
+          textAlign: 'center',
+          fontSize: 12,
+          color: '#5D5B63',
+          lineHeight: 1.5,
+          boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+        }}>
+          📱 <strong>Bạn là nhân viên chấm công?</strong> Vui lòng mở ứng dụng di động <strong>Chấm Công Trạm BLAO</strong> trên điện thoại để chấm công GPS &amp; Wi-Fi tại quán.
+        </div>
       </div>
 
       {/* Forgot Password Modal */}
@@ -615,6 +636,8 @@ export default function LoginPage() {
           </div>
         </div>
       )}
+      </div>
+      <PublicFooter />
     </div>
   );
 }

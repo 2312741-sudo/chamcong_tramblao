@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --primary: #7FE3C7;
   --primary-dark: #5BD1B3;
@@ -520,6 +522,69 @@ input, select, textarea { font-family: inherit; }
 @media (max-width: 768px) {
   .dashboard-main-content {
     padding: 14px 14px calc(76px + env(safe-area-inset-bottom, 0px)) 14px;
+  }
+}
+
+/* ── Dashboard Layout & Desktop Sidebar ──────────── */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface);
+  position: relative;
+}
+
+.dashboard-sidebar {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 50;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  transition: margin-left 0.25s ease;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-sidebar {
+    transform: translateX(0) !important;
+  }
+  .dashboard-main-wrapper {
+    margin-left: var(--sidebar-width);
+  }
+  .dashboard-menu-toggle {
+    display: none !important;
+  }
+  .dashboard-mobile-overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+  }
+  .dashboard-sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+  .dashboard-main-wrapper {
+    margin-left: 0;
+  }
+  .dashboard-menu-toggle {
+    display: flex !important;
   }
 }
 

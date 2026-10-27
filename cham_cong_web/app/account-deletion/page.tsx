@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import PublicNav from '../components/PublicNav';
+import PublicFooter from '../components/PublicFooter';
 
 export const metadata: Metadata = {
   title: 'Yêu Cầu Xóa Tài Khoản & Dữ Liệu | Chấm Công Trạm BLAO',
@@ -8,80 +10,102 @@ export const metadata: Metadata = {
 };
 
 export default function AccountDeletionPage() {
+  const supportEmail = 'nthanhtam.402@gmail.com';
+  const hotline = '0865.062.205';
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
-        {/* Navigation Bar */}
-        <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500 mb-6 pb-4 border-b border-slate-100">
-          <Link href="/marketing" className="hover:text-[#143A2F] transition-colors">
-            ← Giới thiệu sản phẩm
-          </Link>
-          <Link href="/support" className="hover:text-[#143A2F] transition-colors">
-            Trung tâm hỗ trợ
-          </Link>
-          <Link href="/privacy-policy" className="hover:text-[#143A2F] transition-colors">
-            Chính sách quyền riêng tư
-          </Link>
-          <Link href="/account-deletion" className="text-[#143A2F] font-bold">
-            Xóa tài khoản
-          </Link>
-        </div>
+    <div className="min-h-screen bg-[#FAF4E8] text-[#1C1A2D] flex flex-col font-sans">
+      <PublicNav />
 
-        <div className="border-b border-slate-100 pb-6 mb-6">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3">
-            Quy Trình & Hướng Dẫn Xóa Dữ Liệu Tài Khoản
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Ứng dụng <strong>Chấm Công Trạm BLAO</strong> tuân thủ quy chuẩn bảo mật của Apple App Store & Google Play Console.
-          </p>
-        </div>
-
-        <div className="space-y-6 text-sm sm:text-base text-slate-700 leading-relaxed">
-          <p>
-            Người dùng ứng dụng <strong>Chấm Công Trạm BLAO</strong> có quyền yêu cầu xóa toàn bộ thông tin cá nhân và dữ liệu liên quan đến tài khoản của mình bất cứ lúc nào.
-          </p>
-
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">
-              Cách 1: Tự xóa tài khoản trực tiếp trong ứng dụng di động (Tức thì)
-            </h2>
-            <ol className="list-decimal pl-5 space-y-2 text-sm">
-              <li>Mở ứng dụng <strong>Chấm Công Trạm BLAO</strong> trên điện thoại và đăng nhập tài khoản của bạn.</li>
-              <li>Tại thanh điều hướng dưới cùng, chọn tab <strong>Hồ sơ</strong> (Profile) hoặc <strong>Cài đặt</strong>.</li>
-              <li>Chọn mục <strong>Quản lý tài khoản</strong> ➔ <strong>Xóa tài khoản</strong>.</li>
-              <li>Đọc kỹ cảnh báo xác nhận và bấm <strong>Xác nhận xóa tài khoản</strong>.</li>
-              <li>Hệ thống sẽ lập tức xóa thông tin xác thực Firebase Auth và toàn bộ hồ sơ của bạn trên máy chủ.</li>
-            </ol>
+      <main className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 flex-1">
+        <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-[#D8CFBD] p-6 sm:p-12">
+          {/* Header */}
+          <div className="border-b border-[#D8CFBD]/60 pb-8 mb-8 text-center">
+            <span className="inline-block px-3.5 py-1.5 bg-[#143A2F] text-[#7FE3C7] text-xs font-bold rounded-full uppercase tracking-wider mb-3 border border-[#0E382B]">
+              Tuân Thủ Chuẩn Apple App Store & Google Play
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0E382B] tracking-tight mb-2">
+              Quy Trình & Hướng Dẫn Xóa Dữ Liệu Tài Khoản
+            </h1>
+            <p className="text-sm text-[#5D5B63]">
+              Ứng dụng <strong>Chấm Công Trạm BLAO</strong> cam kết tôn trọng quyền kiểm soát dữ liệu cá nhân của người dùng.
+            </p>
           </div>
 
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">
-              Cách 2: Gửi yêu cầu hỗ trợ xóa qua Email
-            </h2>
-            <p className="text-sm mb-3">
-              Nếu bạn không còn cài ứng dụng hoặc gặp khó khăn khi đăng nhập, vui lòng gửi email yêu cầu xóa dữ liệu đến:
+          <div className="space-y-8 text-sm sm:text-base text-slate-700 leading-relaxed">
+            <p className="bg-[#FAF4E8]/60 p-5 rounded-2xl border border-[#D8CFBD]/50 text-slate-800 font-medium">
+              Người dùng ứng dụng <strong>Chấm Công Trạm BLAO</strong> có quyền yêu cầu xóa toàn bộ thông tin cá nhân và dữ liệu liên quan đến tài khoản của mình bất cứ lúc nào. Bạn có thể chọn 1 trong 2 phương thức dưới đây:
             </p>
-            <div className="bg-white border border-slate-200 p-4 rounded-lg text-sm space-y-1">
-              <p>• <strong>Địa chỉ email tiếp nhận:</strong> <a href="mailto:nthanhtam.402@gmail.com" className="text-[#0E382B] font-semibold">nthanhtam.402@gmail.com</a></p>
-              <p>• <strong>Tiêu đề:</strong> Yêu cầu xóa tài khoản Chấm Công Trạm BLAO</p>
-              <p>• <strong>Nội dung:</strong> Cung cấp địa chỉ email hoặc số điện thoại đã đăng ký tài khoản cần xóa.</p>
+
+            {/* Cách 1 */}
+            <div className="bg-[#FAF4E8] border border-[#D8CFBD] rounded-2xl p-6">
+              <h2 className="text-base sm:text-lg font-bold text-[#0E382B] mb-3 flex items-center gap-2">
+                <span className="w-2 h-5 bg-[#7FE3C7] rounded-full inline-block" />
+                <span>Cách 1: Tự xóa tài khoản trực tiếp trong ứng dụng di động (Tức thì)</span>
+              </h2>
+              <ol className="list-decimal pl-5 space-y-2.5 text-slate-700 text-sm">
+                <li>Mở ứng dụng <strong>Chấm Công Trạm BLAO</strong> trên điện thoại và đăng nhập tài khoản của bạn.</li>
+                <li>Tại thanh điều hướng dưới cùng, chọn tab <strong>Hồ sơ</strong> (Profile) hoặc <strong>Cài đặt</strong>.</li>
+                <li>Chọn mục <strong>Quản lý tài khoản</strong> ➔ <strong>Xóa tài khoản</strong>.</li>
+                <li>Đọc kỹ cảnh báo xác nhận và bấm <strong>Xác nhận xóa tài khoản</strong>.</li>
+                <li>Hệ thống sẽ lập tức xóa thông tin xác thực Firebase Auth và toàn bộ hồ sơ của bạn trên máy chủ.</li>
+              </ol>
             </div>
-            <p className="text-xs text-slate-500 mt-2">
-              Chúng tôi sẽ tiến hành xác minh và hoàn tất xóa dữ liệu trong vòng tối đa 48 giờ làm việc kể từ khi nhận được yêu cầu.
-            </p>
-          </div>
 
-          <div>
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">
-              Dữ liệu nào sẽ được xử lý khi xóa?
-            </h2>
-            <ul className="list-disc pl-5 space-y-1 text-sm">
-              <li><strong>Dữ liệu bị xóa vĩnh viễn:</strong> Thông tin tài khoản, tên, email, ảnh đại diện, số điện thoại và token thiết bị liên kết.</li>
-              <li><strong>Dữ liệu lưu trữ nội bộ theo quy định:</strong> Các bản ghi lịch sử chấm công đã phát sinh trước đó có thể được bảo lưu trong hồ sơ kế toán của cửa hàng theo quy định quản trị lao động của doanh nghiệp nhưng sẽ không còn liên kết với tài khoản cá nhân của bạn.</li>
-            </ul>
+            {/* Cách 2 */}
+            <div className="bg-[#FAF4E8] border border-[#D8CFBD] rounded-2xl p-6">
+              <h2 className="text-base sm:text-lg font-bold text-[#0E382B] mb-3 flex items-center gap-2">
+                <span className="w-2 h-5 bg-[#7FE3C7] rounded-full inline-block" />
+                <span>Cách 2: Gửi yêu cầu hỗ trợ xóa qua Email</span>
+              </h2>
+              <p className="text-sm mb-3">
+                Nếu bạn đã gỡ cài đặt ứng dụng hoặc không thể đăng nhập, vui lòng gửi email từ chính địa chỉ email bạn đã dùng để đăng ký tài khoản đến bộ phận hỗ trợ của chúng tôi:
+              </p>
+              <div className="bg-white p-4 rounded-xl border border-[#D8CFBD] mb-3 text-xs sm:text-sm font-mono space-y-1">
+                <div><strong>Tới:</strong> {supportEmail}</div>
+                <div><strong>Tiêu đề:</strong> Yêu cầu xóa tài khoản - Chấm Công Trạm BLAO</div>
+                <div><strong>Nội dung:</strong> Tôi yêu cầu xóa vĩnh viễn tài khoản và toàn bộ dữ liệu cá nhân gắn với email này khỏi hệ thống.</div>
+              </div>
+              <p className="text-xs text-slate-500">
+                Đội ngũ kỹ thuật sẽ xác minh và hoàn tất quy trình xóa dữ liệu trong vòng 24–48 giờ làm việc.
+              </p>
+            </div>
+
+            {/* Dữ liệu bị xóa */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">
+                Những Dữ Liệu Nào Sẽ Bị Xóa?
+              </h2>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600">
+                <li><strong>Thông tin xác thực đăng nhập:</strong> Tài khoản Firebase Auth (Email, Mật khẩu, Apple UID, Google ID) bị hủy vĩnh viễn.</li>
+                <li><strong>Hồ sơ người dùng:</strong> Họ tên, số điện thoại, ảnh đại diện và vai trò liên kết tại các cửa hàng.</li>
+                <li><strong>Mã thông báo thiết bị:</strong> FCM Token nhận thông báo đẩy được thu hồi.</li>
+                <li><strong>Dữ liệu lưu vết:</strong> Lịch sử chấm công cũ của cửa hàng sẽ được ẩn danh hóa (anonymized) theo đúng luật kế toán và thuế doanh nghiệp.</li>
+              </ul>
+            </div>
+
+            {/* Contact Box */}
+            <div className="bg-[#FAF4E8] border border-[#D8CFBD] p-6 rounded-2xl text-center">
+              <h3 className="font-extrabold text-base text-[#0E382B] mb-1">
+                Cần Trợ Giúp Thêm?
+              </h3>
+              <p className="text-xs text-slate-600 mb-4">
+                Nếu bạn có bất kỳ băn khoăn nào về dữ liệu cá nhân, vui lòng liên hệ trực tiếp:
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold">
+                <a href={`tel:${hotline.replace(/\./g, '')}`} className="px-4 py-2 bg-[#143A2F] text-white rounded-xl hover:bg-[#0E382B]">
+                  Hotline: {hotline}
+                </a>
+                <a href={`mailto:${supportEmail}`} className="px-4 py-2 bg-white text-[#0E382B] border border-[#D8CFBD] rounded-xl hover:bg-slate-50">
+                  Email: {supportEmail}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      <PublicFooter />
     </div>
   );
 }

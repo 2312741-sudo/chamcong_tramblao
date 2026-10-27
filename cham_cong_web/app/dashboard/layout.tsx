@@ -196,7 +196,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const initials = user?.displayName
-    ? user.displayName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+    ? user.displayName.trim().split(/\s+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase()
     : (user?.email?.[0] ?? 'U').toUpperCase();
 
   const normRole = normalizeRole(role);
@@ -283,29 +283,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <AppContext.Provider value={{ user, storeId, store, members, currentMember, role }}>
-      <div className={dashboardRoleClass} style={{ display:'flex', minHeight:'100vh', background:'var(--surface)' }}>
+      <div className={`dashboard-container ${dashboardRoleClass}`}>
         {/* Mobile overlay */}
         {sidebarOpen && (
-          <div onClick={() => setSidebarOpen(false)} style={{
-            position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:40, display:'block'
-          }} className="lg-hidden" />
+          <div
+            onClick={() => setSidebarOpen(false)}
+            className="dashboard-mobile-overlay"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
+              zIndex: 40,
+            }}
+          />
         )}
 
         {/* Sidebar */}
-        <aside style={{
-          width: 'var(--sidebar-width)',
-          background: 'var(--sidebar-bg)',
-          color: 'white',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'fixed',
-          top: 0,
-          left: sidebarOpen ? 0 : '-240px',
-          height: '100vh',
-          zIndex: 50,
-          transition: 'left 0.25s ease',
-          boxShadow: '4px 0 20px rgba(0,0,0,0.2)',
-        }}>
+        <aside className={`dashboard-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
           {/* Logo */}
           <div style={{ padding:'24px 20px', borderBottom:'1px solid rgba(255,255,255,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
@@ -382,7 +378,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </aside>
 
         {/* Main */}
-        <div style={{ flex:1, marginLeft:0, display:'flex', flexDirection:'column', minWidth:0 }}>
+        <div className="dashboard-main-wrapper">
           {/* Top bar */}
           <header style={{
             background:'white',
@@ -397,7 +393,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           }}>
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              style={{ background:'var(--surface)', border:'none', width:40, height:40, borderRadius:10, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}
+              className="dashboard-menu-toggle"
+              style={{
+                background:'var(--surface)',
+                border:'none',
+                width:40,
+                height:40,
+                borderRadius:10,
+                cursor:'pointer',
+                alignItems:'center',
+                justifyContent:'center',
+                fontSize:18,
+                flexShrink:0
+              }}
               title="Menu"
             >☰</button>
             <div style={{ flex:1, minWidth:0, display:'flex', alignItems:'center', gap:8 }}>
