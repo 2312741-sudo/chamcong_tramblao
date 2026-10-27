@@ -8,6 +8,7 @@ import '../../../core/utils/excel_export_service.dart';
 import '../../../core/widgets/export_modal.dart';
 import '../../../core/auth/app_permissions.dart';
 import '../../../models/member_model.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../repositories/attendance_repository.dart';
 
@@ -32,8 +33,54 @@ class AttendanceTableScreen extends ConsumerWidget {
     final membersAsync = ref.watch(storeMembersProvider);
     final store = ref.watch(currentStoreProvider).valueOrNull;
     final currentMember = ref.watch(currentMemberProvider);
-    final canView = AppPermissions.canViewAllAttendance(currentMember?.role);
+    final currentUid = ref.watch(currentUserIdProvider);
 
+    // 1. Khi đang khởi tạo hoặc store chưa tải xong, hiển thị trạng thái đang tải
+    if (storeId == null || store == null) {
+      return Scaffold(
+        backgroundColor: AppColors.surface,
+        appBar: AppBar(
+          title: const Text('Bảng công',
+              style: TextStyle(
+                  fontFamily: 'BeVietnamPro',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF143A2F))),
+          backgroundColor: AppColors.primary,
+          foregroundColor: const Color(0xFF143A2F),
+          elevation: 0,
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
+      );
+    }
+
+    // 2. Chủ cửa hàng luôn có toàn quyền xem bảng công.
+    // Nếu không phải là chủ cửa hàng, kiểm tra phân quyền từ member role.
+    final isStoreOwner = store.ownerId == currentUid;
+    final canView = isStoreOwner || AppPermissions.canViewAllAttendance(currentMember?.role);
+
+    // 3. Nếu chưa xác định được quyền và dữ liệu thành viên đang tải, tiếp tục hiển thị loading (tránh flash lỗi không có quyền)
+    if (!canView && currentMember == null) {
+      return Scaffold(
+        backgroundColor: AppColors.surface,
+        appBar: AppBar(
+          title: const Text('Bảng công',
+              style: TextStyle(
+                  fontFamily: 'BeVietnamPro',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF143A2F))),
+          backgroundColor: AppColors.primary,
+          foregroundColor: const Color(0xFF143A2F),
+          elevation: 0,
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
+      );
+    }
+
+    // 4. Nếu chắc chắn không có quyền (ví dụ: Nhân viên hoặc Quản lý 2)
     if (!canView) {
       return Scaffold(
         backgroundColor: AppColors.surface,
@@ -56,7 +103,7 @@ class AttendanceTableScreen extends ConsumerWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.lock_rounded, size: 40, color: AppColors.primary),
@@ -73,7 +120,7 @@ class AttendanceTableScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Quản lý 2 không có quyền xem bảng chấm công của nhân viên khác.',
+                  'Bạn không có quyền xem bảng chấm công của nhân viên khác.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'BeVietnamPro',
@@ -83,7 +130,13 @@ class AttendanceTableScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    } else {
+                      context.go(AppRoutes.splash);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: const Color(0xFF143A2F),
@@ -115,7 +168,7 @@ class AttendanceTableScreen extends ConsumerWidget {
             tooltip: 'Xuất Excel Tháng',
             onPressed: () {
               final membersData = membersAsync.valueOrNull;
-              if (storeId != null && membersData != null && store != null) {
+              if (storeId.isNotEmpty && membersData != null) {
                 final activeMembers = membersData
                     .where((m) => m.status == MemberStatus.active)
                     .toList();
@@ -190,11 +243,57 @@ class AttendanceTableScreen extends ConsumerWidget {
       body: membersAsync.when(
         loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.primary)),
-        error: (e, _) => Center(child: Text('Lỗi: $e')),
+        error: (e, _) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.info_outline_rounded,
+                    size: 48, color: AppColors.textSecondary),
+                const SizedBox(height: 12),
+                const Text(
+                  'Chưa thể tải danh sách nhân viên',
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.neutral,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Vui lòng bấm Thử lại để tải lại dữ liệu.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () => ref.invalidate(storeMembersProvider),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: const Color(0xFF143A2F),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  icon: const Icon(Icons.refresh_rounded, size: 18),
+                  label: const Text('Thử lại',
+                      style: TextStyle(
+                          fontFamily: 'BeVietnamPro',
+                          fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+          ),
+        ),
         data: (allMembers) {
           final members =
               allMembers.where((m) => m.status == MemberStatus.active).toList();
-          if (store != null && store.memberOrder.isNotEmpty) {
+          if (store.memberOrder.isNotEmpty) {
             members.sort((a, b) {
               final idxA = store.memberOrder.indexOf(a.userId);
               final idxB = store.memberOrder.indexOf(b.userId);
@@ -206,69 +305,95 @@ class AttendanceTableScreen extends ConsumerWidget {
           }
 
           if (members.isEmpty) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            return RefreshIndicator(
+              onRefresh: () async => ref.invalidate(storeMembersProvider),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  Icon(Icons.group_off_rounded,
-                      size: 64, color: AppColors.textSecondary),
-                  SizedBox(height: 16),
-                  Text('Cửa hàng chưa có nhân viên nào',
-                      style: TextStyle(
-                          fontFamily: 'BeVietnamPro',
-                          color: AppColors.textSecondary,
-                          fontSize: 15)),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.group_off_rounded,
+                              size: 64, color: AppColors.textSecondary.withValues(alpha: 0.6)),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Cửa hàng chưa có nhân viên nào',
+                            style: TextStyle(
+                                fontFamily: 'BeVietnamPro',
+                                color: AppColors.textSecondary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Thêm nhân viên mới tại tab Nhân viên để theo dõi bảng công',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'BeVietnamPro',
+                                color: AppColors.textSecondary,
+                                fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
           }
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header hint
-              Container(
-                width: double.infinity,
-                color: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    const Icon(Icons.touch_app_rounded,
-                        size: 16, color: AppColors.textSecondary),
-                    const SizedBox(width: 6),
-                    const Text(
-                      'Chọn nhân viên để xem bảng công tháng',
-                      style: TextStyle(
-                          fontFamily: 'BeVietnamPro',
-                          fontSize: 13,
-                          color: AppColors.textSecondary),
-                    ),
-                    const Spacer(),
-                    Text('${members.length} NV',
-                        style: const TextStyle(
+          return RefreshIndicator(
+            onRefresh: () async => ref.invalidate(storeMembersProvider),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header hint
+                Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.touch_app_rounded,
+                          size: 16, color: AppColors.textSecondary),
+                      const SizedBox(width: 6),
+                      const Text(
+                        'Chọn nhân viên để xem bảng công tháng',
+                        style: TextStyle(
                             fontFamily: 'BeVietnamPro',
                             fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primary)),
-                  ],
+                            color: AppColors.textSecondary),
+                      ),
+                      const Spacer(),
+                      Text('${members.length} NV',
+                          style: const TextStyle(
+                              fontFamily: 'BeVietnamPro',
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryDark)),
+                    ],
+                  ),
                 ),
-              ),
-              const Divider(height: 1, color: AppColors.divider),
+                const Divider(height: 1, color: AppColors.divider),
 
-              // Member list
-              Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: members.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
-                  itemBuilder: (context, index) {
-                    final member = members[index];
-                    return _MemberCard(member: member);
-                  },
+                // Member list
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: members.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final member = members[index];
+                      return _MemberCard(member: member);
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

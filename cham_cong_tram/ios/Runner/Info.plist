@@ -43,16 +43,37 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Chấm Công Trạm BLAO cần quyền truy cập máy ảnh để quét mã QR tham gia cửa hàng và xác thực vào ca làm việc.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Chấm Công Trạm BLAO cần quyền truy cập thư viện ảnh để quét mã QR cửa hàng từ hình ảnh.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Chấm Công Trạm BLAO cần quyền lưu ảnh để bạn tải mã QR điểm danh của cửa hàng về máy.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác thực bạn đang có mặt tại cửa hàng.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác minh tọa độ vào/ra ca làm việc.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác minh tọa độ vào/ra ca làm việc.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần vị trí khi bạn bấm chấm công để xác thực bạn đang có mặt tại cửa hàng.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần quyền lưu ảnh để bạn tải mã QR điểm danh của cửa hàng về máy.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Chấm Công Trạm BLAO cần quyền truy cập thư viện ảnh để quét mã QR cửa hàng từ hình ảnh.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneClassName</key>
+					<string>UIWindowScene</string>
+					<key>UISceneConfigurationName</key>
+					<string>flutter</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -77,26 +98,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneClassName</key>
-					<string>UIWindowScene</string>
-					<key>UISceneConfigurationName</key>
-					<string>flutter</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
 </dict>
 </plist>

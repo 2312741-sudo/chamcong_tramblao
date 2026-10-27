@@ -237,10 +237,17 @@ class MemberModel extends Equatable {
   bool get hasAvatar => avatarUrl != null && avatarUrl!.isNotEmpty;
 
   String get initials {
-    final parts = name.trim().split(' ');
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return '?';
+    final parts = trimmed.split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
     if (parts.isEmpty) return '?';
-    if (parts.length == 1) return parts.first[0].toUpperCase();
-    return '${parts.first[0]}${parts.last[0]}'.toUpperCase();
+    if (parts.length == 1) {
+      return parts.first.isNotEmpty ? parts.first[0].toUpperCase() : '?';
+    }
+    final firstChar = parts.first.isNotEmpty ? parts.first[0].toUpperCase() : '';
+    final lastChar = parts.last.isNotEmpty ? parts.last[0].toUpperCase() : '';
+    final res = '$firstChar$lastChar'.trim();
+    return res.isNotEmpty ? res : '?';
   }
 
   factory MemberModel.fromJson(Map<String, dynamic> json, String userId) {

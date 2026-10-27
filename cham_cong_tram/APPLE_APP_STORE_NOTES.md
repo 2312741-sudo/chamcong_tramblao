@@ -23,9 +23,10 @@
 
 | Mục (Field) | URL / Giá trị |
 | :--- | :--- |
-| **Support URL** (URL Hỗ trợ) | `https://webquanlychamcong.vercel.app` |
-| **Marketing URL** (URL Tiếp thị) | `https://webquanlychamcong.vercel.app` |
-| **Privacy Policy URL** (Chính sách quyền riêng tư) | `https://webquanlychamcong.vercel.app/privacy-policy` |
+| **Support URL** (URL Hỗ trợ) | `https://chamcong-tramblao.vercel.app/support` |
+| **Marketing URL** (URL Tiếp thị) | `https://chamcong-tramblao.vercel.app/marketing` |
+| **Privacy Policy URL** (Chính sách quyền riêng tư) | `https://chamcong-tramblao.vercel.app/privacy-policy` |
+| **User Privacy Choices URL** (Tùy chọn quyền riêng tư - Tùy chọn) | `https://chamcong-tramblao.vercel.app/account-deletion` |
 | **Contact Email** (Email hỗ trợ) | `nthanhtam.402@gmail.com` |
 | **Contact Name** (Người đại diện) | **Nguyễn Thanh Tâm** |
 

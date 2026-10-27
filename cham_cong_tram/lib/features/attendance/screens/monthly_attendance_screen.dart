@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../app/router.dart';
 import '../../../core/auth/app_permissions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/attendance_model.dart';
@@ -67,11 +68,21 @@ class _MonthlyAttendanceScreenState
   @override
   Widget build(BuildContext context) {
     final storeId = ref.watch(currentStoreIdProvider);
+    final store = ref.watch(currentStoreProvider).valueOrNull;
     final currentMember = ref.watch(currentMemberProvider);
     final currentUid = ref.watch(currentUserIdProvider);
 
-    final canViewAll = AppPermissions.canViewAllAttendance(currentMember?.role);
-    final canEdit = AppPermissions.canEditAttendance(currentMember?.role);
+    final isStoreOwner = store?.ownerId == currentUid;
+    final canViewAll = isStoreOwner || AppPermissions.canViewAllAttendance(currentMember?.role);
+    final canEdit = isStoreOwner || AppPermissions.canEditAttendance(currentMember?.role);
+
+    // If still resolving permissions
+    if (store == null || (currentMember == null && !isStoreOwner && ref.watch(currentMemberStreamProvider).isLoading)) {
+      return const Scaffold(
+        backgroundColor: AppColors.surface,
+        body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
+      );
+    }
 
     // If user is trying to view someone else's attendance without permission (e.g. Manager 2 or Employee)
     if (widget.memberId != currentUid && !canViewAll) {
@@ -98,7 +109,7 @@ class _MonthlyAttendanceScreenState
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.lock_rounded, size: 40, color: AppColors.primary),
@@ -125,7 +136,13 @@ class _MonthlyAttendanceScreenState
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    } else {
+                      context.go(AppRoutes.splash);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: const Color(0xFF143A2F),
@@ -177,7 +194,37 @@ class _MonthlyAttendanceScreenState
       body: attendanceAsync.when(
         loading: () =>
             const Center(child: CircularProgressIndicator(color: AppColors.primary)),
-        error: (e, _) => Center(child: Text('Lỗi: $e')),
+        error: (e, _) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.calendar_today_rounded, size: 48, color: AppColors.textSecondary),
+                const SizedBox(height: 12),
+                const Text(
+                  'Không có dữ liệu chấm công cho tháng này',
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.neutral,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Nhân viên chưa có lượt vào/ra ca nào trong tháng đã chọn.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         data: (attendances) {
           return _MonthCalendarBody(
             month: _selectedMonth,

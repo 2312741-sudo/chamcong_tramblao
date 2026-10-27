@@ -36,13 +36,13 @@ class AppVersionControlModel {
           'https://apps.apple.com/app/id6742385802',
       updateUrlAndroid: data['updateUrlAndroid'] as String? ??
           'https://play.google.com/store/apps/details?id=com.tramblao.chamcong',
-      updateUrl: data['updateUrl'] as String? ?? 'https://web-cham-cong-blao.vercel.app',
+      updateUrl: data['updateUrl'] as String? ?? 'https://chamcong-tramblao.vercel.app',
     );
   }
 
   String get targetStoreUrl {
     if (kIsWeb) {
-      return updateUrl ?? 'https://web-cham-cong-blao.vercel.app';
+      return updateUrl ?? 'https://chamcong-tramblao.vercel.app';
     }
     if (Platform.isIOS) {
       return updateUrlIos ?? updateUrl ?? 'https://apps.apple.com/app/id6742385802';
@@ -50,7 +50,7 @@ class AppVersionControlModel {
     if (Platform.isAndroid) {
       return updateUrlAndroid ?? updateUrl ?? 'https://play.google.com/store/apps/details?id=com.tramblao.chamcong';
     }
-    return updateUrl ?? 'https://web-cham-cong-blao.vercel.app';
+    return updateUrl ?? 'https://chamcong-tramblao.vercel.app';
   }
 }
 

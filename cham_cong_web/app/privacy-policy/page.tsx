@@ -175,8 +175,8 @@ export default function PrivacyPolicyPage() {
               </div>
               <div className="sm:col-span-2">
                 <span className="text-slate-500 block">Website chính thức:</span>
-                <a href="https://webquanlychamcong.vercel.app" target="_blank" rel="noreferrer" className="text-[#0E382B] font-semibold hover:underline">
-                  https://webquanlychamcong.vercel.app
+                <a href="https://chamcong-tramblao.vercel.app" target="_blank" rel="noreferrer" className="text-[#0E382B] font-semibold hover:underline">
+                  https://chamcong-tramblao.vercel.app
                 </a>
               </div>
             </div>
