@@ -600,7 +600,7 @@ export default function MembersPage() {
 
                         {/* Role */}
                         <td>
-                          {isOwner && m.userId !== user?.uid && m.userId !== store?.ownerId ? (
+                          {isOwner && m.userId !== user?.uid && m.userId !== store?.ownerId && !(store?.coOwnerIds ?? []).includes(m.userId) ? (
                             <select
                               className="select"
                               style={{ padding: '6px 10px', fontSize: 13, width: 'auto', fontWeight: 600 }}

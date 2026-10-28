@@ -1,6 +1,6 @@
 name: cham_cong_tram
 description: Ứng dụng chấm công thông minh Trạm BLAO
-version: 1.0.0+5
+version: 1.0.0+6
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

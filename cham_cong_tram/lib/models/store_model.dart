@@ -156,6 +156,9 @@ class StoreModel extends Equatable {
   final String name;
   final String code; // 6-char alphanumeric
   final String ownerId;
+
+  /// Đồng chủ cửa hàng: các tài khoản có quyền Chủ ngang `ownerId` (ví dụ 2 người cùng sở hữu).
+  final List<String> coOwnerIds;
   final String? address;
   final String? networkIP;
   final double? latitude;
@@ -179,11 +182,16 @@ class StoreModel extends Equatable {
 
   bool get isDeleted => status == 'deleted';
 
+  /// `true` nếu [uid] là chủ chính hoặc đồng chủ của cửa hàng.
+  bool isOwnerUid(String? uid) =>
+      uid != null && uid.isNotEmpty && (ownerId == uid || coOwnerIds.contains(uid));
+
   const StoreModel({
     required this.id,
     required this.name,
     required this.code,
     required this.ownerId,
+    this.coOwnerIds = const [],
     this.address,
     this.networkIP,
     this.latitude,
@@ -256,6 +264,7 @@ class StoreModel extends Equatable {
       name: json['name'] as String? ?? '',
       code: json['code'] as String? ?? '',
       ownerId: json['ownerId'] as String? ?? '',
+      coOwnerIds: (json['coOwnerIds'] as List?)?.whereType<String>().toList() ?? const [],
       address: json['address'] as String?,
       networkIP: legacyIp,
       latitude: resolvedLocations.isNotEmpty
@@ -312,6 +321,7 @@ class StoreModel extends Equatable {
       'name': name,
       'code': code,
       'ownerId': ownerId,
+      'coOwnerIds': coOwnerIds,
       'address': address,
       'networkIP': networkIP,
       'latitude': primaryLoc?.latitude ?? latitude,
@@ -339,6 +349,7 @@ class StoreModel extends Equatable {
     String? name,
     String? code,
     String? ownerId,
+    List<String>? coOwnerIds,
     String? address,
     String? networkIP,
     double? latitude,
@@ -368,6 +379,7 @@ class StoreModel extends Equatable {
       name: name ?? this.name,
       code: code ?? this.code,
       ownerId: ownerId ?? this.ownerId,
+      coOwnerIds: coOwnerIds ?? this.coOwnerIds,
       address: clearAddress ? null : (address ?? this.address),
       networkIP: clearNetworkIP ? null : (networkIP ?? this.networkIP),
       latitude: clearLocation ? null : (latitude ?? this.latitude),
@@ -405,6 +417,7 @@ class StoreModel extends Equatable {
         name,
         code,
         ownerId,
+        coOwnerIds,
         address,
         networkIP,
         latitude,

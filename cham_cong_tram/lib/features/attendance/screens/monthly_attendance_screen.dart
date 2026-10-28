@@ -72,7 +72,7 @@ class _MonthlyAttendanceScreenState
     final currentMember = ref.watch(currentMemberProvider);
     final currentUid = ref.watch(currentUserIdProvider);
 
-    final isStoreOwner = store?.ownerId == currentUid;
+    final isStoreOwner = store?.isOwnerUid(currentUid) ?? false;
     final canViewAll = isStoreOwner || AppPermissions.canViewAllAttendance(currentMember?.role);
     final canEdit = isStoreOwner || AppPermissions.canEditAttendance(currentMember?.role);
 

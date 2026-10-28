@@ -135,7 +135,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             return;
           }
           if (status == 'active' || status == null) {
-            final isOwner = storeData?['ownerId'] == authUser.uid;
+            final isOwner = storeData?['ownerId'] == authUser.uid ||
+                ((storeData?['coOwnerIds'] as List?)?.contains(authUser.uid) ?? false);
             UserRole parsedRole = UserRoleExtension.fromString(role);
             if (parsedRole == UserRole.owner && !isOwner) {
               parsedRole = UserRole.manager1;
@@ -151,7 +152,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             return;
           }
           // If status is 'kicked', do not navigate to welcome; fall through to switch to other stores.
-        } else if (storeData?['ownerId'] == authUser.uid) {
+        } else if (storeData?['ownerId'] == authUser.uid ||
+            ((storeData?['coOwnerIds'] as List?)?.contains(authUser.uid) ?? false)) {
           _navigateTo(AppRoutes.ownerDashboard);
           return;
         }

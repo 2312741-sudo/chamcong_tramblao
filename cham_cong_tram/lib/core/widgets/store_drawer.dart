@@ -130,12 +130,12 @@ class StoreDrawer extends ConsumerWidget {
                           if (memberDoc.exists && memberDoc.data() != null) {
                             final rawRole = memberDoc.data()?['role'] as String?;
                             final parsedRole = UserRoleExtension.fromString(rawRole);
-                            if (parsedRole == UserRole.owner && store.ownerId != user.id) {
+                            if (parsedRole == UserRole.owner && !store.isOwnerUid(user.id)) {
                               targetRole = UserRole.manager1;
                             } else {
                               targetRole = parsedRole;
                             }
-                          } else if (store.ownerId == user.id) {
+                          } else if (store.isOwnerUid(user.id)) {
                             targetRole = UserRole.owner;
                           }
 

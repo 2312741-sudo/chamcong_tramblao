@@ -940,7 +940,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           );
         }
         final isOwner =
-            store.ownerId == currentUserId || currentMember?.isOwner == true;
+            store.isOwnerUid(currentUserId) || currentMember?.isOwner == true;
         _initFromStore(store);
         return Scaffold(
           backgroundColor: AppColors.surface,

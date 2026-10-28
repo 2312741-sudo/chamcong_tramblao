@@ -178,7 +178,7 @@ final currentMemberProvider = Provider<MemberModel?>((ref) {
 
   // ── TRUTH RECONCILIATION ──────────────────────────────────────────────
   if (currentStore != null) {
-    final isStoreOwner = currentStore.ownerId == uid;
+    final isStoreOwner = currentStore.isOwnerUid(uid);
     if (member != null) {
       if (member.role == UserRole.owner) {
         // User không còn là chủ trong store doc nhưng member doc còn lưu 'owner'

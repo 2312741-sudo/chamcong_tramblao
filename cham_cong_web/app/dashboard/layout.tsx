@@ -80,7 +80,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [storeId, user]);
 
   const currentMember = directMember || (user ? members.find(m => m.userId === user.uid) || null : null);
-  const isStoreOwner = store && user && store.ownerId === user.uid;
+  const isStoreOwner = store && user && (store.ownerId === user.uid || (store.coOwnerIds ?? []).includes(user.uid));
 
   let resolvedRole: UserRole | undefined;
   if (currentMember?.role) {

@@ -119,6 +119,8 @@ export interface Store {
   name: string;
   code: string;
   ownerId: string;
+  /** Đồng chủ cửa hàng: quyền Chủ ngang ownerId */
+  coOwnerIds?: string[];
   address?: string;
   networkIP?: string;
   wifis?: StoreWifi[];

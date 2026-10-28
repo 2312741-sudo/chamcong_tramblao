@@ -57,7 +57,7 @@ class AttendanceTableScreen extends ConsumerWidget {
 
     // 2. Chủ cửa hàng luôn có toàn quyền xem bảng công.
     // Nếu không phải là chủ cửa hàng, kiểm tra phân quyền từ member role.
-    final isStoreOwner = store.ownerId == currentUid;
+    final isStoreOwner = store.isOwnerUid(currentUid);
     final canView = isStoreOwner || AppPermissions.canViewAllAttendance(currentMember?.role);
 
     // 3. Nếu chưa xác định được quyền và dữ liệu thành viên đang tải, tiếp tục hiển thị loading (tránh flash lỗi không có quyền)
