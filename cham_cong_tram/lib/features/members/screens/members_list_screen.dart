@@ -7,6 +7,7 @@ import '../../../core/widgets/avatar_widget.dart';
 import '../../../models/member_model.dart';
 import '../../../models/store_model.dart';
 import '../../store/providers/store_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class MembersListScreen extends ConsumerWidget {
   const MembersListScreen({super.key});
@@ -28,15 +29,17 @@ class MembersListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Danh sách nhân viên',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.person_add_rounded),
+            icon: const Icon(LucideIcons.userPlus),
             tooltip: 'Yêu cầu chờ duyệt',
             onPressed: () {
               context.push(AppRoutes.pendingMembers);
@@ -145,7 +148,7 @@ class MembersListScreen extends ConsumerWidget {
                 index: index,
                 child: const Padding(
                   padding: EdgeInsets.only(right: 12),
-                  child: Icon(Icons.drag_handle_rounded,
+                  child: Icon(LucideIcons.gripHorizontal,
                       color: AppColors.textDisabled, size: 20),
                 ),
               ),
@@ -188,7 +191,7 @@ class MembersListScreen extends ConsumerWidget {
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.visibility_off_rounded,
+                              Icon(LucideIcons.eyeOff,
                                   size: 11, color: Color(0xFFD9480F)),
                               SizedBox(width: 3),
                               Text(
@@ -207,7 +210,11 @@ class MembersListScreen extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Row(
+                  // Wrap: nhiều nhãn (vai trò, bộ phận, loại NV) tự xuống dòng trên màn hẹp
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -227,7 +234,6 @@ class MembersListScreen extends ConsumerWidget {
                         ),
                       ),
                       if (member.department != null && member.department!.isNotEmpty) ...[
-                        const SizedBox(width: 6),
                         Builder(
                           builder: (context) {
                             final dept = store?.departments.cast<DepartmentDefinition?>().firstWhere(
@@ -246,16 +252,20 @@ class MembersListScreen extends ConsumerWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.apartment_rounded,
+                                  const Icon(LucideIcons.building,
                                       size: 11, color: Color(0xFF0369A1)),
                                   const SizedBox(width: 3),
-                                  Text(
-                                    deptName,
-                                    style: const TextStyle(
-                                      fontFamily: 'BeVietnamPro',
-                                      fontSize: 10.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF0369A1),
+                                  Flexible(
+                                    child: Text(
+                                      deptName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontFamily: 'BeVietnamPro',
+                                        fontSize: 10.5,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF0369A1),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -265,7 +275,6 @@ class MembersListScreen extends ConsumerWidget {
                         ),
                       ],
                       if (member.isLegacyManager) ...[
-                        const SizedBox(width: 6),
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 2),
@@ -285,7 +294,6 @@ class MembersListScreen extends ConsumerWidget {
                           ),
                         ),
                       ],
-                      const SizedBox(width: 8),
                       Text(
                         member.employeeType.shortLabel,
                         style: const TextStyle(
@@ -293,13 +301,15 @@ class MembersListScreen extends ConsumerWidget {
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
+            const Icon(LucideIcons.chevronRight,
                 color: AppColors.textDisabled),
           ],
         ),

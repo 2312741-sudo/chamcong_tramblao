@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../constants/app_colors.dart';
 import '../../app/router.dart';
 import '../../features/notifications/providers/notification_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class NotificationBellIcon extends ConsumerWidget {
   final Color iconColor;
@@ -26,7 +27,7 @@ class NotificationBellIcon extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         Icon(
-          unreadCount > 0 ? Icons.notifications_rounded : Icons.notifications_none_rounded,
+          unreadCount > 0 ? LucideIcons.bell : LucideIcons.bell,
           color: iconColor,
           size: size,
         ),
@@ -56,7 +57,7 @@ class NotificationBellIcon extends ConsumerWidget {
                 child: Text(
                   unreadCount > 9 ? '9+' : '$unreadCount',
                   style: const TextStyle(
-                    color: Color(0xFF143A2F),
+                    color: Colors.white,
                     fontSize: 9.5,
                     fontWeight: FontWeight.w800,
                     fontFamily: 'BeVietnamPro',

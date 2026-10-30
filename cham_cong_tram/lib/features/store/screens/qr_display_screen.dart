@@ -5,6 +5,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/share_utils.dart';
 import '../providers/store_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class QrDisplayScreen extends ConsumerWidget {
   const QrDisplayScreen({super.key});
@@ -17,13 +18,15 @@ class QrDisplayScreen extends ConsumerWidget {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         title: const Text(
           'Mã QR cửa hàng',
           style: TextStyle(
-              fontFamily: 'BeVietnamPro',
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF143A2F)),
+              fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w700),
         ),
       ),
       body: storeAsync.when(
@@ -134,7 +137,7 @@ class QrDisplayScreen extends ConsumerWidget {
                     child: const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.info_outline_rounded,
+                        Icon(LucideIcons.info,
                             color: AppColors.info, size: 18),
                         SizedBox(width: 10),
                         Expanded(
@@ -169,7 +172,7 @@ class QrDisplayScreen extends ConsumerWidget {
                               ),
                             );
                           },
-                          icon: const Icon(Icons.copy_rounded, size: 18),
+                          icon: const Icon(LucideIcons.copy, size: 18),
                           label: const Text('Sao chép mã'),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.neutral,
@@ -195,11 +198,11 @@ class QrDisplayScreen extends ConsumerWidget {
                               context: context,
                             );
                           },
-                          icon: const Icon(Icons.share_rounded, size: 18),
+                          icon: const Icon(LucideIcons.share2, size: 18),
                           label: const Text('Chia sẻ'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
-                            foregroundColor: const Color(0xFF143A2F),
+                            foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 14),
                             shape: RoundedRectangleBorder(

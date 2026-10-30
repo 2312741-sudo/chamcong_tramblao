@@ -7,6 +7,42 @@ import { watchStore, watchMembers, watchCurrentMember, getUserStoresData, switch
 import { Store, Member, UserRole, AppNotification, getRoleLabel, normalizeRole, canManageSchedule, canApproveMembers, canAccessWeb } from '@/lib/types';
 import { User } from 'firebase/auth';
 import { notificationDestination } from '@/lib/notifications';
+import {
+  LayoutDashboard, Clock, CalendarDays, ClipboardList, Sheet, Wallet, Users, Factory, Gauge, Settings,
+  Bell, Menu, Cake, UserPlus, UserCheck, HandCoins, CircleDollarSign, CalendarClock, ListChecks, Truck, Info,
+  type LucideIcon,
+} from 'lucide-react';
+
+// Icon menu (bộ Lucide, cùng bộ với web POS)
+const NAV_ICONS: Record<string, LucideIcon> = {
+  '/dashboard': LayoutDashboard,
+  '/dashboard/checkin': Clock,
+  '/dashboard/schedule': CalendarDays,
+  '/dashboard/tasks': ClipboardList,
+  '/dashboard/attendance': Sheet,
+  '/dashboard/salary': Wallet,
+  '/dashboard/members': Users,
+  '/dashboard/production': Factory,
+  '/dashboard/performance': Gauge,
+  '/dashboard/settings': Settings,
+};
+
+const NOTIFICATION_ICONS: Record<string, LucideIcon> = {
+  birthday: Cake,
+  join_request: UserPlus,
+  join_approved: UserCheck,
+  advance_request: HandCoins,
+  advance_approved: CircleDollarSign,
+  schedule_changed: CalendarDays,
+  schedule_registration_reminder: CalendarClock,
+  checklist_reminder: ListChecks,
+  delivery_update: Truck,
+};
+
+function NavIcon({ href, size = 18 }: { href: string; size?: number }) {
+  const Icon = NAV_ICONS[href];
+  return Icon ? <Icon size={size} strokeWidth={1.75} aria-hidden="true" /> : null;
+}
 
 interface AppCtx {
   user: User | null;
@@ -20,16 +56,16 @@ const AppContext = createContext<AppCtx>({ user: null, storeId: null, store: nul
 export const useApp = () => useContext(AppContext);
 
 const NAV = [
-  { href: '/dashboard', icon: '📊', label: 'Tổng quan' },
-  { href: '/dashboard/checkin', icon: '⏰', label: 'Chấm công' },
-  { href: '/dashboard/schedule', icon: '🗓️', label: 'Lịch làm' },
-  { href: '/dashboard/tasks', icon: '📋', label: 'Giao việc' },
-  { href: '/dashboard/attendance', icon: '📅', label: 'Bảng công' },
-  { href: '/dashboard/salary', icon: '💰', label: 'Báo cáo lương' },
-  { href: '/dashboard/members', icon: '👥', label: 'Nhân viên' },
-  { href: '/dashboard/production', icon: '🏭', label: 'Sản xuất' },
-  { href: '/dashboard/performance', icon: '⚡', label: 'Đo hiệu năng' },
-  { href: '/dashboard/settings', icon: '⚙️', label: 'Cài đặt' },
+  { href: '/dashboard', label: 'Tổng quan' },
+  { href: '/dashboard/checkin', label: 'Chấm công' },
+  { href: '/dashboard/schedule', label: 'Lịch làm' },
+  { href: '/dashboard/tasks', label: 'Giao việc' },
+  { href: '/dashboard/attendance', label: 'Bảng công' },
+  { href: '/dashboard/salary', label: 'Báo cáo lương' },
+  { href: '/dashboard/members', label: 'Nhân viên' },
+  { href: '/dashboard/production', label: 'Sản xuất' },
+  { href: '/dashboard/performance', label: 'Đo hiệu năng' },
+  { href: '/dashboard/settings', label: 'Cài đặt' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -256,21 +292,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     catch { setNotificationError('Không thể cập nhật trạng thái đã đọc. Vui lòng thử lại.'); }
   };
 
-  const getNotificationIcon = (type: string) => {
-    switch (type) {
-      case 'birthday': return '🎂';
-      case 'join_request': return '👤';
-      case 'join_approved': return '✅';
-      case 'advance_request': return '💵';
-      case 'advance_approved': return '💰';
-      case 'schedule_changed': return '🗓️';
-      case 'schedule_registration_reminder': return '⏰';
-      case 'checklist_reminder': return '📋';
-      case 'delivery_update': return '📦';
-      default: return '🔔';
-    }
-  };
-
   const formatNotifTime = (createdAt: any) => {
     if (!createdAt) return '';
     try {
@@ -341,7 +362,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   transition:'all 0.15s',
                   textDecoration:'none',
                 }}>
-                  <span style={{ fontSize:16 }}>{item.icon}</span>
+                  <NavIcon href={item.href} />
                   {item.label}
                   {active && <div style={{ marginLeft:'auto', width:6, height:6, borderRadius:'50%', background:'var(--sidebar-active-text)' }} />}
                 </Link>
@@ -450,11 +471,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   background: showNotifications ? 'var(--primary-light)' : 'var(--surface)',
                   border: 'none', width: 38, height: 38, borderRadius: 10, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
-                  position: 'relative', transition: 'all 0.2s'
+                  position: 'relative', transition: 'all 0.2s', color: 'var(--neutral)'
                 }}
                 title="Thông báo"
               >
-                🔔
+                <Bell size={18} strokeWidth={1.75} aria-hidden="true" />
                 {unreadCount > 0 && (
                   <span style={{
                     position: 'absolute', top: -2, right: -2,
@@ -516,9 +537,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               transition: 'background 0.15s'
                             }}
                           >
-                            <span style={{ fontSize: 20, flexShrink: 0, marginTop: 2 }}>
-                              {getNotificationIcon(notif.type)}
-                            </span>
+                            {(() => {
+                              const Icon = NOTIFICATION_ICONS[notif.type] ?? Info;
+                              return <Icon size={18} strokeWidth={1.75} aria-hidden="true" style={{ flexShrink: 0, marginTop: 2, color: 'var(--primary)' }} />;
+                            })()}
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ fontWeight: isRead ? 600 : 700, fontSize: 13, color: 'var(--neutral)', marginBottom: 2 }}>
                                 {notif.title}
@@ -570,7 +592,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`mobile-bottom-nav-item ${active ? 'active' : ''}`}
               >
-                <span className="mobile-bottom-nav-icon">{item.icon}</span>
+                <span className="mobile-bottom-nav-icon"><NavIcon href={item.href} size={20} /></span>
                 <span className="mobile-bottom-nav-label">{item.label}</span>
               </Link>
             );
@@ -581,7 +603,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             className="mobile-bottom-nav-item"
             title="Mở menu"
           >
-            <span className="mobile-bottom-nav-icon">☰</span>
+            <span className="mobile-bottom-nav-icon"><Menu size={20} strokeWidth={1.75} aria-hidden="true" /></span>
             <span className="mobile-bottom-nav-label">Menu</span>
           </button>
         </nav>

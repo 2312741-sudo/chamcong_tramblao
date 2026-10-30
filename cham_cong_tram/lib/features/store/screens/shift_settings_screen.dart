@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
 import '../providers/store_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 // ── Model ────────────────────────────────────────────────────────────────────
 
@@ -319,7 +320,7 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          foregroundColor: const Color(0xFF143A2F),
+                          foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           padding:
@@ -350,13 +351,15 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         title: const Text('Quản lý ca làm',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         actions: [
           TextButton.icon(
             onPressed: _saving ? null : _save,
@@ -365,12 +368,12 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
                     width: 16,
                     height: 16,
                     child: CircularProgressIndicator(
-                        strokeWidth: 2, color: Color(0xFF143A2F)))
-                : const Icon(Icons.save_alt_rounded,
-                    color: Color(0xFF143A2F), size: 18),
+                        strokeWidth: 2, color: Colors.white))
+                : const Icon(LucideIcons.download,
+                    color: Colors.white, size: 18),
             label: const Text('Lưu',
                 style: TextStyle(
-                    color: Color(0xFF143A2F),
+                    color: Colors.white,
                     fontFamily: 'BeVietnamPro',
                     fontWeight: FontWeight.bold)),
           ),
@@ -379,8 +382,8 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addShift,
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
-        icon: const Icon(Icons.add_rounded),
+        foregroundColor: Colors.white,
+        icon: const Icon(LucideIcons.plus),
         label: const Text('Thêm ca',
             style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
       ),
@@ -389,7 +392,7 @@ class _ShiftSettingsScreenState extends ConsumerState<ShiftSettingsScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.schedule_rounded,
+                  Icon(LucideIcons.clock,
                       size: 60, color: AppColors.textSecondary),
                   SizedBox(height: 16),
                   Text('Chưa có ca làm nào',
@@ -472,7 +475,7 @@ class _ShiftCard extends StatelessWidget {
               color: _color.withOpacity(0.12),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.schedule_rounded, color: _color, size: 22),
+            child: Icon(LucideIcons.clock, color: _color, size: 22),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -488,7 +491,7 @@ class _ShiftCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.access_time_rounded, size: 13, color: _color),
+                    Icon(LucideIcons.clock, size: 13, color: _color),
                     const SizedBox(width: 4),
                     Text(shift.timeRange,
                         style: TextStyle(
@@ -497,23 +500,25 @@ class _ShiftCard extends StatelessWidget {
                             color: _color,
                             fontWeight: FontWeight.w600)),
                     const SizedBox(width: 12),
-                    Text('(${shift.totalHours.toStringAsFixed(1)}h)',
+                    Flexible(child: Text('(${shift.totalHours.toStringAsFixed(1)}h)',
                         style: const TextStyle(
                             fontFamily: 'BeVietnamPro',
                             fontSize: 12,
-                            color: AppColors.textSecondary)),
+                            color: AppColors.textSecondary),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis)),
                   ],
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.edit_rounded,
+            icon: const Icon(LucideIcons.pencil,
                 color: AppColors.info, size: 20),
             onPressed: onEdit,
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline_rounded,
+            icon: const Icon(LucideIcons.trash2,
                 color: AppColors.primary, size: 20),
             onPressed: onDelete,
           ),
@@ -567,7 +572,7 @@ class _TimePickerTile extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: color)),
             const SizedBox(height: 4),
-            Icon(Icons.touch_app_rounded, size: 14, color: color),
+            Icon(LucideIcons.pointer, size: 14, color: color),
           ],
         ),
       ),

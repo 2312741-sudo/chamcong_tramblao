@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../../app/router.dart';
 import '../../../core/auth/app_permissions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/attendance_model.dart';
@@ -10,6 +9,7 @@ import '../../../models/member_model.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../repositories/attendance_repository.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 // ── Providers ───────────────────────────────────────────────────────────────
 
@@ -68,21 +68,13 @@ class _MonthlyAttendanceScreenState
   @override
   Widget build(BuildContext context) {
     final storeId = ref.watch(currentStoreIdProvider);
-    final store = ref.watch(currentStoreProvider).valueOrNull;
     final currentMember = ref.watch(currentMemberProvider);
     final currentUid = ref.watch(currentUserIdProvider);
+    final store = ref.watch(currentStoreProvider).valueOrNull;
 
     final isStoreOwner = store?.isOwnerUid(currentUid) ?? false;
     final canViewAll = isStoreOwner || AppPermissions.canViewAllAttendance(currentMember?.role);
     final canEdit = isStoreOwner || AppPermissions.canEditAttendance(currentMember?.role);
-
-    // If still resolving permissions
-    if (store == null || (currentMember == null && !isStoreOwner && ref.watch(currentMemberStreamProvider).isLoading)) {
-      return const Scaffold(
-        backgroundColor: AppColors.surface,
-        body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
-      );
-    }
 
     // If user is trying to view someone else's attendance without permission (e.g. Manager 2 or Employee)
     if (widget.memberId != currentUid && !canViewAll) {
@@ -90,13 +82,16 @@ class _MonthlyAttendanceScreenState
         backgroundColor: AppColors.surface,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          foregroundColor: const Color(0xFF143A2F),
+          foregroundColor: Colors.white,
+          // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+          iconTheme: const IconThemeData(color: Colors.white),
+          actionsIconTheme: const IconThemeData(color: Colors.white),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
           elevation: 0,
           title: Text(widget.memberName,
               style: const TextStyle(
                   fontFamily: 'BeVietnamPro',
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF143A2F),
                   fontSize: 16)),
         ),
         body: Center(
@@ -109,10 +104,10 @@ class _MonthlyAttendanceScreenState
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
+                    color: AppColors.primary.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.lock_rounded, size: 40, color: AppColors.primary),
+                  child: const Icon(LucideIcons.lock, size: 40, color: AppColors.primary),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -136,16 +131,10 @@ class _MonthlyAttendanceScreenState
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    } else {
-                      context.go(AppRoutes.splash);
-                    }
-                  },
+                  onPressed: () => context.pop(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: const Color(0xFF143A2F),
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Quay lại', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
@@ -172,7 +161,11 @@ class _MonthlyAttendanceScreenState
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,50 +174,19 @@ class _MonthlyAttendanceScreenState
                 style: const TextStyle(
                     fontFamily: 'BeVietnamPro',
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF143A2F),
                     fontSize: 16)),
             const Text('Bảng công tháng',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro',
                     fontSize: 12,
-                    color: Color(0xB3143A2F))),
+                    color: Colors.white70)),
           ],
         ),
       ),
       body: attendanceAsync.when(
         loading: () =>
             const Center(child: CircularProgressIndicator(color: AppColors.primary)),
-        error: (e, _) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.calendar_today_rounded, size: 48, color: AppColors.textSecondary),
-                const SizedBox(height: 12),
-                const Text(
-                  'Không có dữ liệu chấm công cho tháng này',
-                  style: TextStyle(
-                    fontFamily: 'BeVietnamPro',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.neutral,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Nhân viên chưa có lượt vào/ra ca nào trong tháng đã chọn.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'BeVietnamPro',
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        error: (e, _) => Center(child: Text('Lỗi: $e')),
         data: (attendances) {
           return _MonthCalendarBody(
             month: _selectedMonth,
@@ -330,19 +292,21 @@ class _MonthCalendarBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.chevron_left, color: Colors.white, size: 28),
+                  icon: const Icon(LucideIcons.chevronLeft, color: Colors.white, size: 28),
                   onPressed: onPrevMonth,
                 ),
-                Text(
+                Flexible(child: Text(
                   'Tháng ${month.month}/${month.year}',
                   style: const TextStyle(
                       fontFamily: 'BeVietnamPro',
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
-                ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )),
                 IconButton(
-                  icon: Icon(Icons.chevron_right,
+                  icon: Icon(LucideIcons.chevronRight,
                       color: canGoNext ? Colors.white : Colors.white38,
                       size: 28),
                   onPressed: canGoNext ? onNextMonth : null,
@@ -494,14 +458,14 @@ class _MonthCalendarBody extends StatelessWidget {
             children: [
               _SummaryItem(
                 color: AppColors.success,
-                icon: Icons.check_circle_rounded,
+                icon: LucideIcons.circleCheck,
                 label: 'Đi làm',
                 value: '$_workedCount ngày',
               ),
               const SizedBox(width: 12),
               _SummaryItem(
                 color: const Color(0xFF1565C0),
-                icon: Icons.radio_button_on_rounded,
+                icon: LucideIcons.circleDot,
                 label: 'Đang làm',
                 value: '$_inProgressCount ngày',
               ),
@@ -512,14 +476,14 @@ class _MonthCalendarBody extends StatelessWidget {
             children: [
               _SummaryItem(
                 color: AppColors.textSecondary,
-                icon: Icons.cancel_outlined,
+                icon: LucideIcons.circleX,
                 label: 'Chưa chấm',
                 value: '$_absentCount ngày',
               ),
               const SizedBox(width: 12),
               _SummaryItem(
                 color: AppColors.primary,
-                icon: Icons.access_time_rounded,
+                icon: LucideIcons.clock,
                 label: 'Tổng giờ',
                 value: '${_totalHours.toStringAsFixed(1)}h',
               ),
@@ -741,7 +705,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
         data: Theme.of(ctx).copyWith(
           colorScheme: const ColorScheme.light(
             primary: AppColors.primary,
-            onPrimary: Color(0xFF143A2F),
+            onPrimary: Colors.white,
           ),
         ),
         child: child!,
@@ -770,7 +734,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
         data: Theme.of(ctx).copyWith(
           colorScheme: const ColorScheme.light(
             primary: AppColors.primary,
-            onPrimary: Color(0xFF143A2F),
+            onPrimary: Colors.white,
           ),
         ),
         child: child!,
@@ -983,7 +947,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                             onPressed: _saving ? null : _save,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              foregroundColor: const Color(0xFF143A2F),
+                              foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -994,7 +958,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Color(0xFF143A2F)))
+                                        color: Colors.white))
                                 : const Text('Lưu thay đổi',
                                     style: TextStyle(
                                         fontFamily: 'BeVietnamPro',
@@ -1008,7 +972,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: () => setState(() => _editing = true),
-                            icon: const Icon(Icons.edit_rounded, size: 18),
+                            icon: const Icon(LucideIcons.pencil, size: 18),
                             label: Text(
                               hasCheckIn ? 'Sửa giờ vào/ra' : 'Thêm chấm công',
                               style: const TextStyle(
@@ -1017,7 +981,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              foregroundColor: const Color(0xFF143A2F),
+                              foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -1039,7 +1003,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
         child: Center(
           child: Column(
             children: [
-              Icon(Icons.event_busy_rounded,
+              Icon(LucideIcons.calendarX,
                   size: 52, color: AppColors.textSecondary),
               SizedBox(height: 12),
               Text('Ngày này chưa chấm công',
@@ -1079,7 +1043,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
               child: _TimeCard(
                 label: 'Giờ vào (${DateFormat('dd/MM').format(ciLocal)})',
                 time: checkInStr,
-                icon: Icons.login_rounded,
+                icon: LucideIcons.logIn,
                 color: AppColors.success,
               ),
             ),
@@ -1090,7 +1054,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
                     ? 'Giờ ra $checkOutDateNote'
                     : 'Giờ ra (${DateFormat('dd/MM').format(ciLocal)})',
                 time: checkOutStr,
-                icon: Icons.logout_rounded,
+                icon: LucideIcons.logOut,
                 color: AppColors.primary,
               ),
             ),
@@ -1131,7 +1095,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.edit_note_rounded,
+                const Icon(LucideIcons.notebookPen,
                     color: AppColors.accent, size: 18),
                 const SizedBox(width: 8),
                 Expanded(
@@ -1187,7 +1151,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
             Expanded(
               child: _DateTimeCard(
                 title: 'Giờ vào',
-                icon: Icons.login_rounded,
+                icon: LucideIcons.logIn,
                 color: AppColors.success,
                 date: _checkInDate,
                 time: _checkInTime,
@@ -1199,7 +1163,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
             Expanded(
               child: _DateTimeCard(
                 title: 'Giờ ra',
-                icon: Icons.logout_rounded,
+                icon: LucideIcons.logOut,
                 color: AppColors.primary,
                 date: _checkOutDate,
                 time: _checkOutTime,
@@ -1227,7 +1191,7 @@ class _DayDetailSheetState extends ConsumerState<_DayDetailSheet> {
           child: Row(
             children: [
               Icon(
-                isValid ? Icons.timelapse_rounded : Icons.warning_amber_rounded,
+                isValid ? LucideIcons.timer : LucideIcons.triangleAlert,
                 size: 16,
                 color: isValid ? AppColors.success : AppColors.primary,
               ),
@@ -1337,7 +1301,7 @@ class _DateTimeCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today_rounded, size: 13, color: color),
+                  Icon(LucideIcons.calendar, size: 13, color: color),
                   const SizedBox(width: 5),
                   Expanded(
                     child: Text(
@@ -1350,7 +1314,7 @@ class _DateTimeCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.arrow_drop_down_rounded,
+                  const Icon(LucideIcons.chevronDown,
                       size: 16, color: AppColors.textSecondary),
                 ],
               ),
@@ -1369,7 +1333,7 @@ class _DateTimeCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.access_time_rounded, size: 13, color: color),
+                  Icon(LucideIcons.clock, size: 13, color: color),
                   const SizedBox(width: 5),
                   Expanded(
                     child: Text(
@@ -1382,7 +1346,7 @@ class _DateTimeCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.arrow_drop_down_rounded,
+                  const Icon(LucideIcons.chevronDown,
                       size: 16, color: AppColors.textSecondary),
                 ],
               ),
@@ -1477,7 +1441,7 @@ class _TimePickerButton extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: color)),
             const SizedBox(height: 4),
-            Icon(Icons.touch_app_rounded, color: color, size: 14),
+            Icon(LucideIcons.pointer, color: color, size: 14),
           ],
         ),
       ),
@@ -1493,10 +1457,10 @@ class _MethodBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (icon, color) = switch (method) {
-      CheckInMethod.gps => (Icons.location_on_rounded, AppColors.success),
-      CheckInMethod.wifi => (Icons.wifi_rounded, AppColors.info),
-      CheckInMethod.qr => (Icons.qr_code_rounded, AppColors.accent),
-      CheckInMethod.manual => (Icons.edit_rounded, AppColors.textSecondary),
+      CheckInMethod.gps => (LucideIcons.mapPin, AppColors.success),
+      CheckInMethod.wifi => (LucideIcons.wifi, AppColors.info),
+      CheckInMethod.qr => (LucideIcons.qrCode, AppColors.accent),
+      CheckInMethod.manual => (LucideIcons.pencil, AppColors.textSecondary),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { Download, Package, Timer, Truck, Users, Wallet } from 'lucide-react';
 import { useApp } from '../layout';
 import { getMonthAttendances, getSchedulesInRange, watchAdvances, createAdvanceRequest, updateAdvanceRequestStatus, getAttendancesInRange, getAdvancesInRange } from '@/lib/firestore';
 import { exportMonthlySalary } from '@/lib/exportExcel';
@@ -220,40 +221,40 @@ export default function SalaryPage() {
           />
           {!isOwner && (
             <button onClick={() => setShowAdvanceModal(true)} className="btn btn-secondary">
-              💵 Xin ứng lương
+              Xin ứng lương
             </button>
           )}
           <button onClick={handleExportClick} className="btn btn-primary" style={{ background: 'var(--success)', color: '#FFFFFF' }}>
-            <span className="material-icons" style={{ fontSize: 18 }}>download</span> Xuất Excel
+            <Download size={18} strokeWidth={1.75} aria-hidden="true" /> Xuất Excel
           </button>
         </div>
       </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
         <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--info-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>👥</div>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--info-light)', color: 'var(--info)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Users size={22} strokeWidth={1.75} aria-hidden="true" /></div>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>NHÂN VIÊN</div>
             <div style={{ fontSize: 22, fontWeight: 800 }}>{activeMembers.length}</div>
           </div>
         </div>
         <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>⏱️</div>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--accent-light)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Timer size={22} strokeWidth={1.75} aria-hidden="true" /></div>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>GIỜ CÔNG</div>
             <div style={{ fontSize: 22, fontWeight: 800 }}>{totalHoursAll.toFixed(1)}h</div>
           </div>
         </div>
           <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 48, height: 48, borderRadius: 14, background: '#FFF3CD', color: '#856404', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>📦</div>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: '#FFF3CD', color: '#856404', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Package size={22} strokeWidth={1.75} aria-hidden="true" /></div>
             <div>
               <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>CHỞ HÀNG</div>
               <div style={{ fontSize: 22, fontWeight: 800 }}>{totalDeliveries} ca</div>
             </div>
           </div>
           <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 48, height: 48, borderRadius: 14, background: '#fcf3cf', color: '#d4ac0d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
-              <span className="material-icons" style={{ fontSize: 22 }}>inventory_2</span>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: '#fcf3cf', color: '#d4ac0d', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Truck size={22} strokeWidth={1.75} aria-hidden="true" />
             </div>
             <div>
               <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>GIAO HÀNG</div>
@@ -261,7 +262,7 @@ export default function SalaryPage() {
             </div>
           </div>
         <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>💰</div>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Wallet size={22} strokeWidth={1.75} aria-hidden="true" /></div>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>TỔNG LƯƠNG TRẢ</div>
             <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--primary)' }}>

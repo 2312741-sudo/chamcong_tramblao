@@ -10,6 +10,7 @@ import '../../../models/attendance_model.dart';
 import '../../schedule/providers/schedule_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../providers/attendance_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ActiveStaffScreen extends ConsumerStatefulWidget {
   const ActiveStaffScreen({super.key});
@@ -68,7 +69,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Color(0xFF143A2F),
+              color: Colors.white,
             ),
           ),
           loading: () => const Text(
@@ -77,7 +78,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Color(0xFF143A2F),
+              color: Colors.white,
             ),
           ),
           error: (_, __) => const Text(
@@ -86,16 +87,20 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
               fontWeight: FontWeight.w700,
               fontFamily: 'BeVietnamPro',
               fontSize: 17,
-              color: Color(0xFF143A2F),
+              color: Colors.white,
             ),
           ),
         ),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(LucideIcons.chevronLeft),
           onPressed: () => context.pop(),
         ),
       ),
@@ -131,9 +136,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
-                        Icons.person_off_rounded,
+                        LucideIcons.userX,
                         size: 40,
-                        color: AppColors.primaryDark,
+                        color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -186,7 +191,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                         fontFamily: 'BeVietnamPro',
                         fontSize: 13.5,
                       ),
-                      prefixIcon: Icon(Icons.search_rounded, color: Colors.grey.shade500, size: 20),
+                      prefixIcon: Icon(LucideIcons.search, color: Colors.grey.shade500, size: 20),
                       filled: true,
                       fillColor: Colors.white,
                       isDense: true,
@@ -221,7 +226,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
+                    Flexible(child: Text(
                       'Đang làm việc: ${filteredAtts.length} / ${atts.length} nhân viên',
                       style: const TextStyle(
                         fontSize: 13,
@@ -229,7 +234,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                         fontFamily: 'BeVietnamPro',
                         color: Color(0xFF555555),
                       ),
-                    ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
                   ],
                 ),
               ),
@@ -339,7 +346,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                             style: const TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
-                                              color: AppColors.primaryDark,
+                                              color: AppColors.primary,
                                               fontFamily: 'BeVietnamPro',
                                             ),
                                           ),
@@ -351,7 +358,7 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                   // Row of check-in time and duration worked
                                   Row(
                                     children: [
-                                      Icon(Icons.login_rounded, size: 14, color: Colors.grey.shade600),
+                                      Icon(LucideIcons.logIn, size: 14, color: Colors.grey.shade600),
                                       const SizedBox(width: 4),
                                       Text(
                                         'Vào lúc: $checkInTime',
@@ -363,9 +370,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                         ),
                                       ),
                                       const SizedBox(width: 12),
-                                      Icon(Icons.timer_outlined, size: 14, color: Colors.grey.shade600),
+                                      Icon(LucideIcons.timer, size: 14, color: Colors.grey.shade600),
                                       const SizedBox(width: 4),
-                                      Text(
+                                      Flexible(child: Text(
                                         'Đã làm: $workedDuration',
                                         style: const TextStyle(
                                           color: AppColors.success,
@@ -373,7 +380,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                           fontWeight: FontWeight.w700,
                                           fontFamily: 'BeVietnamPro',
                                         ),
-                                      ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      )),
                                     ],
                                   ),
 
@@ -399,12 +408,12 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 const Icon(
-                                                  Icons.warning_amber_rounded,
+                                                  LucideIcons.triangleAlert,
                                                   size: 12,
                                                   color: Color(0xFFE65100),
                                                 ),
                                                 const SizedBox(width: 4),
-                                                Text(
+                                                Flexible(child: Text(
                                                   lateWarning,
                                                   style: const TextStyle(
                                                     color: Color(0xFFE65100),
@@ -412,7 +421,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                                     fontWeight: FontWeight.w700,
                                                     fontFamily: 'BeVietnamPro',
                                                   ),
-                                                ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                )),
                                               ],
                                             ),
                                           ),
@@ -427,13 +438,13 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                             children: [
                                               Icon(
                                                 att.checkInMethod == CheckInMethod.gps
-                                                    ? Icons.location_on_rounded
-                                                    : Icons.wifi_rounded,
+                                                    ? LucideIcons.mapPin
+                                                    : LucideIcons.wifi,
                                                 size: 12,
                                                 color: Colors.grey.shade700,
                                               ),
                                               const SizedBox(width: 4),
-                                              Text(
+                                              Flexible(child: Text(
                                                 att.checkInMethod.label,
                                                 style: TextStyle(
                                                   color: Colors.grey.shade700,
@@ -441,7 +452,9 @@ class _ActiveStaffScreenState extends ConsumerState<ActiveStaffScreen> {
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: 'BeVietnamPro',
                                                 ),
-                                              ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              )),
                                             ],
                                           ),
                                         ),

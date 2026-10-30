@@ -12,6 +12,7 @@ import '../constants/app_colors.dart';
 
 import 'avatar_widget.dart';
 import 'store_creation_locked_dialog.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class StoreDrawer extends ConsumerWidget {
   const StoreDrawer({super.key});
@@ -75,7 +76,7 @@ class StoreDrawer extends ConsumerWidget {
                     
                     return ListTile(
                       leading: Icon(
-                        isSelected ? Icons.store_rounded : Icons.store_outlined,
+                        LucideIcons.store,
                         color: isSelected ? AppColors.primary : AppColors.textSecondary,
                       ),
                       title: Text(
@@ -91,7 +92,7 @@ class StoreDrawer extends ConsumerWidget {
                         style: const TextStyle(fontFamily: 'BeVietnamPro', fontSize: 12),
                       ),
                       trailing: isSelected 
-                          ? const Icon(Icons.check_circle, color: AppColors.primary, size: 20)
+                          ? const Icon(LucideIcons.circleCheck, color: AppColors.primary, size: 20)
                           : null,
                       onTap: () async {
                         if (isSelected) {
@@ -176,7 +177,7 @@ class StoreDrawer extends ConsumerWidget {
           const Divider(),
           
           ListTile(
-            leading: const Icon(Icons.add_business_rounded, color: AppColors.neutral),
+            leading: const Icon(LucideIcons.store, color: AppColors.neutral),
             title: const Text('Tạo cửa hàng mới', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {
               Navigator.pop(context);
@@ -184,7 +185,7 @@ class StoreDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.group_add_rounded, color: AppColors.neutral),
+            leading: const Icon(LucideIcons.userPlus, color: AppColors.neutral),
             title: const Text('Tham gia cửa hàng', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {
               Navigator.pop(context);
@@ -195,7 +196,7 @@ class StoreDrawer extends ConsumerWidget {
           const Divider(),
           
           ListTile(
-            leading: const Icon(Icons.info_outline_rounded, color: AppColors.neutral),
+            leading: const Icon(LucideIcons.info, color: AppColors.neutral),
             title: const Text('Thông tin ứng dụng', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {
               Navigator.pop(context);
@@ -203,7 +204,7 @@ class StoreDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout, color: AppColors.danger),
+            leading: const Icon(LucideIcons.logOut, color: AppColors.danger),
             title: const Text('Đăng xuất', style: TextStyle(color: AppColors.danger, fontFamily: 'BeVietnamPro')),
             onTap: () async {
               Navigator.of(context).pop(); // Close drawer

@@ -13,6 +13,7 @@ import '../../store/providers/store_provider.dart';
 import '../providers/schedule_provider.dart';
 import '../repositories/schedule_repository.dart';
 import 'schedule_palette.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ScheduleManagerScreen extends ConsumerStatefulWidget {
   final int initialWeekIndex;
@@ -228,7 +229,7 @@ class _ScheduleManagerScreenState
                   }),
                   if (canTick || isOwner || canManageSchedule) ...[
                     CheckboxListTile(
-                      title: Text('📦 Chở hàng (+${store.deliveryAllowance ?? 0}đ)', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600, color: _palette.accent)),
+                      title: Text('Chở hàng (+${store.deliveryAllowance ?? 0}đ)', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600, color: _palette.accent)),
                       value: hasDelivery,
                       onChanged: (val) {
                         setModalState(() {
@@ -238,7 +239,7 @@ class _ScheduleManagerScreenState
                       }
                     ),
                     CheckboxListTile(
-                      title: Text('🛵 Giao hàng (+${store.giaoHangAllowance ?? 0}đ)', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600, color: _palette.accent)),
+                      title: Text('Giao hàng (+${store.giaoHangAllowance ?? 0}đ)', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600, color: _palette.accent)),
                       value: hasGiaoHang,
                       onChanged: (val) {
                         setModalState(() {
@@ -253,7 +254,7 @@ class _ScheduleManagerScreenState
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () { _setShift(userId, dayIndex, selectedShifts); Navigator.pop(ctx); },
-                      style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: _palette.onAccent, padding: const EdgeInsets.symmetric(vertical: 14)),
+                      style: ElevatedButton.styleFrom(backgroundColor: _palette.accent, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)),
                       child: const Text('Xác nhận'),
                     ),
                   )
@@ -381,7 +382,7 @@ class _ScheduleManagerScreenState
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.close_rounded, color: Colors.grey),
+                        icon: const Icon(LucideIcons.x, color: Colors.grey),
                         onPressed: () => Navigator.pop(ctx),
                       ),
                     ],
@@ -413,16 +414,16 @@ class _ScheduleManagerScreenState
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.nightlight_round, color: Colors.grey, size: 24),
+                          const Icon(LucideIcons.moon, color: Colors.grey, size: 24),
                           const SizedBox(width: 10),
-                          Text(
+                          Flexible(child: Text(
                             'Không có ca làm trong ngày này',
                             style: GoogleFonts.beVietnamPro(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[600],
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     )
@@ -454,7 +455,7 @@ class _ScheduleManagerScreenState
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Icon(
-                                Icons.access_time_filled_rounded,
+                                LucideIcons.clock,
                                 size: 22,
                                 color: isProd ? const Color(0xFF2E7D32) : _palette.accent,
                               ),
@@ -475,7 +476,7 @@ class _ScheduleManagerScreenState
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const Icon(Icons.schedule_rounded, size: 14, color: Colors.black54),
+                                      const Icon(LucideIcons.clock, size: 14, color: Colors.black54),
                                       const SizedBox(width: 4),
                                       Text(
                                         'Giờ làm: $timeRange',
@@ -490,7 +491,7 @@ class _ScheduleManagerScreenState
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const Icon(Icons.badge_outlined, size: 14, color: Colors.black54),
+                                      const Icon(LucideIcons.idCard, size: 14, color: Colors.black54),
                                       const SizedBox(width: 4),
                                       Text(
                                         'Bộ phận: ',
@@ -539,7 +540,7 @@ class _ScheduleManagerScreenState
                             dense: true,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                             title: Text(
-                              '📦 Chở hàng (+${store.deliveryAllowance ?? 0}đ)',
+                              'Chở hàng (+${store.deliveryAllowance ?? 0}đ)',
                               style: GoogleFonts.beVietnamPro(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 13,
@@ -563,7 +564,7 @@ class _ScheduleManagerScreenState
                             dense: true,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                             title: Text(
-                              '🛵 Giao hàng (+${store.giaoHangAllowance ?? 0}đ)',
+                              'Giao hàng (+${store.giaoHangAllowance ?? 0}đ)',
                               style: GoogleFonts.beVietnamPro(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 13,
@@ -598,7 +599,7 @@ class _ScheduleManagerScreenState
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.local_shipping_rounded, color: Color(0xFF1565C0), size: 20),
+                            const Icon(LucideIcons.truck, color: Color(0xFF1565C0), size: 20),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
@@ -624,7 +625,7 @@ class _ScheduleManagerScreenState
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.two_wheeler_rounded, color: Color(0xFFE65100), size: 20),
+                            const Icon(LucideIcons.bike, color: Color(0xFFE65100), size: 20),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
@@ -654,7 +655,7 @@ class _ScheduleManagerScreenState
                               Navigator.pop(ctx);
                               _showShiftPicker(member.userId, dayIndex, store, isOwner, canManageSchedule, canTick);
                             },
-                            icon: const Icon(Icons.edit_calendar_rounded, size: 18),
+                            icon: const Icon(LucideIcons.calendarCog, size: 18),
                             label: Text(
                               'Sửa ca làm',
                               style: GoogleFonts.beVietnamPro(
@@ -676,7 +677,7 @@ class _ScheduleManagerScreenState
                             onPressed: () => Navigator.pop(ctx),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _palette.accent,
-                              foregroundColor: _palette.onAccent,
+                              foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -699,7 +700,7 @@ class _ScheduleManagerScreenState
                         onPressed: () => Navigator.pop(ctx),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _palette.accent,
-                          foregroundColor: _palette.onAccent,
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
@@ -762,15 +763,19 @@ class _ScheduleManagerScreenState
       appBar: widget.showAppBar
           ? AppBar(
               backgroundColor: _palette.accent,
-              foregroundColor: _palette.onAccent,
+              foregroundColor: Colors.white,
+              // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+              iconTheme: const IconThemeData(color: Colors.white),
+              actionsIconTheme: const IconThemeData(color: Colors.white),
+              titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
               title: Text(
                 canManageSchedule ? 'Quản lý lịch làm' : 'Lịch làm cửa hàng',
                 style: GoogleFonts.beVietnamPro(
-                    fontWeight: FontWeight.w600, color: _palette.onAccent),
+                    fontWeight: FontWeight.w600, color: Colors.white),
               ),
               actions: [
                 IconButton(
-                  icon: Icon(Icons.download_rounded, color: _palette.onAccent),
+                  icon: const Icon(LucideIcons.download, color: Colors.white),
                   tooltip: 'Xuất Excel tuần',
                   onPressed: () async {
                     try {
@@ -804,7 +809,7 @@ class _ScheduleManagerScreenState
                             height: 16,
                             child:
                                 CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                        : const Icon(Icons.save_alt, color: Colors.white, size: 18),
+                        : const Icon(LucideIcons.download, color: Colors.white, size: 18),
                     label: Text('Lưu thay đổi',
                         style: GoogleFonts.beVietnamPro(
                             color: Colors.white, fontWeight: FontWeight.w600)),
@@ -826,7 +831,7 @@ class _ScheduleManagerScreenState
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline_rounded, color: Color(0xFF856404), size: 18),
+                  const Icon(LucideIcons.info, color: Color(0xFF856404), size: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -865,7 +870,7 @@ class _ScheduleManagerScreenState
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left, color: Colors.white),
+                icon: const Icon(LucideIcons.chevronLeft, color: Colors.white),
                 onPressed: _selectedWeekIndex > 0
                     ? () => setState(() {
                           _selectedWeekIndex--;
@@ -910,7 +915,7 @@ class _ScheduleManagerScreenState
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.today_rounded, size: 13, color: Colors.white),
+                                const Icon(LucideIcons.calendarCheck, size: 13, color: Colors.white),
                                 const SizedBox(width: 4),
                                 Text(
                                   'Về tuần này',
@@ -948,7 +953,7 @@ class _ScheduleManagerScreenState
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right, color: Colors.white),
+                icon: const Icon(LucideIcons.chevronRight, color: Colors.white),
                 onPressed: _selectedWeekIndex < _weeks.length - 1
                     ? () => setState(() {
                           _selectedWeekIndex++;
@@ -987,7 +992,7 @@ class _ScheduleManagerScreenState
                       }
                     }
                   },
-                  icon: const Icon(Icons.download_rounded, color: Colors.white, size: 16),
+                  icon: const Icon(LucideIcons.download, color: Colors.white, size: 16),
                   label: Text('Xuất Excel', style: GoogleFonts.beVietnamPro(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.white54),
@@ -1002,7 +1007,7 @@ class _ScheduleManagerScreenState
                     onPressed: _saving ? null : _saveAll,
                     icon: _saving
                         ? SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: _palette.accent))
-                        : Icon(Icons.save_alt_rounded, color: _palette.accent, size: 16),
+                        : Icon(LucideIcons.download, color: _palette.accent, size: 16),
                     label: Text('Lưu thay đổi', style: GoogleFonts.beVietnamPro(color: _palette.accent, fontSize: 12, fontWeight: FontWeight.w700)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -1105,7 +1110,7 @@ class _ScheduleManagerScreenState
                                   child: const Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.visibility_off_rounded,
+                                      Icon(LucideIcons.eyeOff,
                                           size: 10, color: Color(0xFFD9480F)),
                                       SizedBox(width: 2),
                                       Text(
@@ -1135,7 +1140,7 @@ class _ScheduleManagerScreenState
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.access_time_rounded, size: 10.5, color: Color(0xFF495057)),
+                                    const Icon(LucideIcons.clock, size: 10.5, color: Color(0xFF495057)),
                                     const SizedBox(width: 3),
                                     Text(
                                       totalWeeklyHours % 1 == 0
@@ -1163,7 +1168,7 @@ class _ScheduleManagerScreenState
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const Text('📦', style: TextStyle(fontSize: 9)),
+                                      const Icon(LucideIcons.package, size: 10, color: Color(0xFFD9480F)),
                                       const SizedBox(width: 2.5),
                                       Text(
                                         '$totalDeliveryCount ca',
@@ -1187,8 +1192,8 @@ class _ScheduleManagerScreenState
                       IconButton(
                         icon: Icon(
                           store.hiddenScheduleUserIds.contains(m.userId)
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? LucideIcons.eyeOff
+                              : LucideIcons.eye,
                           size: 18,
                           color: store.hiddenScheduleUserIds.contains(m.userId)
                               ? AppColors.danger
@@ -1235,22 +1240,26 @@ class _ScheduleManagerScreenState
                           },
                           child: Column(
                             children: [
-                              Text(
+                              Flexible(child: Text(
                                 _dayNames[dayIndex],
                                 style: GoogleFonts.beVietnamPro(
                                   fontSize: 10.5,
                                   fontWeight: FontWeight.w700,
                                   color: _palette.accent,
                                 ),
-                              ),
-                              Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              Flexible(child: Text(
                                 dateLabel,
                                 style: GoogleFonts.beVietnamPro(
                                   fontSize: 8.5,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.textSecondary,
                                 ),
-                              ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                               const SizedBox(height: 4),
                               _DayShiftCell(
                                 shifts: shift,
@@ -1473,7 +1482,7 @@ class _DayShiftCell extends StatelessWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.local_shipping_rounded, size: 9.5, color: Color(0xFF1565C0)),
+                          Icon(LucideIcons.truck, size: 9.5, color: Color(0xFF1565C0)),
                         ],
                       ),
                     ),
@@ -1489,7 +1498,7 @@ class _DayShiftCell extends StatelessWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.two_wheeler_rounded, size: 9.5, color: Color(0xFFE65100)),
+                          Icon(LucideIcons.bike, size: 9.5, color: Color(0xFFE65100)),
                         ],
                       ),
                     ),

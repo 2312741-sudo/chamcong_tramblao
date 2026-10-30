@@ -12,6 +12,7 @@ import '../../../models/store_model.dart';
 import '../../../app/router.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/store_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class StoreSettingsScreen extends ConsumerStatefulWidget {
   const StoreSettingsScreen({super.key});
@@ -217,7 +218,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.my_location_rounded,
+                      const Icon(LucideIcons.locateFixed,
                           color: AppColors.success, size: 16),
                       const SizedBox(width: 8),
                       Expanded(
@@ -264,7 +265,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: const Color(0xFF143A2F),
+                foregroundColor: Colors.white,
               ),
               onPressed: () {
                 final name = nameCtrl.text.trim();
@@ -340,7 +341,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.my_location_rounded,
+                      const Icon(LucideIcons.locateFixed,
                           color: AppColors.success, size: 16),
                       const SizedBox(width: 8),
                       Expanded(
@@ -386,7 +387,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                           width: 14,
                           height: 14,
                           child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.refresh_rounded, size: 16),
+                      : const Icon(LucideIcons.refreshCw, size: 16),
                   label: Text(
                     isUpdatingPos
                         ? 'Đang lấy...'
@@ -424,7 +425,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: const Color(0xFF143A2F),
+                foregroundColor: Colors.white,
               ),
               onPressed: () {
                 final newName = nameCtrl.text.trim();
@@ -526,7 +527,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: const Color(0xFF143A2F)),
+                foregroundColor: Colors.white),
             onPressed: () {
               final name = _deptNameCtrl.text.trim();
               if (name.isEmpty) return;
@@ -573,7 +574,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
+            style: TextButton.styleFrom(foregroundColor: AppColors.primary),
             child: const Text('Tạo mã mới',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w600)),
@@ -671,7 +672,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: const [
-            Icon(Icons.warning_amber_rounded,
+            Icon(LucideIcons.triangleAlert,
                 color: AppColors.danger, size: 28),
             SizedBox(width: 8),
             Text(
@@ -835,7 +836,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.warning_amber_rounded,
+            const Icon(LucideIcons.triangleAlert,
                 color: AppColors.warning, size: 24),
             const SizedBox(width: 8),
             const Text(
@@ -946,13 +947,15 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
           backgroundColor: AppColors.surface,
           appBar: AppBar(
             backgroundColor: AppColors.primary,
-            foregroundColor: const Color(0xFF143A2F),
+            foregroundColor: Colors.white,
+            // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+            iconTheme: const IconThemeData(color: Colors.white),
+            actionsIconTheme: const IconThemeData(color: Colors.white),
+            titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
             title: const Text(
               'Cài đặt cửa hàng',
               style: TextStyle(
-                  fontFamily: 'BeVietnamPro',
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF143A2F)),
+                  fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w700),
             ),
           ),
           body: Form(
@@ -969,7 +972,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                   _Field(
                     controller: _nameCtrl,
                     hint: 'Tên cửa hàng',
-                    icon: Icons.store_rounded,
+                    icon: LucideIcons.store,
                     validator: (v) => (v == null || v.trim().isEmpty)
                         ? 'Vui lòng nhập tên'
                         : null,
@@ -978,7 +981,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                   _Field(
                     controller: _addressCtrl,
                     hint: 'Địa chỉ cửa hàng',
-                    icon: Icons.location_on_rounded,
+                    icon: LucideIcons.mapPin,
                     maxLines: 2,
                   ),
                   const SizedBox(height: 14),
@@ -995,15 +998,15 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               color: AppColors.primary,
                             ),
                           )
-                        : const Icon(Icons.wifi_rounded),
+                        : const Icon(LucideIcons.wifi),
                     label: Text(
                       _isFetchingWifi
                           ? 'Đang nhận diện WiFi...'
                           : 'Lấy WiFi hiện tại',
                     ),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primaryDark,
-                      side: const BorderSide(color: AppColors.primary, width: 1.5),
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 12),
                       textStyle: const TextStyle(
@@ -1040,7 +1043,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                           Row(
                             children: [
                               const Icon(
-                                Icons.wifi_rounded,
+                                LucideIcons.wifi,
                                 color: AppColors.success,
                                 size: 22,
                               ),
@@ -1059,7 +1062,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.close,
+                                icon: const Icon(LucideIcons.x,
                                     color: AppColors.danger, size: 20),
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
@@ -1079,7 +1082,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               labelText: 'Tên nhận diện WiFi',
                               hintText: 'VD: WiFi Tầng 1 / Quầy Thu Ngân',
                               prefixIcon:
-                                  const Icon(Icons.edit_note_rounded, size: 20),
+                                  const Icon(LucideIcons.notebookPen, size: 20),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -1106,7 +1109,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.fingerprint_rounded,
+                                    const Icon(LucideIcons.fingerprint,
                                         size: 16,
                                         color: AppColors.textSecondary),
                                     const SizedBox(width: 6),
@@ -1127,18 +1130,20 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                   const SizedBox(height: 2),
                                   Row(
                                     children: [
-                                      const Icon(Icons.router_rounded,
+                                      const Icon(LucideIcons.router,
                                           size: 16,
                                           color: AppColors.textSecondary),
                                       const SizedBox(width: 6),
-                                      Text(
+                                      Flexible(child: Text(
                                         'IP nội bộ: $_detectedLocalIp',
                                         style: const TextStyle(
                                           fontFamily: 'BeVietnamPro',
                                           fontSize: 11,
                                           color: AppColors.textSecondary,
                                         ),
-                                      ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      )),
                                     ],
                                   ),
                                 ],
@@ -1183,12 +1188,12 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                 _showSuccess(
                                     'Đã thêm "$nameToSave" vào danh sách');
                               },
-                              icon: const Icon(Icons.add_rounded, size: 18),
+                              icon: const Icon(LucideIcons.plus, size: 18),
                               label: const Text(
                                   'Thêm vào danh sách cho phép (Tối đa 10)'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                foregroundColor: const Color(0xFF143A2F),
+                                foregroundColor: Colors.white,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 11),
                                 shape: RoundedRectangleBorder(
@@ -1229,7 +1234,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                       ),
                       child: Column(
                         children: const [
-                          Icon(Icons.wifi_off_rounded,
+                          Icon(LucideIcons.wifiOff,
                               color: AppColors.textSecondary, size: 32),
                           SizedBox(height: 8),
                           Text(
@@ -1347,13 +1352,13 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.edit_outlined,
+                              icon: const Icon(LucideIcons.pencil,
                                   color: AppColors.primary, size: 20),
                               tooltip: 'Đổi tên WiFi',
                               onPressed: () => _showEditWifiDialog(idx, wifi),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.delete_outline_rounded,
+                              icon: const Icon(LucideIcons.trash2,
                                   color: AppColors.danger, size: 20),
                               tooltip: 'Xoá WiFi này',
                               onPressed: () {
@@ -1397,13 +1402,13 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                 height: 16,
                                 child: CircularProgressIndicator(
                                     strokeWidth: 2, color: AppColors.primary))
-                            : const Icon(Icons.add_location_alt_rounded),
+                            : const Icon(LucideIcons.mapPinPlus),
                         label: Text(_isFetchingLocation
                             ? 'Đang lấy vị trí GPS...'
                             : '+ Thêm vị trí GPS hiện tại'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primaryDark,
-                          side: const BorderSide(color: AppColors.primary, width: 1.5),
+                          foregroundColor: AppColors.primary,
+                          side: const BorderSide(color: AppColors.primary),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                         ),
@@ -1420,7 +1425,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                       ),
                       child: Column(
                         children: const [
-                          Icon(Icons.location_off_rounded,
+                          Icon(LucideIcons.mapPinOff,
                               color: AppColors.textSecondary, size: 32),
                           SizedBox(height: 8),
                           Text(
@@ -1494,14 +1499,14 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.edit_outlined,
+                              icon: const Icon(LucideIcons.pencil,
                                   color: AppColors.primary, size: 20),
                               tooltip: 'Sửa tên & bán kính vị trí',
                               onPressed: () =>
                                   _showEditLocationDialog(idx, loc),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.delete_outline_rounded,
+                              icon: const Icon(LucideIcons.trash2,
                                   color: AppColors.danger, size: 20),
                               tooltip: 'Xoá vị trí này',
                               onPressed: () {
@@ -1553,7 +1558,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.copy_rounded,
+                              icon: const Icon(LucideIcons.copy,
                                   color: AppColors.info),
                               tooltip: 'Sao chép mã',
                               onPressed: () {
@@ -1578,11 +1583,11 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                     child: CircularProgressIndicator(
                                         strokeWidth: 2,
                                         color: AppColors.primary))
-                                : const Icon(Icons.refresh_rounded),
+                                : const Icon(LucideIcons.refreshCw),
                             label: const Text('Tạo mã mới'),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: AppColors.primaryDark,
-                              side: const BorderSide(color: AppColors.primary, width: 1.5),
+                              foregroundColor: AppColors.primary,
+                              side: const BorderSide(color: AppColors.primary),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
@@ -1624,7 +1629,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: () => context.push(AppRoutes.qrDisplay),
-                            icon: const Icon(Icons.open_in_full_rounded),
+                            icon: const Icon(LucideIcons.maximize2),
                             label: const Text('Xem mã QR toàn màn hình'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.info,
@@ -1661,7 +1666,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               color: AppColors.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.schedule_rounded,
+                            child: const Icon(LucideIcons.clock,
                                 color: AppColors.primary, size: 20),
                           ),
                           const SizedBox(width: 14),
@@ -1684,7 +1689,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               ],
                             ),
                           ),
-                          const Icon(Icons.chevron_right_rounded,
+                          const Icon(LucideIcons.chevronRight,
                               color: AppColors.textSecondary),
                         ],
                       ),
@@ -1712,7 +1717,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               color: const Color(0xFF1C7ED6).withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.checklist_rounded,
+                            child: const Icon(LucideIcons.listChecks,
                                 color: Color(0xFF1C7ED6), size: 20),
                           ),
                           const SizedBox(width: 14),
@@ -1736,7 +1741,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               ],
                             ),
                           ),
-                          const Icon(Icons.chevron_right_rounded,
+                          const Icon(LucideIcons.chevronRight,
                               color: AppColors.textSecondary),
                         ],
                       ),
@@ -1836,7 +1841,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600))),
                             IconButton(
-                              icon: const Icon(Icons.delete_outline,
+                              icon: const Icon(LucideIcons.trash2,
                                   color: AppColors.danger, size: 20),
                               onPressed: () =>
                                   setState(() => _departments.removeAt(i)),
@@ -1850,12 +1855,12 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                   const SizedBox(height: 8),
                   OutlinedButton.icon(
                     onPressed: _showAddDepartmentDialog,
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(LucideIcons.plus),
                     label: const Text('Thêm bộ phận',
                         style: TextStyle(fontFamily: 'BeVietnamPro')),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primaryDark,
-                      side: const BorderSide(color: AppColors.primary, width: 1.5),
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -1897,7 +1902,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                     _Field(
                       controller: _deliveryAllowanceCtrl,
                       hint: 'VD: 15000',
-                      icon: Icons.monetization_on_rounded,
+                      icon: LucideIcons.circleDollarSign,
                       keyboardType: TextInputType.number,
                     ),
                   ],
@@ -1934,7 +1939,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                     _Field(
                       controller: _giaoHangAllowanceCtrl,
                       hint: 'VD: 15000',
-                      icon: Icons.monetization_on_rounded,
+                      icon: LucideIcons.circleDollarSign,
                       keyboardType: TextInputType.number,
                     ),
                   ],
@@ -1949,7 +1954,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                       onPressed: _isSaving ? null : () => _save(store.id),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
-                        foregroundColor: const Color(0xFF143A2F),
+                        foregroundColor: Colors.white,
                         disabledBackgroundColor:
                             AppColors.primary.withOpacity(0.6),
                         shape: RoundedRectangleBorder(
@@ -1990,7 +1995,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                         children: [
                           Row(
                             children: const [
-                              Icon(Icons.delete_forever_rounded,
+                              Icon(LucideIcons.trash2,
                                   color: AppColors.danger, size: 22),
                               SizedBox(width: 8),
                               Text(
@@ -2020,7 +2025,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                               onPressed: _isDeleting
                                   ? null
                                   : () => _leaveStore(store),
-                              icon: const Icon(Icons.logout_rounded,
+                              icon: const Icon(LucideIcons.logOut,
                                   size: 18, color: AppColors.warning),
                               label: const Text(
                                 'Rời cửa hàng (Chuyển quyền cho QL1)',
@@ -2056,7 +2061,7 @@ class _StoreSettingsScreenState extends ConsumerState<StoreSettingsScreen> {
                                         color: AppColors.danger,
                                       ),
                                     )
-                                  : const Icon(Icons.delete_outline_rounded,
+                                  : const Icon(LucideIcons.trash2,
                                       size: 18),
                               label: Text(_isDeleting
                                   ? 'Đang xóa...'

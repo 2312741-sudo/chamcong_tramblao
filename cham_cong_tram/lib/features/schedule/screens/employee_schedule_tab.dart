@@ -5,6 +5,7 @@ import '../../store/providers/store_provider.dart';
 import 'schedule_manager_screen.dart';
 import 'schedule_palette.dart';
 import 'schedule_register_screen.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class EmployeeScheduleTab extends ConsumerStatefulWidget {
   const EmployeeScheduleTab({super.key});
@@ -37,12 +38,16 @@ class _EmployeeScheduleTabState extends ConsumerState<EmployeeScheduleTab>
       backgroundColor: palette.surface,
       appBar: AppBar(
         backgroundColor: palette.accent,
-        foregroundColor: palette.onAccent,
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         title: Text(
           'Lịch làm việc',
           style: GoogleFonts.merriweather(
             fontWeight: FontWeight.w700,
-            color: palette.onAccent,
+            color: Colors.white,
           ),
         ),
         elevation: 0,
@@ -52,10 +57,10 @@ class _EmployeeScheduleTabState extends ConsumerState<EmployeeScheduleTab>
             color: palette.accent,
             child: TabBar(
               controller: _tabController,
-              indicatorColor: palette.onAccent,
+              indicatorColor: Colors.white,
               indicatorWeight: 3,
-              labelColor: palette.onAccent,
-              unselectedLabelColor: palette.onAccent.withOpacity(0.7),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white,
               labelStyle: GoogleFonts.beVietnamPro(
                 fontWeight: FontWeight.w700,
                 fontSize: 14,
@@ -66,11 +71,11 @@ class _EmployeeScheduleTabState extends ConsumerState<EmployeeScheduleTab>
               ),
               tabs: const [
                 Tab(
-                  icon: Icon(Icons.edit_calendar_rounded, size: 18),
+                  icon: Icon(LucideIcons.calendarCog, size: 18),
                   text: 'Đăng ký lịch làm',
                 ),
                 Tab(
-                  icon: Icon(Icons.storefront_rounded, size: 18),
+                  icon: Icon(LucideIcons.store, size: 18),
                   text: 'Lịch cửa hàng',
                 ),
               ],

@@ -1,6 +1,7 @@
 // app/dashboard/performance/reports/page.tsx
 'use client';
 import { useState, useEffect, useMemo, Suspense } from 'react';
+import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useApp } from '../layout';
 import {
@@ -198,7 +199,7 @@ function PerformanceReportsContent() {
               }}
             />
             <span style={{ position: 'absolute', left: 10, top: 9, color: 'var(--text-secondary)', fontSize: 14 }}>
-              🔍
+              <Search size={14} strokeWidth={1.75} aria-hidden="true" />
             </span>
           </div>
 

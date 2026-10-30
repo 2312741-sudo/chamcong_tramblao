@@ -20,6 +20,7 @@ import '../../schedule/providers/schedule_provider.dart';
 import '../../task_assignment/providers/task_provider.dart';
 import '../../task_assignment/screens/task_report_screen.dart';
 import '../../../models/task_assignment_model.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 // File-local provider (private) to avoid name collision with the global
 // todayAttendanceProvider in attendance_provider.dart (which has a different signature).
@@ -307,7 +308,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.logout_rounded,
+                LucideIcons.logOut,
                 color: AppColors.primary,
                 size: 24,
               ),
@@ -425,7 +426,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
             onPressed: () => Navigator.pop(dialogCtx, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
-              foregroundColor: const Color(0xFF143A2F),
+              foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
@@ -534,14 +535,13 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
               appBar: AppBar(
                 title: const Text('Chấm Công',
                     style: TextStyle(
-                        fontWeight: FontWeight.w700, color: Color(0xFF143A2F))),
+                        fontWeight: FontWeight.w700, color: AppColors.info)),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
-                foregroundColor: const Color(0xFF143A2F),
                 elevation: 0,
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                        color: Color(0xFF143A2F)),
+                    icon: const Icon(LucideIcons.chevronLeft,
+                        color: AppColors.info),
                     onPressed: () => context.pop()),
               ),
               body: SafeArea(
@@ -593,15 +593,17 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.storefront_rounded,
+                                    Icon(LucideIcons.store,
                                         color: Colors.white.withOpacity(0.9),
                                         size: 18),
                                     const SizedBox(width: 8),
-                                    Text(store.name,
+                                    Flexible(child: Text(store.name,
                                         style: TextStyle(
                                             color:
                                                 Colors.white.withOpacity(0.9),
-                                            fontWeight: FontWeight.w600)),
+                                            fontWeight: FontWeight.w600),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis)),
                                   ],
                                 ),
                               ),
@@ -631,7 +633,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
                                   decoration: BoxDecoration(
                                       color: AppColors.success.withOpacity(0.1),
                                       shape: BoxShape.circle),
-                                  child: const Icon(Icons.login_rounded,
+                                  child: const Icon(LucideIcons.logIn,
                                       color: AppColors.success, size: 28),
                                 ),
                                 const SizedBox(width: 16),
@@ -674,11 +676,11 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            _buildMethodCard(CheckInMethod.wifi, Icons.wifi,
+                            _buildMethodCard(CheckInMethod.wifi, LucideIcons.wifi,
                                 'WiFi', store.hasWifi),
                             const SizedBox(width: 16),
                             _buildMethodCard(CheckInMethod.gps,
-                                Icons.location_on, 'Vị trí', store.hasLocation),
+                                LucideIcons.mapPin, 'Vị trí', store.hasLocation),
                           ],
                         ),
                         const SizedBox(height: 32),
@@ -737,7 +739,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen>
                                             children: [
                                               Icon(
                                                   isCheckedIn
-                                                      ? Icons.logout_rounded
+                                                      ? LucideIcons.logOut
                                                       : Icons
                                                           .fingerprint_rounded,
                                                   color: Colors.white,
@@ -969,12 +971,12 @@ class _ProductionChecklistDialogState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.keyboard_hide_rounded),
+                      icon: const Icon(LucideIcons.keyboardOff),
                       tooltip: 'Ẩn bàn phím',
                       onPressed: () => FocusScope.of(context).unfocus(),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(LucideIcons.x),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -1047,15 +1049,17 @@ class _ProductionChecklistDialogState
                                           ),
                                         ),
                                       const SizedBox(width: 12),
-                                      Text(t.unitLabel,
+                                      Flexible(child: Text(t.unitLabel,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              color: Colors.grey)),
+                                              color: Colors.grey),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis)),
                                     ],
                                   )
                                 : const Row(
                                     children: [
-                                      Icon(Icons.check_circle,
+                                      Icon(LucideIcons.circleCheck,
                                           color: AppColors.success, size: 16),
                                       SizedBox(width: 6),
                                       Text('Đã hoàn thành',
@@ -1082,7 +1086,6 @@ class _ProductionChecklistDialogState
               onPressed: _isSubmitting ? null : _submit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: const Color(0xFF143A2F),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
@@ -1092,7 +1095,7 @@ class _ProductionChecklistDialogState
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                          color: Color(0xFF143A2F), strokeWidth: 2))
+                          color: Colors.white, strokeWidth: 2))
                   : const Text('HOÀN TẤT & RA CA',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
@@ -1225,7 +1228,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                     ),
                   ),
                   child: const Icon(
-                    Icons.assignment_outlined,
+                    LucideIcons.clipboardList,
                     color: Color(0xFFE65100),
                     size: 26,
                   ),
@@ -1273,7 +1276,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.access_time_rounded,
+                        const Icon(LucideIcons.clock,
                             size: 16, color: AppColors.primary),
                         const SizedBox(width: 6),
                         Text(
@@ -1357,7 +1360,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: const Icon(
-                                Icons.pending_actions_rounded,
+                                LucideIcons.clipboardClock,
                                 color: AppColors.warning,
                                 size: 20,
                               ),
@@ -1407,7 +1410,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                                       child: const Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.camera_alt_rounded,
+                                          Icon(LucideIcons.camera,
                                               size: 10,
                                               color: Color(0xFFE65100)),
                                           SizedBox(width: 3),
@@ -1445,7 +1448,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                foregroundColor: const Color(0xFF143A2F),
+                                foregroundColor: Colors.white,
                                 elevation: 0,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 14, vertical: 9),
@@ -1478,7 +1481,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => Navigator.pop(context, true),
-                icon: const Icon(Icons.logout_rounded, size: 18),
+                icon: const Icon(LucideIcons.logOut, size: 18),
                 label: const Text(
                   'Xác nhận ra ca (Hoàn thành sau)',
                   style: TextStyle(
@@ -1489,7 +1492,7 @@ class _UnfinishedTasksModalState extends ConsumerState<_UnfinishedTasksModal> {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  foregroundColor: const Color(0xFF143A2F),
+                  foregroundColor: Colors.white,
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(

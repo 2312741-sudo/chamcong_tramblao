@@ -23,6 +23,7 @@ import '../../features/schedule/screens/schedule_register_screen.dart';
 import '../task_assignment/widgets/shift_tasks_card.dart';
 
 import '../../core/services/app_update_service.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class EmployeeDashboard extends ConsumerStatefulWidget {
   const EmployeeDashboard({super.key});
@@ -167,9 +168,9 @@ class _EmployeeDashboardState extends ConsumerState<EmployeeDashboard>
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Row(
             children: [
-              _NavItem(icon: Icons.home_rounded, label: 'Tổng quan', index: 0, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
-              _NavItem(icon: Icons.calendar_month_rounded, label: 'Lịch làm', index: 1, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
-              _NavItem(icon: Icons.person_rounded, label: 'Hồ sơ', index: 2, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
+              _NavItem(icon: LucideIcons.house, label: 'Tổng quan', index: 0, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
+              _NavItem(icon: LucideIcons.calendarDays, label: 'Lịch làm', index: 1, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
+              _NavItem(icon: LucideIcons.user, label: 'Hồ sơ', index: 2, selected: _selectedIndex, onTap: (i) => setState(() => _selectedIndex = i)),
             ],
           ),
         ),
@@ -237,7 +238,7 @@ class _HomeTab extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        Row(
+                        Flexible(child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const NotificationBellIcon(
@@ -246,7 +247,7 @@ class _HomeTab extends ConsumerWidget {
                             ),
                             if (store != null) ...[
                               const SizedBox(width: 8),
-                              GestureDetector(
+                              Flexible(child: GestureDetector(
                                 onTap: () => Scaffold.of(context).openDrawer(),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -257,18 +258,18 @@ class _HomeTab extends ConsumerWidget {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const Icon(Icons.store_rounded, color: Colors.white, size: 14),
+                                      const Icon(LucideIcons.store, color: Colors.white, size: 14),
                                       const SizedBox(width: 6),
-                                      Text(store.name, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro')),
+                                      Flexible(child: Text(store.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro'))),
                                       const SizedBox(width: 4),
-                                      const Icon(Icons.arrow_drop_down, color: Colors.white, size: 16),
+                                      const Icon(LucideIcons.chevronDown, color: Colors.white, size: 16),
                                     ],
                                   ),
                                 ),
-                              ),
+                              )),
                             ],
                           ],
-                        ),
+                        )),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -307,21 +308,28 @@ class _HomeTab extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppColors.info.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.business_rounded, size: 14, color: AppColors.info),
-                        const SizedBox(width: 6),
-                        Text(
-                          member!.department!,
-                          style: const TextStyle(color: AppColors.info, fontSize: 13, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro'),
-                        ),
-                      ],
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppColors.info.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(LucideIcons.building2, size: 14, color: AppColors.info),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              member!.department!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: AppColors.info, fontSize: 13, fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -340,11 +348,11 @@ class _HomeTab extends ConsumerWidget {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Expanded(child: _QuickAction(icon: Icons.fingerprint_rounded, label: 'Chấm công', color: AppColors.primary, onTap: () => context.push(AppRoutes.checkIn))),
+                    Expanded(child: _QuickAction(icon: LucideIcons.fingerprint, label: 'Chấm công', color: AppColors.primary, onTap: () => context.push(AppRoutes.checkIn))),
                     const SizedBox(width: 12),
-                    Expanded(child: _QuickAction(icon: Icons.history_rounded, label: 'Lịch sử', color: AppColors.info, onTap: () => context.push(Uri(path: AppRoutes.attendanceHistory, queryParameters: {'userId': uid}).toString()))),
+                    Expanded(child: _QuickAction(icon: LucideIcons.history, label: 'Lịch sử', color: AppColors.info, onTap: () => context.push(Uri(path: AppRoutes.attendanceHistory, queryParameters: {'userId': uid}).toString()))),
                     const SizedBox(width: 12),
-                    Expanded(child: _QuickAction(icon: Icons.payments_rounded, label: 'Lương', color: AppColors.success, onTap: () => context.push(AppRoutes.salary))),
+                    Expanded(child: _QuickAction(icon: LucideIcons.banknote, label: 'Lương', color: AppColors.success, onTap: () => context.push(AppRoutes.salary))),
                   ],
                 ),
               ],
@@ -362,6 +370,7 @@ class _HomeTab extends ConsumerWidget {
             ),
           ),
         ),
+
 
         // Today's schedule
         SliverToBoxAdapter(
@@ -425,7 +434,7 @@ class _StatusCard extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                isActive ? Icons.timer_rounded : isDone ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+                isActive ? LucideIcons.timer : isDone ? LucideIcons.circleCheck : LucideIcons.circle,
                 color: isActive ? AppColors.success : isDone ? AppColors.info : Colors.grey,
                 size: 28,
               ),
@@ -464,7 +473,7 @@ class _StatusCard extends StatelessWidget {
               onPressed: () => GoRouter.of(context).push(AppRoutes.checkIn),
               style: ElevatedButton.styleFrom(
                 backgroundColor: isActive ? AppColors.primary : AppColors.success,
-                foregroundColor: isActive ? const Color(0xFF143A2F) : Colors.white,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 elevation: 0,
@@ -498,25 +507,20 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isBright = color.computeLuminance() > 0.4;
-    final fgColor = isBright ? AppColors.primaryDark : color;
-    final bgColor = isBright ? AppColors.primary.withOpacity(0.22) : color.withOpacity(0.08);
-    final borderColor = isBright ? AppColors.primary.withOpacity(0.45) : color.withOpacity(0.15);
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: bgColor,
+          color: color.withOpacity(0.08),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor),
+          border: Border.all(color: color.withOpacity(0.15)),
         ),
         child: Column(
           children: [
-            Icon(icon, color: fgColor, size: 28),
+            Icon(icon, color: color, size: 28),
             const SizedBox(height: 8),
-            Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: fgColor, fontFamily: 'BeVietnamPro')),
+            Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color, fontFamily: 'BeVietnamPro')),
           ],
         ),
       ),
@@ -554,7 +558,7 @@ class _TodayScheduleCard extends ConsumerWidget {
                   color: AppColors.accent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.event_note_rounded, color: AppColors.accentInk, size: 20),
+                child: const Icon(LucideIcons.calendarClock, color: AppColors.accentInk, size: 20),
               ),
               const SizedBox(width: 10),
               const Text('Ca làm hôm nay', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, fontFamily: 'BeVietnamPro', color: AppColors.neutral)),
@@ -603,7 +607,7 @@ class _TodayScheduleCard extends ConsumerWidget {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.access_time_rounded, size: 16, color: AppColors.accentInk),
+                          const Icon(LucideIcons.clock, size: 16, color: AppColors.accentInk),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Row(
@@ -657,7 +661,7 @@ class _TodayScheduleCard extends ConsumerWidget {
                             child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.local_shipping_rounded, size: 14, color: AppColors.success),
+                                Icon(LucideIcons.truck, size: 14, color: AppColors.success),
                                 SizedBox(width: 4),
                                 Text('Chở hàng', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.success, fontFamily: 'BeVietnamPro')),
                               ],
@@ -675,7 +679,7 @@ class _TodayScheduleCard extends ConsumerWidget {
                             child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.delivery_dining_rounded, size: 14, color: AppColors.info),
+                                Icon(LucideIcons.bike, size: 14, color: AppColors.info),
                                 SizedBox(width: 4),
                                 Text('Giao hàng', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.info, fontFamily: 'BeVietnamPro')),
                               ],
@@ -739,7 +743,7 @@ class _ProfileTab extends ConsumerWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_rounded),
+            icon: const Icon(LucideIcons.settings),
             onPressed: () => context.push(AppRoutes.profileSettings),
           ),
         ],
@@ -762,7 +766,7 @@ class _ProfileTab extends ConsumerWidget {
                   backgroundColor: AppColors.primary,
                   backgroundImage: getAvatarImageProvider(user?.avatarUrl),
                   child: getAvatarImageProvider(user?.avatarUrl) == null
-                      ? Text((user?.name ?? 'U')[0].toUpperCase(), style: const TextStyle(color: Color(0xFF143A2F), fontSize: 28, fontWeight: FontWeight.w800))
+                      ? Text((user?.name ?? 'U')[0].toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w800))
                       : null,
                 ),
                 const SizedBox(width: 16),
@@ -791,11 +795,11 @@ class _ProfileTab extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Menu items
-          _ProfileMenuItem(icon: Icons.person_outline_rounded, label: 'Chỉnh sửa hồ sơ cá nhân', color: AppColors.primary, onTap: () => context.push(AppRoutes.profileSettings)),
-          _ProfileMenuItem(icon: Icons.attach_money_rounded, label: 'Xem lương tháng này', color: AppColors.success, onTap: () => context.push(AppRoutes.salary)),
-          _ProfileMenuItem(icon: Icons.history_rounded, label: 'Lịch sử chấm công', color: AppColors.info, onTap: () => context.push(Uri(path: AppRoutes.attendanceHistory, queryParameters: {'userId': uid}).toString())),
-          _ProfileMenuItem(icon: Icons.account_balance_wallet_rounded, label: 'Tạm ứng lương', color: AppColors.accentInk, onTap: () => context.push(AppRoutes.salary)),
-          _ProfileMenuItem(icon: Icons.logout_rounded, label: 'Đăng xuất', color: Colors.red, onTap: () async {
+          _ProfileMenuItem(icon: LucideIcons.user, label: 'Chỉnh sửa hồ sơ cá nhân', color: AppColors.primary, onTap: () => context.push(AppRoutes.profileSettings)),
+          _ProfileMenuItem(icon: LucideIcons.dollarSign, label: 'Xem lương tháng này', color: AppColors.success, onTap: () => context.push(AppRoutes.salary)),
+          _ProfileMenuItem(icon: LucideIcons.history, label: 'Lịch sử chấm công', color: AppColors.info, onTap: () => context.push(Uri(path: AppRoutes.attendanceHistory, queryParameters: {'userId': uid}).toString())),
+          _ProfileMenuItem(icon: LucideIcons.wallet, label: 'Tạm ứng lương', color: AppColors.accentInk, onTap: () => context.push(AppRoutes.salary)),
+          _ProfileMenuItem(icon: LucideIcons.logOut, label: 'Đăng xuất', color: Colors.red, onTap: () async {
             final confirm = await showDialog<bool>(context: context, builder: (c) => AlertDialog(
               title: const Text('Đăng xuất?', style: TextStyle(fontFamily: 'BeVietnamPro')),
               actions: [
@@ -843,7 +847,7 @@ class _ProfileMenuItem extends StatelessWidget {
             child: Icon(icon, color: color, size: 22),
           ),
           title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'BeVietnamPro', fontSize: 14)),
-          trailing: const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+          trailing: const Icon(LucideIcons.chevronRight, color: Colors.grey),
         ),
       ),
     );
@@ -872,20 +876,20 @@ class _NavItem extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary.withOpacity(0.22) : Colors.transparent,
+            color: isSelected ? AppColors.primary.withOpacity(0.08) : Colors.transparent,
             borderRadius: BorderRadius.circular(14),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: isSelected ? AppColors.primaryDark : Colors.grey, size: 24),
+              Icon(icon, color: isSelected ? AppColors.primary : Colors.grey, size: 24),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.primaryDark : Colors.grey,
+                  color: isSelected ? AppColors.primary : Colors.grey,
                   fontFamily: 'BeVietnamPro',
                 ),
               ),

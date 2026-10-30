@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { Download } from 'lucide-react';
 import Link from 'next/link';
 import { useApp } from '../layout';
 import {
@@ -465,10 +466,10 @@ export default function AttendancePage() {
             style={{ width: 150 }}
           />
           <button onClick={handleExportSummary} className="btn btn-primary" style={{ background: 'var(--success)', color: '#FFFFFF' }}>
-            <span className="material-icons" style={{ fontSize: 18 }}>download</span> Tổng Hợp
+            <Download size={18} strokeWidth={1.75} aria-hidden="true" /> Tổng Hợp
           </button>
           <button onClick={handleExportDetailed} className="btn btn-primary" style={{ background: 'var(--accent)', color: '#143A2F' }}>
-            <span className="material-icons" style={{ fontSize: 18 }}>download</span> IN-OUT
+            <Download size={18} strokeWidth={1.75} aria-hidden="true" /> IN-OUT
           </button>
         </div>
       </div>

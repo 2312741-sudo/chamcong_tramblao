@@ -11,6 +11,7 @@ import '../providers/salary_provider.dart';
 import '../../../models/advance_request_model.dart';
 import '../../../core/utils/excel_export_service.dart';
 import '../../../core/widgets/export_modal.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SalaryOverviewScreen extends ConsumerWidget {
   const SalaryOverviewScreen({super.key});
@@ -35,7 +36,7 @@ class SalaryOverviewScreen extends ConsumerWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(primary: AppColors.primary, onPrimary: Color(0xFF143A2F), onSurface: AppColors.neutral),
+            colorScheme: const ColorScheme.light(primary: AppColors.primary, onPrimary: Colors.white, onSurface: AppColors.neutral),
           ),
           child: child!,
         );
@@ -125,17 +126,17 @@ class SalaryOverviewScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Báo cáo Lương',
-            style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+        title: const Text('Báo cáo Lương', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.download_rounded),
+            icon: const Icon(LucideIcons.download),
             onPressed: () {
               showModalBottomSheet(
                 context: context,
@@ -184,7 +185,7 @@ class SalaryOverviewScreen extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.calendar_today_rounded, color: AppColors.primary),
+                      const Icon(LucideIcons.calendar, color: AppColors.primary),
                       const SizedBox(width: 8),
                       Text('Tháng: $monthStr', style: GoogleFonts.beVietnamPro(fontSize: 16, fontWeight: FontWeight.w600)),
                     ],
@@ -293,7 +294,7 @@ class SalaryOverviewScreen extends ConsumerWidget {
               ),
               Text(
                 currencyFormat.format(netSalary),
-                style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w800, fontSize: 16, color: AppColors.primaryDark),
+                style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w800, fontSize: 16, color: AppColors.primary),
               ),
             ],
           ),

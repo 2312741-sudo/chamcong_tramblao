@@ -47,13 +47,13 @@ class _PendingMembersScreenState extends ConsumerState<PendingMembersScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Yêu cầu tham gia',
-            style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+        title: const Text('Yêu cầu tham gia', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
       ),
       body: pendingMembersAsync.when(
@@ -104,7 +104,7 @@ class _PendingMembersScreenState extends ConsumerState<PendingMembersScreen> {
                 child: getAvatarImageProvider(member.avatarUrl) == null
                     ? Text(
                         member.initials,
-                        style: const TextStyle(color: Color(0xFF143A2F), fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
                       )
                     : null,
               ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/advance_request_model.dart';
 import '../../store/providers/store_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ManageAdvancesScreen extends ConsumerStatefulWidget {
   const ManageAdvancesScreen({super.key});
@@ -39,13 +40,13 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       appBar: AppBar(
-        title: const Text('Duyệt Ứng Lương',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'BeVietnamPro',
-                color: Color(0xFF143A2F))),
+        title: const Text('Duyệt Ứng Lương', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro')),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
       ),
       body: Column(
         children: [
@@ -96,7 +97,7 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: const Icon(Icons.chevron_left),
+            icon: const Icon(LucideIcons.chevronLeft),
             onPressed: () => _changeMonth(-1),
           ),
           Text(
@@ -104,7 +105,7 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro'),
           ),
           IconButton(
-            icon: const Icon(Icons.chevron_right),
+            icon: const Icon(LucideIcons.chevronRight),
             onPressed: () => _changeMonth(1),
           ),
         ],
@@ -135,10 +136,12 @@ class _ManageAdvancesScreenState extends ConsumerState<ManageAdvancesScreen> {
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro'),
                   ),
                 ),
-                Text(
+                Flexible(child: Text(
                   formatCurrency.format(advance.amount),
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryDark, fontFamily: 'BeVietnamPro'),
-                ),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'BeVietnamPro'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )),
               ],
             ),
             const SizedBox(height: 8),

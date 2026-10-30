@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { CalendarCheck, Clock, Timer, Users, type LucideIcon } from 'lucide-react';
 import { useApp } from './layout';
 import {
   watchTodayAttendances,
@@ -12,14 +13,14 @@ import {
 import { AttendanceRecord, Member, canViewAllAttendance } from '@/lib/types';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-function StatCard({ icon, label, value, sub, color }: { icon: string; label: string; value: string | number; sub?: string; color?: string }) {
+function StatCard({ icon: Icon, label, value, sub, color }: { icon: LucideIcon; label: string; value: string | number; sub?: string; color?: string }) {
   return (
     <div className="card" style={{ display:'flex', alignItems:'flex-start', gap:14 }}>
       <div style={{
         width:48, height:48, borderRadius:14,
-        background: color ? `${color}18` : 'var(--primary-light)',
-        display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0
-      }}>{icon}</div>
+        background: color ? `${color}18` : 'var(--primary-light)', color: color ?? 'var(--primary)',
+        display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0
+      }}><Icon size={22} strokeWidth={1.75} aria-hidden="true" /></div>
       <div style={{ flex:1, minWidth:0 }}>
         <div style={{ fontSize:12, color:'var(--text-secondary)', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.5px', marginBottom:4 }}>{label}</div>
         <div style={{ fontSize:26, fontWeight:800, color:'var(--neutral)', lineHeight:1 }}>{value}</div>
@@ -105,10 +106,10 @@ export default function DashboardPage() {
 
       {/* Stats grid */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:16 }}>
-        <StatCard icon="👥" label="Nhân viên hoạt động" value={activeMembers.length} sub={`${pendingMembers.length} chờ duyệt`} color="#1A6B5A" />
-        <StatCard icon="✅" label="Đang làm hôm nay" value={inProgressToday.length} sub={`${doneToday.length} đã ra ca`} color="#1565C0" />
-        <StatCard icon="⏱️" label="Tổng giờ tháng này" value={`${totalMonthHours.toFixed(1)}h`} sub="Toàn bộ nhân viên" />
-        <StatCard icon="📋" label="Số ca hôm nay" value={totalShiftsToday} sub="Tổng lượt chấm công" color="#EB9B28" />
+        <StatCard icon={Users} label="Nhân viên hoạt động" value={activeMembers.length} sub={`${pendingMembers.length} chờ duyệt`} color="#1A6B5A" />
+        <StatCard icon={Clock} label="Đang làm hôm nay" value={inProgressToday.length} sub={`${doneToday.length} đã ra ca`} color="#1565C0" />
+        <StatCard icon={Timer} label="Tổng giờ tháng này" value={`${totalMonthHours.toFixed(1)}h`} sub="Toàn bộ nhân viên" />
+        <StatCard icon={CalendarCheck} label="Số ca hôm nay" value={totalShiftsToday} sub="Tổng lượt chấm công" color="#EB9B28" />
       </div>
 
       {/* Chart + Today */}

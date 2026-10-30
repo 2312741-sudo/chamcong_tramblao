@@ -15,6 +15,7 @@ import '../../schedule/providers/schedule_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../providers/task_provider.dart';
 import 'create_task_dialog.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Màn hình Chi tiết Công việc & Báo cáo hoàn thành.
 /// Cho phép Chủ và Quản lý theo dõi ai đã nộp báo cáo (văn bản + ảnh chụp)
@@ -97,7 +98,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 leading: IconButton(
-                  icon: const Icon(Icons.close_rounded, color: Colors.white),
+                  icon: const Icon(LucideIcons.x, color: Colors.white),
                   onPressed: () => Navigator.of(ctx).pop(),
                 ),
                 title: Text(
@@ -128,7 +129,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                       errorWidget: (context, url, error) => Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.broken_image_rounded,
+                          const Icon(LucideIcons.imageOff,
                               size: 48, color: Colors.white54),
                           const SizedBox(height: 8),
                           Text(
@@ -151,7 +152,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back_ios_rounded,
+                            icon: const Icon(LucideIcons.chevronLeft,
                                 color: Colors.white),
                             onPressed: currentIndex > 0
                                 ? () => setDialogState(
@@ -159,14 +160,16 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                                 : null,
                           ),
                           const SizedBox(width: 20),
-                          Text(
+                          Flexible(child: Text(
                             '${currentIndex + 1} / ${allUrls.length}',
                             style: GoogleFonts.beVietnamPro(
                                 color: Colors.white, fontSize: 14),
-                          ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
                           const SizedBox(width: 20),
                           IconButton(
-                            icon: const Icon(Icons.arrow_forward_ios_rounded,
+                            icon: const Icon(LucideIcons.chevronRight,
                                 color: Colors.white),
                             onPressed: currentIndex < allUrls.length - 1
                                 ? () => setDialogState(
@@ -349,7 +352,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
               )
             : const Center(
                 child: EmptyState(
-                  icon: Icons.search_off_rounded,
+                  icon: LucideIcons.searchX,
                   message: 'Không tìm thấy công việc này',
                   subtitle: 'Công việc có thể đã bị xóa khỏi hệ thống',
                 ),
@@ -381,7 +384,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert_rounded),
+            icon: const Icon(LucideIcons.ellipsisVertical),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             onSelected: (val) {
               if (val == 'edit') {
@@ -399,7 +402,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                 value: 'edit',
                 child: Row(
                   children: [
-                    const Icon(Icons.edit_outlined,
+                    const Icon(LucideIcons.pencil,
                         color: AppColors.primary, size: 20),
                     const SizedBox(width: 8),
                     Text('Chỉnh sửa công việc',
@@ -412,7 +415,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   value: 'complete',
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle_outline_rounded,
+                      const Icon(LucideIcons.circleCheck,
                           color: AppColors.success, size: 20),
                       const SizedBox(width: 8),
                       Text('Đánh dấu hoàn thành',
@@ -424,7 +427,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   value: 'cancel',
                   child: Row(
                     children: [
-                      const Icon(Icons.cancel_outlined,
+                      const Icon(LucideIcons.circleX,
                           color: Colors.orange, size: 20),
                       const SizedBox(width: 8),
                       Text('Hủy công việc',
@@ -437,7 +440,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                 value: 'delete',
                 child: Row(
                   children: [
-                    const Icon(Icons.delete_outline_rounded,
+                    const Icon(LucideIcons.trash2,
                         color: AppColors.danger, size: 20),
                     const SizedBox(width: 8),
                     Text('Xóa công việc',
@@ -456,7 +459,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         ),
         error: (err, stack) => Center(
           child: EmptyState(
-            icon: Icons.error_outline_rounded,
+            icon: LucideIcons.circleAlert,
             message: 'Lỗi tải báo cáo: $err',
           ),
         ),
@@ -559,8 +562,10 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Badges row
-          Row(
+          // Badges row (Wrap: nhiều nhãn tự xuống dòng thay vì tràn)
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: 6,
             children: [
               _buildStatusBadge(task.status),
               const SizedBox(width: 8),
@@ -569,16 +574,16 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.2),
+                    color: AppColors.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        Icons.repeat_rounded,
+                        LucideIcons.repeat,
                         size: 13,
-                        color: AppColors.primaryDark,
+                        color: AppColors.primary,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -586,7 +591,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primaryDark,
+                          color: AppColors.primary,
                         ),
                       ),
                     ],
@@ -598,26 +603,26 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.2),
+                    color: AppColors.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        Icons.event_repeat_rounded,
+                        LucideIcons.calendarSync,
                         size: 13,
-                        color: AppColors.primaryDark,
+                        color: AppColors.primary,
                       ),
                       const SizedBox(width: 4),
-                      Text(
+                      Flexible(child: Text(
                         'Lặp thứ ${task.repeatDaysOfWeek.map((d) => d == 7 ? 'CN' : 'T${d + 1}').join(', ')} hàng tuần',
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primaryDark,
+                          color: AppColors.primary,
                         ),
-                      ),
+                      )),
                     ],
                   ),
                 ),
@@ -635,7 +640,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        Icons.photo_camera_rounded,
+                        LucideIcons.camera,
                         size: 13,
                         color: Color(0xFFD97706),
                       ),
@@ -695,7 +700,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
           // Thông tin người giao
           Row(
             children: [
-              const Icon(Icons.person_pin_rounded,
+              const Icon(LucideIcons.userRound,
                   size: 18, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(
@@ -705,12 +710,16 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   color: AppColors.textSecondary,
                 ),
               ),
-              Text(
-                task.createdByName.isNotEmpty ? task.createdByName : 'Quản lý',
-                style: GoogleFonts.beVietnamPro(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+              Flexible(
+                child: Text(
+                  task.createdByName.isNotEmpty ? task.createdByName : 'Quản lý',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -722,7 +731,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
           // Thời gian tạo
           Row(
             children: [
-              const Icon(Icons.access_time_rounded,
+              const Icon(LucideIcons.clock,
                   size: 18, color: AppColors.textSecondary),
               const SizedBox(width: 8),
               Text(
@@ -741,10 +750,10 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
             children: [
               Icon(
                 task.isAllStore
-                    ? Icons.storefront_rounded
+                    ? LucideIcons.store
                     : (task.isDepartment
-                        ? Icons.apartment_rounded
-                        : Icons.group_rounded),
+                        ? LucideIcons.building
+                        : LucideIcons.users),
                 size: 18,
                 color: AppColors.textSecondary,
               ),
@@ -789,7 +798,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
       children: [
         Row(
           children: [
-            const Icon(Icons.calendar_today_rounded,
+            const Icon(LucideIcons.calendar,
                 size: 16, color: AppColors.textSecondary),
             const SizedBox(width: 6),
             Text(
@@ -937,16 +946,18 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle_rounded,
+                      const Icon(LucideIcons.circleCheck,
                           size: 16, color: AppColors.success),
                       const SizedBox(width: 6),
-                      Text(
+                      Flexible(child: Text(
                         'Đã hoàn thành: ',
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
-                      ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                       Text(
                         '$completedCount',
                         style: GoogleFonts.beVietnamPro(
@@ -970,16 +981,18 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.access_time_rounded,
+                      const Icon(LucideIcons.clock,
                           size: 16, color: Colors.orange),
                       const SizedBox(width: 6),
-                      Text(
+                      Flexible(child: Text(
                         'Chưa nộp: ',
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
-                      ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                       Text(
                         '$pendingCount',
                         style: GoogleFonts.beVietnamPro(
@@ -1005,16 +1018,19 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
     required int completedCount,
     required int pendingCount,
   }) {
-    return Row(
+    // Wrap: màn hẹp thì bộ lọc tự xuống dòng dưới tiêu đề
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        Expanded(
-          child: Text(
-            'Danh sách nhân sự ($totalCount)',
-            style: GoogleFonts.beVietnamPro(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-            ),
+        Text(
+          'Danh sách nhân sự ($totalCount)',
+          style: GoogleFonts.beVietnamPro(
+            fontSize: 14.5,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
           ),
         ),
         // Filter tabs
@@ -1180,7 +1196,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.check_circle_rounded,
+                      const Icon(LucideIcons.circleCheck,
                           size: 14, color: AppColors.success),
                       const SizedBox(width: 4),
                       Text(
@@ -1205,7 +1221,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.access_time_rounded,
+                      const Icon(LucideIcons.clock,
                           size: 14, color: Colors.orange),
                       const SizedBox(width: 4),
                       Text(
@@ -1240,7 +1256,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.description_outlined,
+                      const Icon(LucideIcons.fileText,
                           size: 14, color: AppColors.textSecondary),
                       const SizedBox(width: 4),
                       Text(
@@ -1326,7 +1342,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                             errorWidget: (context, url, error) => Container(
                               color: AppColors.surface,
                               child: const Icon(
-                                Icons.broken_image_rounded,
+                                LucideIcons.imageOff,
                                 color: AppColors.textDisabled,
                               ),
                             ),
@@ -1434,25 +1450,25 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         bg = AppColors.success.withValues(alpha: 0.12);
         fg = AppColors.success;
         label = 'Đang thực hiện';
-        icon = Icons.play_circle_filled_rounded;
+        icon = LucideIcons.circlePlay;
         break;
       case TaskStatus.completed:
         bg = AppColors.managerAccent.withValues(alpha: 0.12);
         fg = AppColors.managerAccent;
         label = 'Đã hoàn thành';
-        icon = Icons.check_circle_rounded;
+        icon = LucideIcons.circleCheck;
         break;
       case TaskStatus.cancelled:
         bg = Colors.red.withValues(alpha: 0.12);
         fg = Colors.red;
         label = 'Đã hủy';
-        icon = Icons.cancel_rounded;
+        icon = LucideIcons.circleX;
         break;
       case TaskStatus.archived:
         bg = Colors.grey.withValues(alpha: 0.15);
         fg = Colors.grey;
         label = 'Lưu trữ';
-        icon = Icons.archive_rounded;
+        icon = LucideIcons.archive;
         break;
     }
 
@@ -1467,14 +1483,16 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         children: [
           Icon(icon, size: 14, color: fg),
           const SizedBox(width: 4),
-          Text(
+          Flexible(child: Text(
             label,
             style: GoogleFonts.beVietnamPro(
               fontSize: 11.5,
               fontWeight: FontWeight.bold,
               color: fg,
             ),
-          ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )),
         ],
       ),
     );

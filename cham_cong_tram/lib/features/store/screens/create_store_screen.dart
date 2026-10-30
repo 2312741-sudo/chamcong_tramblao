@@ -8,7 +8,7 @@ import '../../auth/providers/auth_notifier.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_repository.dart';
 import '../../../app/router.dart';
-import '../../../core/widgets/store_creation_locked_dialog.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class CreateStoreScreen extends ConsumerStatefulWidget {
   const CreateStoreScreen({super.key});
@@ -184,18 +184,21 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         title: const Text(
           'Tạo cửa hàng mới',
           style: TextStyle(
             fontFamily: 'BeVietnamPro',
             fontWeight: FontWeight.w700,
-            color: Color(0xFF143A2F),
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout_rounded, color: Color(0xFF143A2F)),
+            icon: const Icon(LucideIcons.logOut, color: Colors.white),
             tooltip: 'Đăng xuất',
             onPressed: () async {
               await ref.read(authNotifierProvider.notifier).signOut();
@@ -217,25 +220,24 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.12),
+                    color: AppColors.primary.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: AppColors.primaryDark.withValues(alpha: 0.2),
+                      color: AppColors.primary.withOpacity(0.2),
                     ),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
-                      const Icon(Icons.store_rounded,
-                          color: AppColors.primaryDark, size: 24),
-                      const SizedBox(width: 12),
+                      Icon(LucideIcons.store,
+                          color: AppColors.primary, size: 24),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           'Điền thông tin cửa hàng của bạn để bắt đầu quản lý chấm công',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'BeVietnamPro',
                             fontSize: 13,
-                            color: AppColors.primaryDark,
-                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
                           ),
                         ),
                       ),
@@ -250,7 +252,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                 _AppTextField(
                   controller: _nameCtrl,
                   hintText: 'Ví dụ: Trạm xăng Hoàng Minh',
-                  prefixIcon: Icons.store_mall_directory_rounded,
+                  prefixIcon: LucideIcons.store,
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
                       return 'Vui lòng nhập tên cửa hàng';
@@ -269,7 +271,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                 _AppTextField(
                   controller: _addressCtrl,
                   hintText: 'Ví dụ: 123 Nguyễn Văn Cừ, Quận 5, TP.HCM',
-                  prefixIcon: Icons.location_on_rounded,
+                  prefixIcon: LucideIcons.mapPin,
                   maxLines: 2,
                 ),
                 const SizedBox(height: 16),
@@ -297,13 +299,13 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                             color: AppColors.primary,
                           ),
                         )
-                      : const Icon(Icons.wifi_rounded),
+                      : const Icon(LucideIcons.wifi),
                   label: Text(
                     _isFetchingWifi ? 'Đang nhận diện...' : 'Lấy WiFi hiện tại',
                   ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primaryDark,
-                    side: const BorderSide(color: AppColors.primary, width: 1.5),
+                    foregroundColor: AppColors.primary,
+                    side: const BorderSide(color: AppColors.primary),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                     textStyle: const TextStyle(
@@ -332,7 +334,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                         Row(
                           children: [
                             const Icon(
-                              Icons.wifi_rounded,
+                              LucideIcons.wifi,
                               color: AppColors.success,
                               size: 20,
                             ),
@@ -351,7 +353,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.close,
+                              icon: const Icon(LucideIcons.x,
                                   color: AppColors.danger, size: 18),
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
@@ -371,7 +373,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                             labelText: 'Tên nhận diện WiFi',
                             hintText: 'VD: WiFi Chính / Cửa hàng',
                             prefixIcon:
-                                const Icon(Icons.edit_note_rounded, size: 20),
+                                const Icon(LucideIcons.notebookPen, size: 20),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -388,7 +390,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            const Icon(Icons.fingerprint_rounded,
+                            const Icon(LucideIcons.fingerprint,
                                 size: 14, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
                             Expanded(
@@ -433,15 +435,15 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                             color: AppColors.primary,
                           ),
                         )
-                      : const Icon(Icons.my_location_rounded),
+                      : const Icon(LucideIcons.locateFixed),
                   label: Text(
                     _isFetchingLocation
                         ? 'Đang lấy vị trí...'
                         : 'Ấn để lấy vị trí hiện tại',
                   ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primaryDark,
-                    side: const BorderSide(color: AppColors.primary, width: 1.5),
+                    foregroundColor: AppColors.primary,
+                    side: const BorderSide(color: AppColors.primary),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                     textStyle: const TextStyle(
@@ -464,10 +466,10 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.check_circle_rounded,
+                        const Icon(LucideIcons.circleCheck,
                             color: AppColors.success, size: 16),
                         const SizedBox(width: 8),
-                        Text(
+                        Flexible(child: Text(
                           'Vị trí: $_locationLabel',
                           style: const TextStyle(
                             fontFamily: 'BeVietnamPro',
@@ -475,7 +477,9 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                             color: AppColors.success,
                             fontWeight: FontWeight.w600,
                           ),
-                        ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )),
                       ],
                     ),
                   ),
@@ -485,7 +489,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                     decoration: InputDecoration(
                       labelText: 'Tên vị trí này (tùy chọn)',
                       hintText: 'VD: Cơ sở chính, Điểm bán 1...',
-                      prefixIcon: const Icon(Icons.label_outline_rounded,
+                      prefixIcon: const Icon(LucideIcons.tag,
                           color: AppColors.primary),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -533,7 +537,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                     onPressed: _isLoading ? null : _submit,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: const Color(0xFF143A2F),
+                      foregroundColor: Colors.white,
                       disabledBackgroundColor:
                           AppColors.primary.withOpacity(0.6),
                       elevation: 0,
@@ -547,7 +551,7 @@ class _CreateStoreScreenState extends ConsumerState<CreateStoreScreen> {
                             height: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2.5,
-                              color: Color(0xFF143A2F),
+                              color: Colors.white,
                             ),
                           )
                         : const Text(

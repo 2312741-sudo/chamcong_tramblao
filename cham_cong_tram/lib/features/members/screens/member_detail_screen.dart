@@ -147,13 +147,13 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Chi tiết nhân viên',
-            style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+        title: const Text('Chi tiết nhân viên', style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
       ),
       body: membersAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -278,7 +278,7 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
                 if (store != null && store.departments.isEmpty) ...[
                   const SizedBox(height: 6),
                   const Text(
-                    '⚠️ Cửa hàng chưa có danh sách bộ phận. Vào Cài đặt cửa hàng để thiết lập (Pha chế, Thu ngân, Bếp...).',
+                    'Cửa hàng chưa có danh sách bộ phận. Vào Cài đặt cửa hàng để thiết lập (Pha chế, Thu ngân, Bếp...).',
                     style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 12, color: AppColors.warning),
                   ),
                 ],
@@ -421,12 +421,12 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
                     onPressed: _isLoading || storeId == null ? null : () => _saveChanges(storeId),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: const Color(0xFF143A2F),
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: _isLoading 
-                        ? const CircularProgressIndicator(color: Color(0xFF143A2F))
-                        : const Text('Lưu thay đổi', style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF143A2F))),
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Lưu thay đổi', style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ),
                 if (isOwner) ...[
@@ -493,7 +493,7 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
               ),
               SizedBox(height: 4),
               Text(
-                '• Xem lịch làm việc của cả cửa hàng (Chỉ xem)\n• Xếp / Tick chọn Chở hàng và Giao hàng\n• ❌ KHÔNG được tạo/sửa/xoá ca làm việc của nhân viên\n• ❌ KHÔNG được duyệt thành viên mới xin vào\n• ❌ KHÔNG được xem/sửa bảng chấm công của nhân viên khác',
+                '• Xem lịch làm việc của cả cửa hàng (Chỉ xem)\n• Xếp / Tick chọn Chở hàng và Giao hàng\n• KHÔNG được tạo/sửa/xoá ca làm việc của nhân viên\n• KHÔNG được duyệt thành viên mới xin vào\n• KHÔNG được xem/sửa bảng chấm công của nhân viên khác',
                 style: TextStyle(fontFamily: 'BeVietnamPro', fontSize: 11.5, color: Color(0xFF004D40), height: 1.4),
               ),
             ],

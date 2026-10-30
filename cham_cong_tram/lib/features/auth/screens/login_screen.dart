@@ -8,6 +8,7 @@ import '../../../app/router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/widgets/loading_overlay.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -123,7 +124,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      Icons.mark_email_read_rounded,
+                      LucideIcons.mailCheck,
                       color: AppColors.success,
                       size: 36,
                     ),
@@ -158,12 +159,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: const Color(0xFFFDE68A)),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: [
-                            Icon(Icons.info_outline, color: Color(0xFFD97706), size: 18),
+                          children: const [
+                            Icon(LucideIcons.info, color: Color(0xFFD97706), size: 18),
                             SizedBox(width: 6),
                             Text(
                               'Lưu ý quan trọng:',
@@ -176,8 +177,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 6),
-                        Text(
+                        const SizedBox(height: 6),
+                        const Text(
                           '• Hãy kiểm tra kỹ mục Thư rác (Spam / Junk) hoặc Quảng cáo nếu không thấy thư ở Hộp thư đến.\n'
                           '• Nếu bạn đăng ký bằng Google hoặc Apple, hãy đăng nhập trực tiếp bằng nút Google/Apple bên dưới mà không cần mật khẩu.\n'
                           '• Nhấp vào link trong email để nhập mật khẩu mới, sau đó quay lại ứng dụng để đăng nhập.',
@@ -218,14 +219,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: const Row(
-              children: [
-                Icon(Icons.lock_reset_rounded, color: AppColors.primary, size: 24),
+            title: Row(
+              children: const [
+                Icon(LucideIcons.rotateCcwKey, color: AppColors.primary, size: 24),
                 SizedBox(width: 8),
-                Text(
+                Flexible(child: Text(
                   AppStrings.forgotPassword,
                   style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold, fontSize: 18),
-                ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )),
               ],
             ),
             content: Form(
@@ -247,7 +250,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: const InputDecoration(
                       labelText: AppStrings.email,
                       hintText: AppStrings.emailHint,
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: Icon(LucideIcons.mail),
                     ),
                     validator: (value) {
                       final val = value?.trim() ?? '';
@@ -270,7 +273,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.error_outline, color: AppColors.danger, size: 16),
+                          const Icon(LucideIcons.circleAlert, color: AppColors.danger, size: 16),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -386,33 +389,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
-
-                  Center(
-                    child: Text(
-                      AppStrings.appName,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.primary,
-                            letterSpacing: 0.3,
-                          ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 4),
-
-                  Center(
-                    child: Text(
-                      AppStrings.appTagline,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primaryDark,
-                            letterSpacing: 0.2,
-                          ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 24),
 
                   Center(
                     child: Text(
@@ -443,7 +420,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: const InputDecoration(
                       labelText: AppStrings.email,
                       hintText: AppStrings.emailHint,
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: Icon(LucideIcons.mail),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -469,12 +446,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: InputDecoration(
                       labelText: AppStrings.password,
                       hintText: AppStrings.passwordHint,
-                      prefixIcon: const Icon(Icons.lock_outline),
+                      prefixIcon: const Icon(LucideIcons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                              ? LucideIcons.eye
+                              : LucideIcons.eyeOff,
                         ),
                         onPressed: () {
                           setState(() => _obscurePassword = !_obscurePassword);
@@ -530,6 +507,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   const SizedBox(height: 20),
 
+                  // ── Social Buttons ────────────────────────────────────
                   // Official Sign in with Apple button (Apple HIG & Design Resources Compliant)
                   SignInWithAppleButton(
                     onPressed: authState.isLoading ? () {} : _handleAppleSignIn,

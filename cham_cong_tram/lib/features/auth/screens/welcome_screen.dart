@@ -4,11 +4,11 @@ import '../../../app/router.dart';
 import '../../../core/widgets/notification_bell_icon.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../../core/widgets/store_creation_locked_dialog.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../providers/auth_notifier.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
@@ -18,7 +18,7 @@ class WelcomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: FirebaseAuth.instance.currentUser == null ? null : AppBar(
         backgroundColor: AppColors.surface, automaticallyImplyLeading: false,
-        actions: const [NotificationBellIcon(iconColor: AppColors.primaryDark)]),
+        actions: const [NotificationBellIcon(iconColor: AppColors.primary)]),
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.surfaceGradient,
@@ -71,16 +71,15 @@ class WelcomeScreen extends ConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
 
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
 
-                          // Slogan thương hiệu
+                          // Tagline
                           const Text(
                             AppStrings.appTagline,
                             style: TextStyle(
                               fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
-                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -141,7 +140,7 @@ class WelcomeScreen extends ConsumerWidget {
                                   context.push(AppRoutes.login);
                                 }
                               },
-                              icon: const Icon(Icons.add_business_rounded,
+                              icon: const Icon(LucideIcons.store,
                                   size: 20),
                               label: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,7 +185,7 @@ class WelcomeScreen extends ConsumerWidget {
                                 }
                               },
                               icon:
-                                  const Icon(Icons.group_add_rounded, size: 20),
+                                  const Icon(LucideIcons.userPlus, size: 20),
                               label: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
@@ -216,6 +215,28 @@ class WelcomeScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
+
+                            const SizedBox(height: 20),
+
+                            // Logout / Switch Account Button
+                            Center(
+                              child: TextButton.icon(
+                                onPressed: () async {
+                                  await ref.read(authNotifierProvider.notifier).signOut();
+                                  if (context.mounted) context.go(AppRoutes.login);
+                                },
+                                icon: const Icon(LucideIcons.logOut, size: 18, color: AppColors.textSecondary),
+                                label: const Text(
+                                  'Đăng xuất / Đăng nhập tài khoản khác',
+                                  style: TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 14,
+                                    fontFamily: 'BeVietnamPro',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -233,7 +254,7 @@ class WelcomeScreen extends ConsumerWidget {
                     if (context.mounted) context.go(AppRoutes.login);
                   },
                   icon:
-                      const Icon(Icons.logout_rounded, color: AppColors.white),
+                      const Icon(LucideIcons.logOut, color: AppColors.white),
                   tooltip: 'Đăng xuất',
                 ),
               ),

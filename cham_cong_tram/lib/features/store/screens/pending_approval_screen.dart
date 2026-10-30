@@ -9,6 +9,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../../auth/providers/auth_notifier.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_repository.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class PendingApprovalScreen extends ConsumerStatefulWidget {
   const PendingApprovalScreen({super.key});
@@ -52,9 +53,9 @@ class _PendingApprovalScreenState
         backgroundColor: AppColors.surface,
         automaticallyImplyLeading: false,
         actions: [
-          const NotificationBellIcon(iconColor: AppColors.primaryDark),
+          const NotificationBellIcon(iconColor: AppColors.primary),
           IconButton(
-            icon: const Icon(Icons.logout_rounded, color: AppColors.primaryDark),
+            icon: const Icon(LucideIcons.logOut, color: AppColors.primary),
             tooltip: 'Đăng xuất',
             onPressed: () async {
               await ref.read(authNotifierProvider.notifier).signOut();
@@ -80,7 +81,7 @@ class _PendingApprovalScreenState
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    Icons.hourglass_top_rounded,
+                    LucideIcons.hourglass,
                     color: AppColors.accent,
                     size: 64,
                   ),
@@ -160,13 +161,13 @@ class _PendingApprovalScreenState
                   child: const Column(
                     children: [
                       _InfoRow(
-                        icon: Icons.notifications_rounded,
+                        icon: LucideIcons.bell,
                         text:
                             'Bạn sẽ nhận được thông báo khi được duyệt',
                       ),
                       Divider(height: 20),
                       _InfoRow(
-                        icon: Icons.access_time_rounded,
+                        icon: LucideIcons.clock,
                         text: 'Quá trình xét duyệt thường mất vài phút',
                       ),
                     ],
@@ -180,8 +181,8 @@ class _PendingApprovalScreenState
                   child: OutlinedButton(
                     onPressed: _isCancelling ? null : _cancelRequest,
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primaryDark,
-                      side: const BorderSide(color: AppColors.primary, width: 1.5),
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -237,7 +238,7 @@ class _PendingApprovalScreenState
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             style:
-                TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
+                TextButton.styleFrom(foregroundColor: AppColors.primary),
             child: const Text('Hủy yêu cầu',
                 style: TextStyle(
                     fontFamily: 'BeVietnamPro',

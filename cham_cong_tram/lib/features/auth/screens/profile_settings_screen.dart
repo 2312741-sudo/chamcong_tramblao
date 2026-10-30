@@ -16,6 +16,7 @@ import '../providers/auth_notifier.dart';
 import '../providers/auth_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../../store/providers/user_repository.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ProfileSettingsScreen extends ConsumerStatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -77,12 +78,12 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
               ),
               const SizedBox(height: 12),
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded, color: AppColors.primary),
+                leading: const Icon(LucideIcons.images, color: AppColors.primary),
                 title: Text('Chọn từ thư viện ảnh', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600)),
                 onTap: () => Navigator.pop(ctx, ImageSource.gallery),
               ),
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded, color: AppColors.primary),
+                leading: const Icon(LucideIcons.camera, color: AppColors.primary),
                 title: Text('Chụp ảnh mới', style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w600)),
                 onTap: () => Navigator.pop(ctx, ImageSource.camera),
               ),
@@ -161,7 +162,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Color(0xFF143A2F),
+              onPrimary: Colors.white,
               onSurface: AppColors.neutral,
             ),
           ),
@@ -286,10 +287,14 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         title: Text(
           'Hồ sơ của tôi',
-          style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: const Color(0xFF143A2F)),
+          style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         elevation: 0,
       ),
@@ -363,7 +368,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                               ],
                             ),
                             child: const Icon(
-                              Icons.camera_alt_rounded,
+                              LucideIcons.camera,
                               size: 16,
                               color: Colors.white,
                             ),
@@ -427,7 +432,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.person_rounded, color: AppColors.primary, size: 20),
+                    const Icon(LucideIcons.user, color: AppColors.primary, size: 20),
                     const SizedBox(width: 8),
                     Text(
                       'Thông tin cá nhân',
@@ -455,7 +460,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     hintText: 'Nhập họ và tên',
-                    prefixIcon: const Icon(Icons.badge_outlined, size: 20),
+                    prefixIcon: const Icon(LucideIcons.idCard, size: 20),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -478,7 +483,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     hintText: 'Nhập số điện thoại',
-                    prefixIcon: const Icon(Icons.phone_outlined, size: 20),
+                    prefixIcon: const Icon(LucideIcons.phone, size: 20),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -507,7 +512,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.cake_outlined, size: 20, color: Colors.grey),
+                        const Icon(LucideIcons.cake, size: 20, color: Colors.grey),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -523,7 +528,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                             ),
                           ),
                         ),
-                        const Icon(Icons.calendar_today_rounded, size: 18, color: AppColors.primary),
+                        const Icon(LucideIcons.calendar, size: 18, color: AppColors.primary),
                       ],
                     ),
                   ),
@@ -550,7 +555,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.email_outlined, size: 20, color: Colors.grey),
+                      const Icon(LucideIcons.mail, size: 20, color: Colors.grey),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -590,7 +595,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                     onPressed: _isSavingProfile ? null : _saveProfile,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: const Color(0xFF143A2F),
+                      foregroundColor: Colors.white,
                       disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
@@ -598,9 +603,9 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF143A2F)),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                           )
-                        : const Icon(Icons.save_rounded, size: 20),
+                        : const Icon(LucideIcons.save, size: 20),
                     label: Text(
                       'Lưu thông tin cá nhân',
                       style: GoogleFonts.beVietnamPro(fontSize: 15, fontWeight: FontWeight.w700),
@@ -630,7 +635,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.business_center_rounded, color: AppColors.info, size: 20),
+                        const Icon(LucideIcons.briefcase, color: AppColors.info, size: 20),
                         const SizedBox(width: 8),
                         Text(
                           'Bộ phận của tôi',
@@ -737,7 +742,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.notifications_active_outlined, color: AppColors.primary, size: 20),
+                      const Icon(LucideIcons.bellRing, color: AppColors.primary, size: 20),
                       const SizedBox(width: 8),
                       Text(
                         'Cài đặt thông báo',
@@ -833,7 +838,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
-                          Icons.info_outline_rounded,
+                          LucideIcons.info,
                           color: AppColors.primary,
                           size: 22,
                         ),
@@ -863,7 +868,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                         ),
                       ),
                       const Icon(
-                        Icons.arrow_forward_ios_rounded,
+                        LucideIcons.chevronRight,
                         size: 14,
                         color: Color(0xFF94A3B8),
                       ),
@@ -894,7 +899,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.store_rounded, color: AppColors.primary, size: 20),
+                      const Icon(LucideIcons.store, color: AppColors.primary, size: 20),
                       const SizedBox(width: 8),
                       Text(
                         'Cửa hàng hiện tại',
@@ -949,7 +954,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                       storeAsync.valueOrNull!,
                       currentMember,
                     ),
-                    icon: const Icon(Icons.logout_rounded, color: AppColors.warning, size: 18),
+                    icon: const Icon(LucideIcons.logOut, color: AppColors.warning, size: 18),
                     label: Text(
                       'Rời cửa hàng này',
                       style: GoogleFonts.beVietnamPro(
@@ -983,7 +988,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 20),
+                    const Icon(LucideIcons.triangleAlert, color: AppColors.danger, size: 20),
                     const SizedBox(width: 8),
                     Text(
                       'Quản lý tài khoản',
@@ -1006,7 +1011,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
                   onPressed: () => _showDeleteAccountDialog(context),
-                  icon: const Icon(Icons.delete_forever_rounded, color: AppColors.danger, size: 18),
+                  icon: const Icon(LucideIcons.trash2, color: AppColors.danger, size: 18),
                   label: Text(
                     'Xóa tài khoản',
                     style: GoogleFonts.beVietnamPro(
@@ -1074,7 +1079,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
                     labelText: 'Mật khẩu',
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                     suffixIcon: IconButton(
-                      icon: Icon(obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                      icon: Icon(obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff),
                       onPressed: () => setDialogState(() => obscurePassword = !obscurePassword),
                     ),
                   ),
@@ -1194,7 +1199,7 @@ class _ProfileSettingsScreenState extends ConsumerState<ProfileSettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 24),
+            const Icon(LucideIcons.triangleAlert, color: AppColors.warning, size: 24),
             const SizedBox(width: 8),
             Text(
               'Rời cửa hàng',
@@ -1322,7 +1327,7 @@ class _DeptTile extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              const Icon(Icons.check_circle_rounded,
+              const Icon(LucideIcons.circleCheck,
                   color: AppColors.primary, size: 22),
           ],
         ),

@@ -8,6 +8,7 @@ import '../../../app/router.dart';
 import '../../auth/providers/auth_notifier.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_repository.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class JoinStoreScreen extends ConsumerStatefulWidget {
   const JoinStoreScreen({super.key});
@@ -78,18 +79,21 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
       backgroundColor: AppColors.surface,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         title: const Text(
           'Tham gia cửa hàng',
           style: TextStyle(
             fontFamily: 'BeVietnamPro',
             fontWeight: FontWeight.w700,
-            color: Color(0xFF143A2F),
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout_rounded, color: Color(0xFF143A2F)),
+            icon: const Icon(LucideIcons.logOut, color: Colors.white),
             tooltip: 'Đăng xuất',
             onPressed: () async {
               await ref.read(authNotifierProvider.notifier).signOut();
@@ -118,7 +122,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    Icons.store_rounded,
+                    LucideIcons.store,
                     color: AppColors.primary,
                     size: 48,
                   ),
@@ -224,7 +228,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                     onPressed: _isLoading ? null : _joinStore,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: const Color(0xFF143A2F),
+                      foregroundColor: Colors.white,
                       disabledBackgroundColor:
                           AppColors.primary.withOpacity(0.6),
                       elevation: 0,
@@ -238,7 +242,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                             height: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2.5,
-                              color: Color(0xFF143A2F),
+                              color: Colors.white,
                             ),
                           )
                         : const Text(
@@ -279,7 +283,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                   height: 56,
                   child: OutlinedButton.icon(
                     onPressed: () => context.push('/join-qr'),
-                    icon: const Icon(Icons.qr_code_scanner_rounded),
+                    icon: const Icon(LucideIcons.scanQrCode),
                     label: const Text(
                       'Quét mã QR',
                       style: TextStyle(
@@ -289,7 +293,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primaryDark,
+                      foregroundColor: AppColors.primary,
                       side: const BorderSide(color: AppColors.primary, width: 1.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -307,7 +311,7 @@ class _JoinStoreScreenState extends ConsumerState<JoinStoreScreen> {
                       await ref.read(authNotifierProvider.notifier).signOut();
                       if (context.mounted) context.go(AppRoutes.login);
                     },
-                    icon: const Icon(Icons.logout_rounded, size: 18, color: AppColors.textSecondary),
+                    icon: const Icon(LucideIcons.logOut, size: 18, color: AppColors.textSecondary),
                     label: const Text(
                       'Đăng xuất / Đăng nhập tài khoản khác',
                       style: TextStyle(

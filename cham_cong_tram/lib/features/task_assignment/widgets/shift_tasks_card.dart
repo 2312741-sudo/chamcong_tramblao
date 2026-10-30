@@ -8,6 +8,7 @@ import '../../attendance/providers/attendance_provider.dart';
 import '../../store/providers/store_provider.dart';
 import '../providers/task_provider.dart';
 import '../screens/task_report_screen.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Thẻ hiển thị trên Dashboard ca làm việc:
 /// - Lấy danh sách task của ngày được chọn áp dụng cho user hiện tại (todayUserTasksProvider)
@@ -104,7 +105,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Color(0xFF143A2F),
+              onPrimary: Colors.white,
               onSurface: AppColors.textPrimary,
             ),
           ),
@@ -128,7 +129,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
 
     if (isSelectedActiveShift) {
       if (isOvernightShift) {
-        return 'Ca hiện tại (${DateFormat('dd/MM').format(dt)}) 🌙';
+        return 'Ca hiện tại (${DateFormat('dd/MM').format(dt)})';
       }
       return 'Ca hiện tại (${DateFormat('dd/MM').format(dt)})';
     }
@@ -283,8 +284,8 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                     ),
                     child: Icon(
                       isAllDone
-                          ? Icons.task_alt_rounded
-                          : Icons.assignment_turned_in_rounded,
+                          ? LucideIcons.circleCheckBig
+                          : LucideIcons.clipboardCheck,
                       color: isAllDone ? AppColors.success : AppColors.primary,
                       size: 20,
                     ),
@@ -310,17 +311,21 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                dateTitle,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'BeVietnamPro',
-                                  color: AppColors.primaryDark,
+                              Flexible(
+                                child: Text(
+                                  dateTitle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'BeVietnamPro',
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                               ),
-                              const Icon(Icons.arrow_drop_down_rounded,
-                                  size: 16, color: AppColors.primaryDark),
+                              const Icon(LucideIcons.chevronDown,
+                                  size: 16, color: AppColors.primary),
                             ],
                           ),
                         ),
@@ -383,11 +388,11 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                     border: Border.all(color: const Color(0xFFBFDBFE)),
                   ),
                   child: const Row(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.nightlight_round, size: 13, color: Color(0xFF2563EB)),
+                      Padding(padding: EdgeInsets.only(top: 2), child: Icon(LucideIcons.moon, size: 13, color: Color(0xFF2563EB))),
                       SizedBox(width: 5),
-                      Text(
+                      Expanded(child: Text(
                         'Ca làm việc qua đêm • Việc thuộc ca hiển thị cho đến khi ra ca',
                         style: TextStyle(
                           fontSize: 11,
@@ -395,7 +400,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                           color: Color(0xFF1E40AF),
                           fontFamily: 'BeVietnamPro',
                         ),
-                      ),
+                      )),
                     ],
                   ),
                 ),
@@ -409,11 +414,11 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                     border: Border.all(color: const Color(0xFFBBF7D0)),
                   ),
                   child: const Row(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.fiber_manual_record_rounded, size: 10, color: Color(0xFF16A34A)),
+                      Padding(padding: EdgeInsets.only(top: 2), child: Icon(Icons.fiber_manual_record_rounded, size: 10, color: Color(0xFF16A34A))),
                       SizedBox(width: 5),
-                      Text(
+                      Expanded(child: Text(
                         'Đang trong ca làm việc',
                         style: TextStyle(
                           fontSize: 11,
@@ -421,7 +426,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                           color: Color(0xFF166534),
                           fontFamily: 'BeVietnamPro',
                         ),
-                      ),
+                      )),
                     ],
                   ),
                 ),
@@ -446,7 +451,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(color: AppColors.border, width: 0.8),
                           ),
-                          child: const Icon(Icons.chevron_left_rounded,
+                          child: const Icon(LucideIcons.chevronLeft,
                               size: 18, color: AppColors.textSecondary),
                         ),
                       ),
@@ -461,14 +466,14 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(color: AppColors.border, width: 0.8),
                           ),
-                          child: const Icon(Icons.chevron_right_rounded,
+                          child: const Icon(LucideIcons.chevronRight,
                               size: 18, color: AppColors.textSecondary),
                         ),
                       ),
                     ],
                   ),
                   if (isInShift && !isSelectedActiveShift)
-                    InkWell(
+                    Flexible(child: InkWell(
                       onTap: () => _goToCurrentShiftOrToday(activeShiftDate: activeShiftDate),
                       borderRadius: BorderRadius.circular(6),
                       child: Container(
@@ -480,21 +485,25 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.flash_on_rounded, size: 12, color: AppColors.primaryDark),
+                            const Icon(LucideIcons.zap, size: 12, color: AppColors.primary),
                             const SizedBox(width: 3),
-                            Text(
-                              'Về ca hiện tại (${activeShiftDate != null ? DateFormat('dd/MM').format(activeShiftDate) : ''})',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primaryDark,
-                                fontFamily: 'BeVietnamPro',
+                            Flexible(
+                              child: Text(
+                                'Về ca hiện tại (${activeShiftDate != null ? DateFormat('dd/MM').format(activeShiftDate) : ''})',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primary,
+                                  fontFamily: 'BeVietnamPro',
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    )
+                    ))
                   else if (!isInShift && !isToday)
                     InkWell(
                       onTap: () => _goToCurrentShiftOrToday(),
@@ -510,7 +519,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.primaryDark,
+                            color: AppColors.primary,
                             fontFamily: 'BeVietnamPro',
                           ),
                         ),
@@ -571,8 +580,8 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                         children: [
                           Icon(
                             isDone
-                                ? Icons.check_circle_rounded
-                                : Icons.pending_actions_rounded,
+                                ? LucideIcons.circleCheck
+                                : LucideIcons.clipboardClock,
                             color: isDone
                                 ? AppColors.success
                                 : AppColors.warning,
@@ -623,23 +632,23 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                                               horizontal: 5, vertical: 1.5),
                                           decoration: BoxDecoration(
                                             color: AppColors.primary
-                                                .withValues(alpha: 0.2),
+                                                .withValues(alpha: 0.1),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),
                                           child: const Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(Icons.repeat_rounded,
+                                              Icon(LucideIcons.repeat,
                                                   size: 10,
-                                                  color: AppColors.primaryDark),
+                                                  color: AppColors.primary),
                                               SizedBox(width: 3),
                                               Text(
                                                 'Lặp mỗi ngày',
                                                 style: TextStyle(
                                                   fontSize: 9.5,
                                                   fontWeight: FontWeight.w700,
-                                                  color: AppColors.primaryDark,
+                                                  color: AppColors.primary,
                                                   fontFamily: 'BeVietnamPro',
                                                 ),
                                               ),
@@ -658,7 +667,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                                           child: const Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(Icons.camera_alt_rounded,
+                                              Icon(LucideIcons.camera,
                                                   size: 10,
                                                   color: Color(0xFFE65100)),
                                               SizedBox(width: 3),
@@ -682,7 +691,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                           ),
                           const SizedBox(width: 6),
                           const Icon(
-                            Icons.chevron_right_rounded,
+                            LucideIcons.chevronRight,
                             size: 18,
                             color: AppColors.textDisabled,
                           ),
@@ -741,7 +750,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(
-                  Icons.task_alt_rounded,
+                  LucideIcons.circleCheckBig,
                   color: AppColors.success,
                   size: 20,
                 ),
@@ -767,17 +776,21 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            dateTitle,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'BeVietnamPro',
-                              color: AppColors.primaryDark,
+                          Flexible(
+                            child: Text(
+                              dateTitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'BeVietnamPro',
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
-                          const Icon(Icons.arrow_drop_down_rounded,
-                              size: 16, color: AppColors.primaryDark),
+                          const Icon(LucideIcons.chevronDown,
+                              size: 16, color: AppColors.primary),
                         ],
                       ),
                     ),
@@ -797,7 +810,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(color: AppColors.border, width: 0.8),
                       ),
-                      child: const Icon(Icons.chevron_left_rounded,
+                      child: const Icon(LucideIcons.chevronLeft,
                           size: 18, color: AppColors.textSecondary),
                     ),
                   ),
@@ -812,7 +825,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(color: AppColors.border, width: 0.8),
                       ),
-                      child: const Icon(Icons.chevron_right_rounded,
+                      child: const Icon(LucideIcons.chevronRight,
                           size: 18, color: AppColors.textSecondary),
                     ),
                   ),
@@ -842,7 +855,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                     style: const TextStyle(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primaryDark,
+                      color: AppColors.primary,
                       fontFamily: 'BeVietnamPro',
                     ),
                   ),
@@ -855,7 +868,7 @@ class _ShiftTasksCardState extends ConsumerState<ShiftTasksCard> {
                     style: TextStyle(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primaryDark,
+                      color: AppColors.primary,
                       fontFamily: 'BeVietnamPro',
                     ),
                   ),

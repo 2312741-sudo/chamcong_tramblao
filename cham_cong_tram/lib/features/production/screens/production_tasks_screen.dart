@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../models/production_model.dart';
 import '../../store/providers/store_provider.dart';
 import '../providers/production_provider.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ProductionTasksScreen extends ConsumerStatefulWidget {
   const ProductionTasksScreen({super.key});
@@ -168,7 +169,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: const Color(0xFF143A2F),
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
@@ -196,16 +197,18 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
       appBar: AppBar(
         title: const Text('Danh mục Checklist Sản xuất',
             style: TextStyle(
-                fontFamily: 'BeVietnamPro',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF143A2F))),
+                fontFamily: 'BeVietnamPro', fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
-        foregroundColor: const Color(0xFF143A2F),
+        foregroundColor: Colors.white,
+        // Theme chung đặt màu chữ/icon AppBar cố định → phải ghi rõ để nền màu dùng chữ trắng
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
         elevation: 0,
         actions: [
           if (isOwner)
             IconButton(
-              icon: const Icon(Icons.add_circle_outline_rounded),
+              icon: const Icon(LucideIcons.circlePlus),
               tooltip: 'Thêm công việc',
               onPressed: () {
                 final count = tasksAsync.valueOrNull?.length ?? 0;
@@ -226,7 +229,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.checklist_rounded,
+                    const Icon(LucideIcons.listChecks,
                         size: 64, color: AppColors.textDisabled),
                     const SizedBox(height: 16),
                     Text(
@@ -249,11 +252,11 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
                         onPressed: () => _openTaskDialog(currentCount: 0),
-                        icon: const Icon(Icons.add_rounded),
+                        icon: const Icon(LucideIcons.plus),
                         label: const Text('Thêm công việc mới'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          foregroundColor: const Color(0xFF143A2F),
+                          foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           padding: const EdgeInsets.symmetric(
@@ -276,7 +279,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                 color: const Color(0xFFF1F3F5),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline_rounded,
+                    const Icon(LucideIcons.info,
                         size: 16, color: AppColors.textSecondary),
                     const SizedBox(width: 8),
                     Expanded(
@@ -335,7 +338,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                     index: index,
                                     child: const Padding(
                                       padding: EdgeInsets.only(right: 8),
-                                      child: Icon(Icons.drag_handle_rounded,
+                                      child: Icon(LucideIcons.gripHorizontal,
                                           color: AppColors.textDisabled, size: 22),
                                     ),
                                   ),
@@ -352,7 +355,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                       style: GoogleFonts.beVietnamPro(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
-                                        color: const Color(0xFF143A2F),
+                                        color: AppColors.primary,
                                       ),
                                     ),
                                   ),
@@ -386,7 +389,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                       ),
                                       child: Text(
                                         hasUnit
-                                            ? '🏷️ ${task.unitLabel}'
+                                            ? task.unitLabel
                                             : '✓ Checklist',
                                         style: TextStyle(
                                           fontFamily: 'BeVietnamPro',
@@ -417,7 +420,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                     },
                                   ),
                                   PopupMenuButton<String>(
-                                    icon: const Icon(Icons.more_vert_rounded,
+                                    icon: const Icon(LucideIcons.ellipsisVertical,
                                         color: AppColors.textSecondary, size: 20),
                                     onSelected: (val) async {
                                       if (val == 'edit') {
@@ -456,7 +459,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                         value: 'edit',
                                         child: Row(
                                           children: [
-                                            Icon(Icons.edit_rounded, size: 18),
+                                            Icon(LucideIcons.pencil, size: 18),
                                             SizedBox(width: 8),
                                             Text('Chỉnh sửa'),
                                           ],
@@ -466,7 +469,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                         value: 'delete',
                                         child: Row(
                                           children: [
-                                            Icon(Icons.delete_outline_rounded,
+                                            Icon(LucideIcons.trash2,
                                                 size: 18, color: AppColors.danger),
                                             SizedBox(width: 8),
                                             Text('Xóa',
@@ -520,7 +523,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                   style: GoogleFonts.beVietnamPro(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF143A2F),
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ),
@@ -552,7 +555,7 @@ class _ProductionTasksScreenState extends ConsumerState<ProductionTasksScreen> {
                                       ),
                                       child: Text(
                                         hasUnit
-                                            ? '🏷️ ${task.unitLabel}'
+                                            ? task.unitLabel
                                             : '✓ Checklist',
                                         style: TextStyle(
                                           fontFamily: 'BeVietnamPro',
