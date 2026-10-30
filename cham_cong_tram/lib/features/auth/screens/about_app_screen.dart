@@ -15,8 +15,8 @@ class AboutAppScreen extends StatefulWidget {
 }
 
 class _AboutAppScreenState extends State<AboutAppScreen> {
-  String _version = '1.0.0';
-  String _buildNumber = '1';
+  String _version = '1.0.1';
+  String _buildNumber = '7';
   bool _isLoading = true;
 
   @override

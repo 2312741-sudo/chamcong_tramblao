@@ -29,8 +29,8 @@ class AppVersionControlModel {
   factory AppVersionControlModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>? ?? {};
     return AppVersionControlModel(
-      latestVersion: data['latestVersion'] as String? ?? '1.0.0',
-      minimumRequiredVersion: data['minimumRequiredVersion'] as String? ?? '1.0.0',
+      latestVersion: data['latestVersion'] as String? ?? '1.0.1',
+      minimumRequiredVersion: data['minimumRequiredVersion'] as String? ?? '1.0.1',
       updateMessage: data['updateMessage'] as String? ??
           'Đã có phiên bản mới với nhiều cải tiến và sửa lỗi quan trọng. Vui lòng cập nhật ứng dụng.',
       updateUrlIos: data['updateUrlIos'] as String? ??
