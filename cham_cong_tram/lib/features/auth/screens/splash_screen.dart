@@ -23,6 +23,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   bool _hasNavigated = false;
+  bool _timedOut = false;
 
   @override
   void initState() {
@@ -33,7 +34,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     });
   }
 
+  /// Chạy luồng khởi động với giới hạn thời gian để không xoay vô hạn
+  /// khi mạng yếu / Firestore không phản hồi.
   Future<void> _checkAuthAndNavigate() async {
+    if (_hasNavigated || !mounted) return;
+    if (_timedOut) setState(() => _timedOut = false);
+    try {
+      await _runStartupFlow().timeout(const Duration(seconds: 15));
+    } on TimeoutException {
+      debugPrint('SplashScreen: startup flow timed out');
+      if (mounted && !_hasNavigated) setState(() => _timedOut = true);
+    }
+  }
+
+  Future<void> _runStartupFlow() async {
     if (_hasNavigated || !mounted) return;
 
     try {
@@ -173,7 +187,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           'currentStoreId': newStoreId,
           'storeIds': validOtherStores.map((s) => s.id).toList(),
         }, SetOptions(merge: true));
-        _navigateTo(AppRoutes.splash);
+        // Đang ở /splash nên context.go(splash) không dựng lại màn hình;
+        // chạy lại luồng trực tiếp.
+        await _runStartupFlow();
         return;
       }
 
@@ -275,15 +291,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
               const SizedBox(height: 48),
 
-              // Loading Indicator
-              const SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(
-                  color: AppColors.primary,
-                  strokeWidth: 2.5,
+              if (_timedOut) ...[
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  child: Text(
+                    'Không kết nối được máy chủ. Vui lòng kiểm tra mạng và thử lại.',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _checkAuthAndNavigate,
+                  child: const Text('Thử lại'),
+                ),
+              ] else
+                // Loading Indicator
+                const SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                    strokeWidth: 2.5,
+                  ),
+                ),
             ],
           ),
         ),
