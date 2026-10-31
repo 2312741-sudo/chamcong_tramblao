@@ -68,7 +68,8 @@ class AppUpdateService {
       final doc = await FirebaseFirestore.instance
           .collection('app_config')
           .doc('version_control')
-          .get();
+          .get()
+          .timeout(const Duration(seconds: 4));
 
       if (!doc.exists) return null;
       return AppVersionControlModel.fromFirestore(doc);
