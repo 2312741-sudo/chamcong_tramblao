@@ -32,10 +32,8 @@ final currentStoreIdProvider = Provider<String?>((ref) {
       }
       // If store was deleted or kicked, cur is invalid -> will fallback below
     } else {
-      // Stores list not loaded yet: trust currentStoreId unless storeIds is non-empty and excludes it
-      if (user.storeIds.isEmpty || user.storeIds.contains(cur)) {
-        return cur;
-      }
+      // Stores list not loaded yet: trust currentStoreId immediately
+      return cur;
     }
   }
 

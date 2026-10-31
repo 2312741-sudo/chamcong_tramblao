@@ -20,7 +20,7 @@ final authStateChangesProvider = StreamProvider<User?>((ref) {
 
 final currentFirebaseUserProvider = Provider<User?>((ref) {
   final authState = ref.watch(authStateChangesProvider);
-  return authState.whenOrNull(data: (user) => user);
+  return authState.whenOrNull(data: (user) => user) ?? FirebaseAuth.instance.currentUser;
 });
 
 // ── Current User ID Provider ──────────────────────────────────────────────────

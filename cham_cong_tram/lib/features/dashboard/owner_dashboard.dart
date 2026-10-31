@@ -155,10 +155,44 @@ class _OwnerHomeTab extends ConsumerWidget {
       return const Scaffold(body: SizedBox.shrink());
     }
 
-    final user = ref.watch(currentUserProvider).value;
-    final store = ref.watch(currentStoreProvider).value;
+    final userAsync = ref.watch(currentUserProvider);
+    final storeAsync = ref.watch(currentStoreProvider);
+    final user = userAsync.valueOrNull;
+    final store = storeAsync.valueOrNull;
 
     if (store == null) {
+      if (storeAsync.hasError || userAsync.hasError) {
+        final err = storeAsync.error ?? userAsync.error;
+        return Scaffold(
+          backgroundColor: AppColors.surface,
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(LucideIcons.triangleAlert, size: 48, color: AppColors.danger),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Không thể tải dữ liệu: $err',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontFamily: 'BeVietnamPro'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.invalidate(currentUserProvider);
+                      ref.invalidate(currentStoreProvider);
+                      ref.invalidate(userStoresProvider);
+                    },
+                    child: const Text('Thử lại'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
@@ -565,10 +599,44 @@ class _OwnerHomeTab extends ConsumerWidget {
 class _OwnerSettingsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(currentUserProvider).value;
-    final store = ref.watch(currentStoreProvider).value;
+    final userAsync = ref.watch(currentUserProvider);
+    final storeAsync = ref.watch(currentStoreProvider);
+    final user = userAsync.valueOrNull;
+    final store = storeAsync.valueOrNull;
 
     if (store == null) {
+      if (storeAsync.hasError || userAsync.hasError) {
+        final err = storeAsync.error ?? userAsync.error;
+        return Scaffold(
+          backgroundColor: AppColors.surface,
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(LucideIcons.triangleAlert, size: 48, color: AppColors.danger),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Không thể tải dữ liệu: $err',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontFamily: 'BeVietnamPro'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.invalidate(currentUserProvider);
+                      ref.invalidate(currentStoreProvider);
+                      ref.invalidate(userStoresProvider);
+                    },
+                    child: const Text('Thử lại'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 

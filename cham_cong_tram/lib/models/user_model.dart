@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
@@ -31,8 +32,25 @@ class UserModel extends Equatable {
     DateTime? parsedBirthday;
     if (json['birthday'] != null) {
       try {
-        parsedBirthday = DateTime.parse(json['birthday'].toString());
+        if (json['birthday'] is Timestamp) {
+          parsedBirthday = (json['birthday'] as Timestamp).toDate().toUtc();
+        } else {
+          parsedBirthday = DateTime.tryParse(json['birthday'].toString());
+        }
       } catch (_) {}
+    }
+
+    DateTime parsedCreatedAt;
+    try {
+      if (json['createdAt'] is Timestamp) {
+        parsedCreatedAt = (json['createdAt'] as Timestamp).toDate().toUtc();
+      } else if (json['createdAt'] != null) {
+        parsedCreatedAt = DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now().toUtc();
+      } else {
+        parsedCreatedAt = DateTime.now().toUtc();
+      }
+    } catch (_) {
+      parsedCreatedAt = DateTime.now().toUtc();
     }
 
     return UserModel(
@@ -45,9 +63,7 @@ class UserModel extends Equatable {
       currentStoreId: json['currentStoreId'],
       storeIds: List<String>.from(json['storeIds'] ?? []),
       notifyShiftInOut: json['notifyShiftInOut'] as bool? ?? true,
-      createdAt: json['createdAt'] != null 
-          ? DateTime.parse(json['createdAt'].toString()) 
-          : DateTime.now(),
+      createdAt: parsedCreatedAt,
     );
   }
 

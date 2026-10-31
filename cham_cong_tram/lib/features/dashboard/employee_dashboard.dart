@@ -132,13 +132,45 @@ class _EmployeeDashboardState extends ConsumerState<EmployeeDashboard>
       }
     });
 
-    final store = ref.watch(currentStoreProvider).value;
+    final storeAsync = ref.watch(currentStoreProvider);
+    final store = storeAsync.valueOrNull;
 
     if (uid == null) {
       return const Scaffold(body: SizedBox.shrink());
     }
 
     if (store == null) {
+      if (storeAsync.hasError) {
+        return Scaffold(
+          backgroundColor: AppColors.surface,
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(LucideIcons.triangleAlert, size: 48, color: AppColors.danger),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Không thể tải dữ liệu: ${storeAsync.error}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontFamily: 'BeVietnamPro'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.invalidate(currentUserProvider);
+                      ref.invalidate(currentStoreProvider);
+                      ref.invalidate(userStoresProvider);
+                    },
+                    child: const Text('Thử lại'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
