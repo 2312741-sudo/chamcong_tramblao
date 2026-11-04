@@ -1,13 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../constants/app_colors.dart';
 import '../utils/version_utils.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../widgets/app_update_dialog.dart';
+
+export '../widgets/app_update_dialog.dart';
 
 class AppVersionControlModel {
   final String latestVersion;
@@ -16,6 +21,7 @@ class AppVersionControlModel {
   final String? updateUrlIos;
   final String? updateUrlAndroid;
   final String? updateUrl;
+  final String? apkUrl;
 
   const AppVersionControlModel({
     required this.latestVersion,
@@ -24,21 +30,40 @@ class AppVersionControlModel {
     this.updateUrlIos,
     this.updateUrlAndroid,
     this.updateUrl,
+    this.apkUrl,
   });
 
-  factory AppVersionControlModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>? ?? {};
+  factory AppVersionControlModel.fromMap(Map<String, dynamic> data) {
+    final rawApkUrl = data['apkUrl'] as String?;
+    final rawAndroidUrl = data['updateUrlAndroid'] as String?;
+
+    String? resolvedApkUrl;
+    if (rawApkUrl != null && rawApkUrl.trim().isNotEmpty) {
+      resolvedApkUrl = rawApkUrl.trim();
+    } else if (rawAndroidUrl != null &&
+        rawAndroidUrl.trim().toLowerCase().endsWith('.apk')) {
+      resolvedApkUrl = rawAndroidUrl.trim();
+    }
+
     return AppVersionControlModel(
       latestVersion: data['latestVersion'] as String? ?? '1.0.2',
-      minimumRequiredVersion: data['minimumRequiredVersion'] as String? ?? '1.0.2',
+      minimumRequiredVersion:
+          data['minimumRequiredVersion'] as String? ?? '1.0.2',
       updateMessage: data['updateMessage'] as String? ??
           'Đã có phiên bản mới với nhiều cải tiến và sửa lỗi quan trọng. Vui lòng cập nhật ứng dụng.',
       updateUrlIos: data['updateUrlIos'] as String? ??
           'https://apps.apple.com/app/id6742385802',
-      updateUrlAndroid: data['updateUrlAndroid'] as String? ??
+      updateUrlAndroid: rawAndroidUrl ??
           'https://play.google.com/store/apps/details?id=com.tramblao.chamcong',
-      updateUrl: data['updateUrl'] as String? ?? 'https://chamcong-tramblao.vercel.app',
+      updateUrl:
+          data['updateUrl'] as String? ?? 'https://chamcong-tramblao.vercel.app',
+      apkUrl: resolvedApkUrl,
     );
+  }
+
+  factory AppVersionControlModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>? ?? {};
+    return AppVersionControlModel.fromMap(data);
   }
 
   String get targetStoreUrl {
@@ -49,7 +74,9 @@ class AppVersionControlModel {
       return updateUrlIos ?? updateUrl ?? 'https://apps.apple.com/app/id6742385802';
     }
     if (Platform.isAndroid) {
-      return updateUrlAndroid ?? updateUrl ?? 'https://play.google.com/store/apps/details?id=com.tramblao.chamcong';
+      return updateUrlAndroid ??
+          updateUrl ??
+          'https://play.google.com/store/apps/details?id=com.tramblao.chamcong';
     }
     return updateUrl ?? 'https://chamcong-tramblao.vercel.app';
   }
@@ -61,6 +88,12 @@ class AppUpdateService {
   AppUpdateService._internal();
 
   bool _isDialogShowing = false;
+  http.Client? _httpClient;
+
+  @visibleForTesting
+  void setHttpClientForTest(http.Client client) {
+    _httpClient = client;
+  }
 
   /// Fetches version control configuration from Firestore collection `app_config`, doc `version_control`
   Future<AppVersionControlModel?> fetchVersionConfig() async {
@@ -96,7 +129,12 @@ class AppUpdateService {
       if (config == null) {
         if (isManualCheck && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Không thể kết nối máy chủ để kiểm tra phiên bản')),
+            SnackBar(
+              content: Text(
+                'Không thể kết nối máy chủ để kiểm tra phiên bản',
+                style: GoogleFonts.beVietnamPro(),
+              ),
+            ),
           );
         }
         return;
@@ -130,7 +168,10 @@ class AppUpdateService {
       if (isManualCheck && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Bạn đang sử dụng phiên bản mới nhất ($currentVersion)'),
+            content: Text(
+              'Bạn đang sử dụng phiên bản mới nhất ($currentVersion)',
+              style: GoogleFonts.beVietnamPro(),
+            ),
             backgroundColor: AppColors.success,
           ),
         );
@@ -148,152 +189,86 @@ class AppUpdateService {
   }) {
     _isDialogShowing = true;
 
-    showDialog(
-      context: context,
-      barrierDismissible: !isForce,
-      builder: (dialogCtx) => PopScope(
-        canPop: !isForce,
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-          titlePadding: EdgeInsets.zero,
-          title: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: isForce
-                  ? const Color(0xFFDC2626).withValues(alpha: 0.08)
-                  : AppColors.primary.withValues(alpha: 0.12),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: isForce ? const Color(0xFFDC2626) : AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    isForce ? LucideIcons.smartphone : LucideIcons.badgeAlert,
-                    color: isForce ? Colors.white : AppColors.primaryDark,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  isForce ? 'Bắt buộc cập nhật ứng dụng' : 'Đã có phiên bản mới',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.beVietnamPro(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF1E293B),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Phiên bản mới: v${config.latestVersion} (Hiện tại: v$currentVersion)',
-                  style: GoogleFonts.beVietnamPro(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                config.updateMessage.isNotEmpty
-                    ? config.updateMessage
-                    : 'Ứng dụng đã có bản cập nhật mới với nhiều cải tiến và tính năng hữu ích. Vui lòng cập nhật để có trải nghiệm tốt nhất.',
-                style: GoogleFonts.beVietnamPro(
-                  fontSize: 13.5,
-                  color: const Color(0xFF334155),
-                  height: 1.5,
-                ),
-              ),
-              if (isForce) ...[
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFEF2F2),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFFFCA5A5)),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(LucideIcons.triangleAlert, color: Color(0xFFDC2626), size: 18),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Phiên bản hiện tại không còn được hỗ trợ. Bạn cần cập nhật để tiếp tục sử dụng.',
-                          style: GoogleFonts.beVietnamPro(
-                            fontSize: 11.5,
-                            color: const Color(0xFFB91C1C),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ],
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          actions: [
-            if (!isForce)
-              TextButton(
-                onPressed: () {
-                  _isDialogShowing = false;
-                  Navigator.of(dialogCtx).pop();
-                },
-                child: Text(
-                  'Để sau',
-                  style: GoogleFonts.beVietnamPro(
-                    color: const Color(0xFF64748B),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isForce ? const Color(0xFFDC2626) : AppColors.primary,
-                foregroundColor: isForce ? Colors.white : AppColors.primaryDark,
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              ),
-              onPressed: () async {
-                final url = config.targetStoreUrl;
-                try {
-                  final uri = Uri.parse(url);
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  }
-                } catch (e) {
-                  debugPrint('Failed to launch store URL: $e');
-                }
-              },
-              child: Text(
-                'Cập nhật ngay',
-                style: GoogleFonts.beVietnamPro(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: isForce ? Colors.white : AppColors.primaryDark,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    AppUpdateDialog.show(
+      context,
+      config: config,
+      isForce: isForce,
+      currentVersion: currentVersion,
     ).then((_) {
       _isDialogShowing = false;
     });
+  }
+
+  /// Tải file APK từ URL với báo cáo tiến trình %
+  Future<File> downloadApkFile(
+    String url, {
+    required void Function(double progress, int received, int total) onProgress,
+    void Function(String status)? onStatusChange,
+  }) async {
+    if (!kIsWeb && !Platform.isAndroid && _httpClient == null) {
+      throw UnsupportedError(
+          'Tự động cập nhật APK chỉ hỗ trợ trên thiết bị Android');
+    }
+
+    final uri = Uri.parse(url);
+    final client = _httpClient ?? http.Client();
+    final request = http.Request('GET', uri);
+    final response = await client.send(request);
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Không thể tải file APK (Mã lỗi HTTP ${response.statusCode})');
+    }
+
+    final totalBytes = response.contentLength ?? 0;
+    int receivedBytes = 0;
+
+    // Lấy thư mục lưu file tạm trên Android
+    final dir = await getTemporaryDirectory();
+    final filePath = '${dir.path}/tram_chamcong_update.apk';
+    final file = File(filePath);
+
+    if (await file.exists()) {
+      try {
+        await file.delete();
+      } catch (_) {}
+    }
+
+    onStatusChange?.call('Đang tải xuống...');
+    final sink = file.openWrite();
+
+    try {
+      await for (final chunk in response.stream) {
+        sink.add(chunk);
+        receivedBytes += chunk.length;
+        final progress =
+            totalBytes > 0 ? (receivedBytes / totalBytes).clamp(0.0, 1.0) : 0.0;
+        onProgress(progress, receivedBytes, totalBytes);
+      }
+      await sink.flush();
+    } finally {
+      await sink.close();
+    }
+
+    onStatusChange?.call('Tải xong, chuẩn bị cài đặt...');
+    return file;
+  }
+
+  /// Kích hoạt trình cài đặt APK của Android PackageInstaller
+  Future<OpenResult> installApk(String filePath) async {
+    if (!kIsWeb && !Platform.isAndroid) {
+      throw UnsupportedError('Chức năng cài đặt APK chỉ hỗ trợ trên Android');
+    }
+
+    final file = File(filePath);
+    if (!await file.exists()) {
+      throw Exception('File APK không tồn tại hoặc đã bị xóa');
+    }
+
+    final result = await OpenFilex.open(
+      filePath,
+      type: 'application/vnd.android.package-archive',
+    );
+    return result;
   }
 }
