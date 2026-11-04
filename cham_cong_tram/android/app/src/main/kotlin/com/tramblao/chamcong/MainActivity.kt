@@ -1,4 +1,4 @@
-package com.chamcongtram.cham_cong_tram
+package com.tramblao.chamcong
 
 import io.flutter.embedding.android.FlutterActivity
 
