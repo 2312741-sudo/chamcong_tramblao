@@ -15,7 +15,6 @@ import '../features/store/screens/pending_approval_screen.dart';
 import '../features/store/screens/store_settings_screen.dart';
 import '../features/store/screens/shift_settings_screen.dart';
 import '../features/store/screens/qr_display_screen.dart';
-import '../features/production/screens/production_tasks_screen.dart';
 import '../features/attendance/screens/check_in_screen.dart';
 import '../features/attendance/screens/active_staff_screen.dart';
 import '../features/attendance/screens/attendance_history_screen.dart';
@@ -81,7 +80,6 @@ class AppRoutes {
   static const String profileSettings = '/profile-settings';
   static const String aboutApp = '/about-app';
   static const String notifications = '/notifications';
-  static const String productionTasks = '/production-tasks';
   static const String taskReport = '/task-report';
   static const String taskManagement = '/task-management';
   static const String taskDetail = '/task-detail';
@@ -325,11 +323,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.shiftSettings,
         name: 'shift-settings',
         builder: (context, state) => const ShiftSettingsScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.productionTasks,
-        name: 'production-tasks',
-        builder: (context, state) => const ProductionTasksScreen(),
       ),
       GoRoute(
         path: AppRoutes.qrDisplay,

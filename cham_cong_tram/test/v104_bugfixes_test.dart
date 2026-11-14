@@ -1,60 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cham_cong_tram/core/auth/app_permissions.dart';
 import 'package:cham_cong_tram/models/member_model.dart';
-import 'package:cham_cong_tram/models/production_model.dart';
 import 'package:cham_cong_tram/models/attendance_model.dart';
 import 'package:cham_cong_tram/core/widgets/avatar_widget.dart';
 import 'package:cham_cong_tram/app/router.dart';
 
 void main() {
-  group('BUG 1: Production Checklist Decimal Parsing Tests', () {
-    test('Correctly parses comma decimal separator into double', () {
-      final inputComma = '2,5'.replaceAll(',', '.');
-      final val1 = double.tryParse(inputComma);
-      expect(val1, equals(2.5));
-
-      final inputComma2 = '0,75'.replaceAll(',', '.');
-      final val2 = double.tryParse(inputComma2);
-      expect(val2, equals(0.75));
-
-      final inputComma3 = '12,50'.replaceAll(',', '.');
-      final val3 = double.tryParse(inputComma3);
-      expect(val3, equals(12.5));
-    });
-
-    test('Correctly parses dot decimal separator into double', () {
-      final inputDot = '2.5'.replaceAll(',', '.');
-      final val1 = double.tryParse(inputDot);
-      expect(val1, equals(2.5));
-
-      final inputDot2 = '0.75'.replaceAll(',', '.');
-      final val2 = double.tryParse(inputDot2);
-      expect(val2, equals(0.75));
-    });
-
-    test('ProductionTaskEntry supports double values from json', () {
-      final json1 = {
-        'taskId': 'task_1',
-        'taskName': 'Nấu sốt me',
-        'unit': 'kg',
-        'unitLabel': 'Kg',
-        'value': 2.5,
-      };
-      final entry1 = ProductionTaskEntry.fromJson(json1);
-      expect(entry1.value, equals(2.5));
-
-      final json2 = {
-        'taskId': 'task_2',
-        'taskName': 'Làm trân châu',
-        'unit': 'kg',
-        'unitLabel': 'Kg',
-        'value': 5, // Integer input from backend
-      };
-      final entry2 = ProductionTaskEntry.fromJson(json2);
-      expect(entry2.value, equals(5.0));
-    });
-  });
-
   group('TASK 5: Cross-Midnight Attendance Tests', () {
     test('Attendance active state is true when checkOut is null regardless of cross-midnight', () {
       final checkInDay1 = DateTime.utc(2026, 8, 24, 22, 0); // 22:00

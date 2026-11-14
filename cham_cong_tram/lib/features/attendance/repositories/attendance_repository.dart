@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/attendance_model.dart';
@@ -99,9 +98,8 @@ class AttendanceRepository {
 
   Future<void> checkOut(
     String storeId,
-    String userId, {
-    bool isProductionShift = false,
-  }) async {
+    String userId,
+  ) async {
     try {
       final now = DateTime.now().toUtc();
 
@@ -121,59 +119,6 @@ class AttendanceRepository {
       final vnCheckIn = checkIn.add(const Duration(hours: 7));
       final workdayDate =
           '${vnCheckIn.year}-${vnCheckIn.month.toString().padLeft(2, '0')}-${vnCheckIn.day.toString().padLeft(2, '0')}';
-
-      // If user is in a production shift, verify that a production report was submitted for this workday
-      // (only within the valid window up to 03:00 AM the next day VN Time)
-      if (isProductionShift) {
-        final vnNow = now.add(const Duration(hours: 7));
-        final deadline = DateTime.utc(
-          vnCheckIn.year,
-          vnCheckIn.month,
-          vnCheckIn.day + 1,
-          3,
-          0,
-          0,
-        );
-        final isWithinValidWindow = vnNow.isBefore(deadline);
-
-        if (isWithinValidWindow) {
-          final reportsQuery = await _firestore
-              .collection('stores')
-              .doc(storeId)
-              .collection('production_reports')
-              .where('userId', isEqualTo: userId)
-              .where('date', isEqualTo: workdayDate)
-              .limit(1)
-              .get();
-
-          if (reportsQuery.docs.isEmpty) {
-            try {
-              await FirebaseFunctions.instanceFor(region: 'asia-east2').httpsCallable('requestChecklistNotification').call({
-                'storeId': storeId, 'attendanceId': doc.id,
-              });
-            } catch (_) {}
-            try {
-              await _firestore
-                  .collection('stores')
-                  .doc(storeId)
-                  .collection('notifications')
-                  .add({
-                'storeId': storeId,
-                'title': 'Nhắc nhở: Chưa nộp báo cáo sản xuất',
-                'body':
-                    'Bạn đang trong ca sản xuất ngày $workdayDate nhưng chưa nộp báo cáo checklist. Vui lòng hoàn thành để chấm ra.',
-                'type': 'checklist_reminder',
-                'createdAt': Timestamp.now(),
-                'targetUserId': userId,
-                'readBy': [],
-                'routePath': '/production/report',
-              });
-            } catch (_) {}
-            throw Exception(
-                'Bắt buộc phải hoàn thành và gửi báo cáo sản xuất trước khi ra ca.');
-          }
-        }
-      }
 
       final totalHours = now.difference(checkIn).inMinutes / 60.0;
 
