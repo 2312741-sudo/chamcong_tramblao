@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
-import 'package:cham_cong_tram/core/utils/location_utils.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
+import 'package:blao_workforce_hub/core/utils/location_utils.dart';
 
 void main() {
   group('Multi-WiFi BSSID Authentication & Legacy Migration Tests', () {

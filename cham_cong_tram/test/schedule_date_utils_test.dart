@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/features/schedule/repositories/schedule_repository.dart';
+import 'package:blao_workforce_hub/features/schedule/repositories/schedule_repository.dart';
 
 void main() {
   group('Schedule Date Utils Tests', () {

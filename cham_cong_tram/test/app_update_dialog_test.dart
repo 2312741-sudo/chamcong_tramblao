@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/services/app_update_service.dart';
+import 'package:blao_workforce_hub/core/services/app_update_service.dart';
 
 void main() {
   group('AppUpdateDialog UI Tests', () {

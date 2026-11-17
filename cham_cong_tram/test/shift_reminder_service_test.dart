@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/services/shift_reminder_service.dart';
-import 'package:cham_cong_tram/models/schedule_model.dart';
-import 'package:cham_cong_tram/features/store/screens/shift_settings_screen.dart';
+import 'package:blao_workforce_hub/core/services/shift_reminder_service.dart';
+import 'package:blao_workforce_hub/models/schedule_model.dart';
+import 'package:blao_workforce_hub/features/store/screens/shift_settings_screen.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

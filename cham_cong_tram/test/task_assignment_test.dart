@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/utils/department_utils.dart';
-import 'package:cham_cong_tram/models/member_model.dart';
-import 'package:cham_cong_tram/models/schedule_model.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
-import 'package:cham_cong_tram/models/task_assignment_model.dart';
-import 'package:cham_cong_tram/features/task_assignment/repositories/task_repository.dart';
+import 'package:blao_workforce_hub/core/utils/department_utils.dart';
+import 'package:blao_workforce_hub/models/member_model.dart';
+import 'package:blao_workforce_hub/models/schedule_model.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
+import 'package:blao_workforce_hub/models/task_assignment_model.dart';
+import 'package:blao_workforce_hub/features/task_assignment/repositories/task_repository.dart';
 
 /// Test double cho TaskRepository để kiểm thử logic nghiệp vụ
 class TestTaskRepository extends TaskRepository {

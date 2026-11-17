@@ -20,6 +20,7 @@ import '../../features/schedule/providers/schedule_provider.dart';
 import '../../features/schedule/screens/employee_schedule_tab.dart';
 import '../../features/schedule/screens/schedule_manager_screen.dart';
 import '../task_assignment/widgets/shift_tasks_card.dart';
+import '../blao_station/widgets/blao_station_card.dart';
 
 import '../../core/services/app_update_service.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -332,6 +333,14 @@ class _ManagerHomeTab extends ConsumerWidget {
                 ),
               ),
             ),
+          ),
+        ),
+
+        // Trạm BLAO Station SOP & Timers Card
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+            child: BlaoStationCard(),
           ),
         ),
 

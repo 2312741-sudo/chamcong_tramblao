@@ -372,44 +372,123 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
-                  // ── Header ────────────────────────────────────────────
-                  Center(
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/images/logo.jpg'),
-                          fit: BoxFit.contain,
-                        ),
+                  // ── Trạm BLAO Highland Hero Banner ────────────────────
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF143A2F), Color(0xFF1F5747)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.45),
+                        width: 1.2,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x22143A2F),
+                          blurRadius: 18,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 68,
+                              height: 68,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: AppColors.primary,
+                                  width: 2,
+                                ),
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/images/logo.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 14),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'TRẠM BLAO WORKFORCE',
+                                    style: TextStyle(
+                                      fontFamily: 'BeVietnamPro',
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 1.1,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    AppStrings.appName,
+                                    style: TextStyle(
+                                      fontFamily: 'BeVietnamPro',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(
+                                    'Hệ thống điều phối ca trực & tiêu chuẩn quầy Trạm Trà - Trạm Bánh',
+                                    style: TextStyle(
+                                      fontFamily: 'BeVietnamPro',
+                                      fontSize: 12,
+                                      color: Colors.white70,
+                                      height: 1.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 6,
+                          children: [
+                            _buildBrandChip(LucideIcons.mapPinCheck, 'GPS & WiFi Quầy'),
+                            _buildBrandChip(LucideIcons.cupSoda, 'Trà Ô Long Blao'),
+                            _buildBrandChip(LucideIcons.croissant, 'Bánh Lăn Nướng'),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
 
                   const SizedBox(height: 24),
 
-                  Center(
-                    child: Text(
-                      AppStrings.login,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                  Text(
+                    'Đăng nhập ca trực',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primaryDark,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Dành cho Nhân viên, Quản lý & Chủ cửa hàng Trạm BLAO',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
                   ),
 
-                  const SizedBox(height: 8),
-
-                  Center(
-                    child: Text(
-                      'Đăng nhập vào tài khoản của bạn',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
                   // ── Email Field ───────────────────────────────────────
                   TextFormField(
@@ -548,12 +627,98 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ),
 
+                  const SizedBox(height: 8),
+
+                  // ── Public Station SOP & Batch Timer Access ───────────
+                  InkWell(
+                    onTap: () => context.push(AppRoutes.blaoStationSop),
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            LucideIcons.flameKindling,
+                            color: AppColors.primaryDark,
+                            size: 20,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sổ Tay & Bộ Hẹn Giờ Quầy Trạm BLAO',
+                                  style: TextStyle(
+                                    fontFamily: 'BeVietnamPro',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primaryDark,
+                                  ),
+                                ),
+                                Text(
+                                  'Tiêu chuẩn lò Bánh Lăn Nướng 185°C & ủ Trà Ô Long 92°C',
+                                  style: TextStyle(
+                                    fontFamily: 'BeVietnamPro',
+                                    fontSize: 11.5,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            LucideIcons.chevronRight,
+                            size: 16,
+                            color: AppColors.primaryDark,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(height: 24),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildBrandChip(IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white24, width: 0.8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 13, color: AppColors.primary),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: const TextStyle(
+              fontFamily: 'BeVietnamPro',
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }

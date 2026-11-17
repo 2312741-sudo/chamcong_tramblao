@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/constants/app_colors.dart';
-import 'package:cham_cong_tram/features/schedule/screens/schedule_palette.dart';
-import 'package:cham_cong_tram/models/member_model.dart';
+import 'package:blao_workforce_hub/core/constants/app_colors.dart';
+import 'package:blao_workforce_hub/features/schedule/screens/schedule_palette.dart';
+import 'package:blao_workforce_hub/models/member_model.dart';
 
 void main() {
   test('manager variants share blue schedule styling', () {

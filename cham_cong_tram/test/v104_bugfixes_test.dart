@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/auth/app_permissions.dart';
-import 'package:cham_cong_tram/models/member_model.dart';
-import 'package:cham_cong_tram/models/production_model.dart';
-import 'package:cham_cong_tram/models/attendance_model.dart';
-import 'package:cham_cong_tram/core/widgets/avatar_widget.dart';
-import 'package:cham_cong_tram/app/router.dart';
+import 'package:blao_workforce_hub/core/auth/app_permissions.dart';
+import 'package:blao_workforce_hub/models/member_model.dart';
+import 'package:blao_workforce_hub/models/production_model.dart';
+import 'package:blao_workforce_hub/models/attendance_model.dart';
+import 'package:blao_workforce_hub/core/widgets/avatar_widget.dart';
+import 'package:blao_workforce_hub/app/router.dart';
 
 void main() {
   group('BUG 1: Production Checklist Decimal Parsing Tests', () {

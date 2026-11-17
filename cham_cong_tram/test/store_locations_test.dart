@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
 
 void main() {
   group('Multi-Location GPS Configuration & Custom Naming Tests', () {

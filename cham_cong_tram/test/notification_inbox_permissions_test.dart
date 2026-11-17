@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/features/notifications/repositories/notification_repository.dart';
-import 'package:cham_cong_tram/models/member_model.dart';
-import 'package:cham_cong_tram/models/app_notification_model.dart';
+import 'package:blao_workforce_hub/features/notifications/repositories/notification_repository.dart';
+import 'package:blao_workforce_hub/models/member_model.dart';
+import 'package:blao_workforce_hub/models/app_notification_model.dart';
 void main() {
   test('unresolved membership has no store inbox scope', () {
     expect(NotificationRepository.scopes(null), isEmpty);

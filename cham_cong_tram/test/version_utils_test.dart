@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/utils/version_utils.dart';
+import 'package:blao_workforce_hub/core/utils/version_utils.dart';
 
 void main() {
   group('VersionUtils SemVer Tests', () {

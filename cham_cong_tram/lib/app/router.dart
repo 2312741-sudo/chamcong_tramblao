@@ -38,6 +38,7 @@ import '../features/dashboard/employee_dashboard.dart';
 import '../features/task_assignment/screens/task_report_screen.dart';
 import '../features/task_assignment/screens/task_management_screen.dart';
 import '../features/task_assignment/screens/task_detail_screen.dart';
+import '../features/blao_station/blao_station_sop_screen.dart';
 import '../models/task_assignment_model.dart';
 import '../models/member_model.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -85,6 +86,7 @@ class AppRoutes {
   static const String taskReport = '/task-report';
   static const String taskManagement = '/task-management';
   static const String taskDetail = '/task-detail';
+  static const String blaoStationSop = '/blao-station-sop';
 }
 
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -124,6 +126,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final publicScreens = [
         AppRoutes.login,
         AppRoutes.register,
+        AppRoutes.blaoStationSop,
       ];
       final isOnPublicScreen = publicScreens.contains(currentPath);
 
@@ -345,6 +348,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.aboutApp,
         name: 'about-app',
         builder: (context, state) => const AboutAppScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.blaoStationSop,
+        name: 'blao-station-sop',
+        builder: (context, state) => const BlaoStationSopScreen(),
       ),
       GoRoute(
         path: AppRoutes.notifications,

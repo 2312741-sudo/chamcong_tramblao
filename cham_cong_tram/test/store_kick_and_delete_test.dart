@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
-import 'package:cham_cong_tram/models/user_model.dart';
-import 'package:cham_cong_tram/models/member_model.dart';
-import 'package:cham_cong_tram/app/router.dart';
-import 'package:cham_cong_tram/features/store/services/store_inheritance_service.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
+import 'package:blao_workforce_hub/models/user_model.dart';
+import 'package:blao_workforce_hub/models/member_model.dart';
+import 'package:blao_workforce_hub/app/router.dart';
+import 'package:blao_workforce_hub/features/store/services/store_inheritance_service.dart';
 
 void main() {
   group('StoreModel soft-delete status tests', () {

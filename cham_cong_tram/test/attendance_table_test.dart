@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cham_cong_tram/features/attendance/screens/attendance_table_screen.dart';
+import 'package:blao_workforce_hub/features/attendance/screens/attendance_table_screen.dart';
 
 void main() {
   testWidgets('AttendanceTableScreen check widgets', (WidgetTester tester) async {

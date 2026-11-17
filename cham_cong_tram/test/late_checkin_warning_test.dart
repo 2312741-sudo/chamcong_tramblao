@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/utils/attendance_utils.dart';
-import 'package:cham_cong_tram/models/schedule_model.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
-import 'package:cham_cong_tram/features/store/screens/shift_settings_screen.dart';
+import 'package:blao_workforce_hub/core/utils/attendance_utils.dart';
+import 'package:blao_workforce_hub/models/schedule_model.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
+import 'package:blao_workforce_hub/features/store/screens/shift_settings_screen.dart';
 
 void main() {
   group('Late Check-In Warning Calculation Tests (Cảnh báo đi muộn)', () {

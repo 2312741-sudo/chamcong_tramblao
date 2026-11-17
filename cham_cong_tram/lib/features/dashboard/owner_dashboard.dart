@@ -20,6 +20,7 @@ import '../../features/schedule/providers/schedule_provider.dart';
 import '../../features/members/screens/members_list_screen.dart';
 import '../../features/attendance/screens/attendance_table_screen.dart';
 import '../../features/task_assignment/widgets/shift_tasks_card.dart';
+import '../../features/blao_station/widgets/blao_station_card.dart';
 
 import '../../core/services/app_update_service.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -554,6 +555,14 @@ class _OwnerHomeTab extends ConsumerWidget {
               storeId: store.id,
               userId: userId,
             ),
+          ),
+        ),
+
+        // Trạm BLAO Station SOP & Timers Card
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: BlaoStationCard(),
           ),
         ),
 

@@ -46,13 +46,13 @@ class AppVersionControlModel {
     }
 
     return AppVersionControlModel(
-      latestVersion: data['latestVersion'] as String? ?? '1.0.2',
+      latestVersion: data['latestVersion'] as String? ?? '1.1.0',
       minimumRequiredVersion:
           data['minimumRequiredVersion'] as String? ?? '1.0.2',
       updateMessage: data['updateMessage'] as String? ??
-          'Đã có phiên bản mới với nhiều cải tiến và sửa lỗi quan trọng. Vui lòng cập nhật ứng dụng.',
+          'Đã có phiên bản mới với nhiều cải tiến vận hành Trạm BLAO. Vui lòng cập nhật ứng dụng.',
       updateUrlIos: data['updateUrlIos'] as String? ??
-          'https://apps.apple.com/app/id6742385802',
+          'https://chamcong-tramblao.vercel.app',
       updateUrlAndroid: rawAndroidUrl ??
           'https://play.google.com/store/apps/details?id=com.tramblao.chamcong',
       updateUrl:
@@ -71,7 +71,7 @@ class AppVersionControlModel {
       return updateUrl ?? 'https://chamcong-tramblao.vercel.app';
     }
     if (Platform.isIOS) {
-      return updateUrlIos ?? updateUrl ?? 'https://apps.apple.com/app/id6742385802';
+      return updateUrlIos ?? updateUrl ?? 'https://chamcong-tramblao.vercel.app';
     }
     if (Platform.isAndroid) {
       return updateUrlAndroid ??
@@ -120,6 +120,7 @@ class AppUpdateService {
     bool isManualCheck = false,
   }) async {
     if (_isDialogShowing) return;
+    if (!isManualCheck && !kIsWeb && Platform.isIOS) return;
 
     try {
       final packageInfo = await PackageInfo.fromPlatform();
@@ -225,7 +226,7 @@ class AppUpdateService {
 
     // Lấy thư mục lưu file tạm trên Android
     final dir = await getTemporaryDirectory();
-    final filePath = '${dir.path}/tram_chamcong_update.apk';
+    final filePath = '${dir.path}/blao_chamcong_update.apk';
     final file = File(filePath);
 
     if (await file.exists()) {

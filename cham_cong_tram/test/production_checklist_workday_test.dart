@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/utils/production_checklist_utils.dart';
-import 'package:cham_cong_tram/models/store_model.dart';
-import 'package:cham_cong_tram/models/schedule_model.dart';
-import 'package:cham_cong_tram/models/attendance_model.dart';
-import 'package:cham_cong_tram/features/store/screens/shift_settings_screen.dart';
+import 'package:blao_workforce_hub/core/utils/production_checklist_utils.dart';
+import 'package:blao_workforce_hub/models/store_model.dart';
+import 'package:blao_workforce_hub/models/schedule_model.dart';
+import 'package:blao_workforce_hub/models/attendance_model.dart';
+import 'package:blao_workforce_hub/features/store/screens/shift_settings_screen.dart';
 
 void main() {
   group('Production Checklist Workday Logic Tests (Vấn đề 2)', () {

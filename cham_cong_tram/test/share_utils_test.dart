@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cham_cong_tram/core/utils/share_utils.dart';
-import 'package:cham_cong_tram/app/router.dart';
+import 'package:blao_workforce_hub/core/utils/share_utils.dart';
+import 'package:blao_workforce_hub/app/router.dart';
 
 void main() {
   group('ShareUtils Tests', () {
