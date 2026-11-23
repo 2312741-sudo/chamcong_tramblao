@@ -19,8 +19,6 @@ import '../../core/utils/attendance_utils.dart';
 import '../../features/schedule/providers/schedule_provider.dart';
 import '../../features/members/screens/members_list_screen.dart';
 import '../../features/attendance/screens/attendance_table_screen.dart';
-import '../../features/task_assignment/widgets/shift_tasks_card.dart';
-import '../../features/blao_station/widgets/blao_station_card.dart';
 
 import '../../core/services/app_update_service.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -103,21 +101,6 @@ class _OwnerDashboardState extends ConsumerState<OwnerDashboard> {
           const AttendanceTableScreen(),
           _OwnerSettingsTab(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push(AppRoutes.checkIn),
-        backgroundColor: AppColors.ownerAccent,
-        foregroundColor: Colors.white,
-        elevation: 4,
-        icon: const Icon(LucideIcons.fingerprint, size: 22),
-        label: const Text(
-          'Chấm công',
-          style: TextStyle(
-            fontFamily: 'BeVietnamPro',
-            fontWeight: FontWeight.w700,
-            fontSize: 13.5,
-          ),
-        ),
       ),
       bottomNavigationBar: _buildBottomNav(),
     );
@@ -547,26 +530,6 @@ class _OwnerHomeTab extends ConsumerWidget {
           ),
         ),
 
-        // Công việc trong ca của Chủ
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: ShiftTasksCard(
-              storeId: store.id,
-              userId: userId,
-            ),
-          ),
-        ),
-
-        // Trạm BLAO Station SOP & Timers Card
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: BlaoStationCard(),
-          ),
-        ),
-
-
         // Quick tools
         SliverToBoxAdapter(
           child: Padding(
@@ -576,8 +539,6 @@ class _OwnerHomeTab extends ConsumerWidget {
               children: [
                 const Text('Công cụ quản lý', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, fontFamily: 'BeVietnamPro', color: AppColors.neutral)),
                 const SizedBox(height: 12),
-                _ToolCard(icon: LucideIcons.fingerprint, label: 'Chấm công của tôi', sub: 'Chấm vào/ra ca nhanh', color: AppColors.primary, onTap: () => GoRouter.of(context).push(AppRoutes.checkIn)),
-                const SizedBox(height: 10),
                 _ToolCard(icon: LucideIcons.calendarDays, label: 'Quản lý lịch làm', sub: 'Xem & chỉnh lịch toàn bộ NV', color: AppColors.info, onTap: () => GoRouter.of(context).push(AppRoutes.scheduleManager)),
                 const SizedBox(height: 10),
                 _ToolCard(icon: LucideIcons.banknote, label: 'Báo cáo lương', sub: 'Tổng hợp lương tháng', color: AppColors.success, onTap: () => GoRouter.of(context).push(AppRoutes.salaryOverview)),
@@ -585,8 +546,6 @@ class _OwnerHomeTab extends ConsumerWidget {
                 _ToolCard(icon: LucideIcons.wallet, label: 'Duyệt tạm ứng', sub: 'Xem yêu cầu ứng lương', color: AppColors.accentInk, onTap: () => GoRouter.of(context).push(AppRoutes.manageAdvances)),
                 const SizedBox(height: 10),
                 _ToolCard(icon: LucideIcons.qrCode, label: 'QR chấm công', sub: 'Chia sẻ mã QR cho NV', color: AppColors.primaryDark, onTap: () => GoRouter.of(context).push(AppRoutes.qrDisplay)),
-                const SizedBox(height: 10),
-                _ToolCard(icon: LucideIcons.clipboardList, label: 'Giao việc & Quản lý việc', sub: 'Phân công công việc & theo dõi báo cáo NV', color: AppColors.managerAccent, onTap: () => GoRouter.of(context).push(AppRoutes.taskManagement)),
               ],
             ),
           ),

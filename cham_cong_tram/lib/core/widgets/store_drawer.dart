@@ -196,17 +196,6 @@ class StoreDrawer extends ConsumerWidget {
           const Divider(),
           
           ListTile(
-            leading: const Icon(LucideIcons.flameKindling, color: AppColors.primaryDark),
-            title: const Text(
-              'Sổ tay & Hẹn giờ Quầy BLAO',
-              style: TextStyle(fontFamily: 'BeVietnamPro', fontWeight: FontWeight.w600),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              context.push(AppRoutes.blaoStationSop);
-            },
-          ),
-          ListTile(
             leading: const Icon(LucideIcons.info, color: AppColors.neutral),
             title: const Text('Thông tin ứng dụng', style: TextStyle(fontFamily: 'BeVietnamPro')),
             onTap: () {

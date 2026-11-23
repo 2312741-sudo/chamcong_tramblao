@@ -19,8 +19,6 @@ import '../../features/attendance/providers/attendance_provider.dart';
 import '../../features/schedule/providers/schedule_provider.dart';
 import '../../features/schedule/screens/employee_schedule_tab.dart';
 import '../../features/schedule/screens/schedule_manager_screen.dart';
-import '../task_assignment/widgets/shift_tasks_card.dart';
-import '../blao_station/widgets/blao_station_card.dart';
 
 import '../../core/services/app_update_service.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -336,14 +334,6 @@ class _ManagerHomeTab extends ConsumerWidget {
           ),
         ),
 
-        // Trạm BLAO Station SOP & Timers Card
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-            child: BlaoStationCard(),
-          ),
-        ),
-
         // Stats Row
         SliverToBoxAdapter(
           child: Padding(
@@ -380,18 +370,6 @@ class _ManagerHomeTab extends ConsumerWidget {
             child: _TodayScheduleCard(uid: uid),
           ),
         ),
-
-        // Công việc trong ca của Quản lý
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: ShiftTasksCard(
-              storeId: store.id,
-              userId: uid,
-            ),
-          ),
-        ),
-
 
         // NV đang làm
         SliverToBoxAdapter(
@@ -542,14 +520,6 @@ class _ManagerHomeTab extends ConsumerWidget {
                     onTap: () => context.push(AppRoutes.attendanceTable),
                   ),
                 ],
-                const SizedBox(height: 10),
-                _MgrToolCard(
-                  icon: LucideIcons.clipboardList,
-                  label: 'Giao việc & Quản lý việc',
-                  sub: 'Phân công công việc & theo dõi báo cáo NV',
-                  color: AppColors.info,
-                  onTap: () => context.push(AppRoutes.taskManagement),
-                ),
               ],
             ),
           ),
