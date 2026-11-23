@@ -8,7 +8,7 @@ import { Store, Member, UserRole, AppNotification, getRoleLabel, normalizeRole, 
 import { User } from 'firebase/auth';
 import { notificationDestination } from '@/lib/notifications';
 import {
-  LayoutDashboard, Clock, CalendarDays, ClipboardList, Sheet, Wallet, Users, Factory, Gauge, Settings,
+  LayoutDashboard, Clock, CalendarDays, Sheet, Wallet, Users, Settings,
   Bell, Menu, Cake, UserPlus, UserCheck, HandCoins, CircleDollarSign, CalendarClock, ListChecks, Truck, Info,
   type LucideIcon,
 } from 'lucide-react';
@@ -18,12 +18,9 @@ const NAV_ICONS: Record<string, LucideIcon> = {
   '/dashboard': LayoutDashboard,
   '/dashboard/checkin': Clock,
   '/dashboard/schedule': CalendarDays,
-  '/dashboard/tasks': ClipboardList,
   '/dashboard/attendance': Sheet,
   '/dashboard/salary': Wallet,
   '/dashboard/members': Users,
-  '/dashboard/production': Factory,
-  '/dashboard/performance': Gauge,
   '/dashboard/settings': Settings,
 };
 
@@ -59,12 +56,9 @@ const NAV = [
   { href: '/dashboard', label: 'Tổng quan' },
   { href: '/dashboard/checkin', label: 'Chấm công' },
   { href: '/dashboard/schedule', label: 'Lịch làm' },
-  { href: '/dashboard/tasks', label: 'Giao việc' },
   { href: '/dashboard/attendance', label: 'Bảng công' },
   { href: '/dashboard/salary', label: 'Báo cáo lương' },
   { href: '/dashboard/members', label: 'Nhân viên' },
-  { href: '/dashboard/production', label: 'Sản xuất' },
-  { href: '/dashboard/performance', label: 'Đo hiệu năng' },
   { href: '/dashboard/settings', label: 'Cài đặt' },
 ];
 
@@ -244,13 +238,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const filteredNav = NAV.filter(item => {
     if (normRole === 'employee') {
-      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/attendance';
+      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/attendance';
     }
     if (normRole === 'manager2') {
-      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/attendance';
+      return item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/attendance';
     }
     if (normRole === 'manager1') {
-      return item.href === '/dashboard' || item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/tasks' || item.href === '/dashboard/members' || item.href === '/dashboard/attendance';
+      return item.href === '/dashboard' || item.href === '/dashboard/checkin' || item.href === '/dashboard/schedule' || item.href === '/dashboard/members' || item.href === '/dashboard/attendance';
     }
     return true; // owner has full access
   });
