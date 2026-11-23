@@ -158,27 +158,31 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     };
   }, [showNotifications]);
 
-  // Role based route protection
+  // Role based route protection & disabled legacy routes redirect
   useEffect(() => {
     if (!role) return;
     const norm = normalizeRole(role);
+    const disabledRoutes = ['/dashboard/tasks', '/dashboard/production', '/dashboard/performance'];
+    if (disabledRoutes.some(p => pathname === p || pathname.startsWith(p))) {
+      if (norm === 'employee') router.replace('/dashboard/checkin');
+      else if (norm === 'manager2') router.replace('/dashboard/schedule');
+      else router.replace('/dashboard');
+      return;
+    }
+
     if (norm === 'employee') {
-      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/attendance'];
+      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/attendance'];
       if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
         router.replace('/dashboard/checkin');
       }
     } else if (norm === 'manager2') {
-      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/attendance'];
+      const allowed = ['/dashboard/checkin', '/dashboard/schedule', '/dashboard/attendance'];
       if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
         router.replace('/dashboard/schedule');
       }
     } else if (norm === 'manager1') {
-      const allowed = ['/dashboard', '/dashboard/checkin', '/dashboard/schedule', '/dashboard/tasks', '/dashboard/members', '/dashboard/attendance'];
+      const allowed = ['/dashboard', '/dashboard/checkin', '/dashboard/schedule', '/dashboard/members', '/dashboard/attendance'];
       if (!allowed.some(p => pathname === p || pathname.startsWith(p))) {
-        router.replace('/dashboard/schedule');
-      }
-    } else if (norm !== 'owner') {
-      if (pathname.startsWith('/dashboard/performance')) {
         router.replace('/dashboard/schedule');
       }
     }

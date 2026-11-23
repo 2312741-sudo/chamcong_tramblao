@@ -205,32 +205,11 @@ export default function CheckInPage() {
     }
   };
 
-  const handleInitiateCheckOut = async () => {
+  const handleInitiateCheckOut = () => {
     if (!storeId || !user || !activeAttendance) return;
     setErrorMsg(null);
     setSuccessMsg(null);
-    setCheckingTasks(true);
-
-    try {
-      const targetDate = activeAttendance.date || todayStr;
-      const unfinished = await getUnfinishedTasksForUserOnDate(
-        storeId,
-        user.uid,
-        targetDate,
-        currentMember?.department
-      );
-      if (unfinished && unfinished.length > 0) {
-        setUnfinishedTasks(unfinished);
-        setShowTaskWarningModal(true);
-        return;
-      }
-      setShowCheckOutConfirm(true);
-    } catch (err: any) {
-      console.error('Lỗi khi kiểm tra công việc chưa hoàn thành:', err);
-      setShowCheckOutConfirm(true);
-    } finally {
-      setCheckingTasks(false);
-    }
+    setShowCheckOutConfirm(true);
   };
 
   const handleCheckOut = async () => {
