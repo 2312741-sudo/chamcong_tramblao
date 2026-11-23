@@ -1,36 +1,19 @@
 'use client';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn, signInWithGoogle, signInWithApple, sendPasswordReset } from '@/lib/auth';
-import { signInWithPosAccount, posSignInErrorMessage } from '@/lib/posSso';
+import { signInWithPosAccount, posSignInErrorMessage } from '@/lib/auth';
 import PublicNav from '../components/PublicNav';
 import PublicFooter from '../components/PublicFooter';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
-  const [appleLoading, setAppleLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Đăng nhập bằng tài khoản POS (mã cửa hàng + tên đăng nhập + mật khẩu) — cách chính
+  // Đăng nhập trực tiếp bằng tài khoản POS (mã cửa hàng + tên đăng nhập / mã NV + mật khẩu)
   const [storeCode, setStoreCode] = useState('');
   const [posUsername, setPosUsername] = useState('');
   const [posPassword, setPosPassword] = useState('');
   const [posLoading, setPosLoading] = useState(false);
-  // Đăng nhập email / Google / Apple cũ (dự phòng)
-  const [showLegacy, setShowLegacy] = useState(false);
-
-  // Forgot password state
-  const [showResetModal, setShowResetModal] = useState(false);
-  const [resetEmail, setResetEmail] = useState('');
-  const [resetLoading, setResetLoading] = useState(false);
-  const [resetError, setResetError] = useState('');
-  const [resetSuccess, setResetSuccess] = useState(false);
-
-  const isAnyLoading = loading || googleLoading || appleLoading || resetLoading || posLoading;
 
   async function handlePosSubmit(e: FormEvent) {
     e.preventDefault();
@@ -43,101 +26,6 @@ export default function LoginPage() {
       setError(posSignInErrorMessage(err));
     } finally {
       setPosLoading(false);
-    }
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      await signIn(email, password);
-      router.replace('/dashboard');
-    } catch (err: any) {
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
-        setError('Email hoặc mật khẩu không đúng. Vui lòng thử lại.');
-      } else {
-        setError(err.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function formatAuthError(err: any, providerName: string) {
-    if (err.code === 'auth/unauthorized-domain') {
-      return `Tên miền web hiện tại chưa được cấp phép trong Firebase Console. Vui lòng thêm tên miền này vào Firebase Console > Authentication > Settings > Authorized domains.`;
-    }
-    if (err.code === 'auth/operation-not-allowed') {
-      return `Phương thức đăng nhập ${providerName} chưa được kích hoạt trong Firebase Console > Authentication > Sign-in method.`;
-    }
-    return `Đăng nhập ${providerName} thất bại: ${err.message || 'Vui lòng thử lại.'}`;
-  }
-
-  async function handleGoogleSignIn() {
-    setError('');
-    setGoogleLoading(true);
-    try {
-      await signInWithGoogle();
-      router.replace('/dashboard');
-    } catch (err: any) {
-      if (
-        err.code === 'auth/popup-closed-by-user' ||
-        err.code === 'auth/cancelled-popup-request'
-      ) {
-        // Người dùng đã đóng popup
-      } else {
-        setError(formatAuthError(err, 'Google'));
-      }
-    } finally {
-      setGoogleLoading(false);
-    }
-  }
-
-  async function handleAppleSignIn() {
-    setError('');
-    setAppleLoading(true);
-    try {
-      await signInWithApple();
-      router.replace('/dashboard');
-    } catch (err: any) {
-      if (
-        err.code === 'auth/popup-closed-by-user' ||
-        err.code === 'auth/cancelled-popup-request'
-      ) {
-        // Người dùng đã đóng popup
-      } else {
-        setError(formatAuthError(err, 'Apple'));
-      }
-    } finally {
-      setAppleLoading(false);
-    }
-  }
-
-  async function handleResetPassword(e: FormEvent) {
-    e.preventDefault();
-    setResetError('');
-    const clean = resetEmail.trim().toLowerCase();
-    if (!clean) {
-      setResetError('Vui lòng nhập địa chỉ email');
-      return;
-    }
-    setResetLoading(true);
-    try {
-      await sendPasswordReset(clean);
-      setResetSuccess(true);
-    } catch (err: any) {
-      if (err.code === 'auth/invalid-email') {
-        setResetError('Địa chỉ email không đúng định dạng');
-      } else if (err.code === 'auth/user-not-found') {
-        setResetError('Không tìm thấy tài khoản với email này');
-      } else if (err.code === 'auth/too-many-requests') {
-        setResetError('Quá nhiều yêu cầu. Vui lòng thử lại sau ít phút');
-      } else {
-        setResetError(err.message || 'Gửi email đặt lại mật khẩu thất bại. Vui lòng thử lại.');
-      }
-    } finally {
-      setResetLoading(false);
     }
   }
 
@@ -154,583 +42,200 @@ export default function LoginPage() {
         position: 'relative',
         overflow: 'hidden',
       }}>
-      {/* Decorative ambient lighting - Trạm BLAO Palette */}
-      <div style={{
-        position: 'fixed',
-        top: -120,
-        right: -100,
-        width: 480,
-        height: 480,
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(127, 227, 199, 0.25) 0%, rgba(244, 233, 213, 0) 70%)',
-        filter: 'blur(40px)',
-        pointerEvents: 'none',
-      }} />
-      <div style={{
-        position: 'fixed',
-        bottom: -150,
-        left: -120,
-        width: 520,
-        height: 520,
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(127, 227, 199, 0.15) 0%, rgba(244, 233, 213, 0) 70%)',
-        filter: 'blur(50px)',
-        pointerEvents: 'none',
-      }} />
-
-      <div style={{ width: '100%', maxWidth: 420, zIndex: 1 }}>
-        {/* Logo & Brand Header */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{
-            display: 'inline-block',
-            position: 'relative',
-            marginBottom: 14,
-          }}>
-            <img 
-              src="/logo.jpg" 
-              alt="Logo Chấm Công Trạm BLAO" 
-              style={{
-                width: 76,
-                height: 76,
-                borderRadius: 20,
-                objectFit: 'cover',
-                border: '2px solid #7FE3C7',
-                boxShadow: '0 8px 24px rgba(127, 227, 199, 0.25)',
-                display: 'block',
-              }} 
-            />
-          </div>
-          <h1 style={{
-            fontSize: 26,
-            fontWeight: 800,
-            letterSpacing: '-0.5px',
-            color: '#0E382B',
-            marginBottom: 4,
-          }}>
-            Chấm Công Trạm BLAO
-          </h1>
-          <div style={{
-            color: '#143A2F',
-            fontSize: 13,
-            fontWeight: 700,
-            marginBottom: 6,
-            letterSpacing: '0.02em',
-          }}>
-            Trạm trà - Trạm bánh
-          </div>
-          <p style={{
-            color: '#5D5B63',
-            fontSize: 14,
-            fontWeight: 500,
-          }}>
-            Cổng quản lý dành cho chủ cửa hàng &amp; quản lý
-          </p>
-        </div>
-
-        {/* Card */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.96)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: 24,
-          padding: 32,
-          border: '1px solid rgba(216, 207, 189, 0.8)',
-          boxShadow: '0 20px 60px -15px rgba(20, 58, 47, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04)',
-        }}>
-          <h2 style={{
-            fontSize: 22,
-            fontWeight: 700,
-            marginBottom: 24,
-            color: '#1C1A2D',
-            letterSpacing: '-0.3px',
-          }}>
-            Đăng nhập
-          </h2>
-
-          {error && (
-            <div style={{
-              background: '#FFF5F5',
-              color: '#C91506',
-              padding: '12px 16px',
-              borderRadius: 12,
-              fontSize: 13,
-              marginBottom: 20,
-              border: '1px solid #FED7D7',
-              borderLeft: '4px solid #C91506',
-              lineHeight: 1.5,
-            }}>
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handlePosSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div>
-              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Mã cửa hàng</label>
-              <input
-                className="input"
-                placeholder="VD: TRAM01"
-                value={storeCode}
-                onChange={e => setStoreCode(e.target.value.toUpperCase())}
-                required
-                autoFocus
-                autoCapitalize="characters"
-                disabled={isAnyLoading}
-                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
-              />
-            </div>
-            <div>
-              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Tên đăng nhập</label>
-              <input
-                className="input"
-                placeholder="Tài khoản POS của bạn"
-                value={posUsername}
-                onChange={e => setPosUsername(e.target.value)}
-                required
-                autoComplete="username"
-                autoCapitalize="none"
-                disabled={isAnyLoading}
-                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
-              />
-            </div>
-            <div>
-              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Mật khẩu</label>
-              <input
-                type="password"
-                className="input"
-                placeholder="••••••••"
-                value={posPassword}
-                onChange={e => setPosPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-                disabled={isAnyLoading}
-                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isAnyLoading}
-              className="btn btn-primary"
-              style={{ justifyContent: 'center', height: 48, padding: '0 20px', marginTop: 6, fontSize: 15, fontWeight: 700, borderRadius: 12, background: '#7FE3C7', color: '#143A2F', border: 'none' }}
-            >
-              {posLoading ? <span className="spinner" style={{ borderColor: 'rgba(20, 58, 47, 0.25)', borderTopColor: '#143A2F' }} /> : null}
-              {posLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-            </button>
-            <p style={{ margin: 0, fontSize: 12, color: '#5D5B63', lineHeight: 1.5 }}>
-              Dùng chính tài khoản đăng nhập app POS Trạm BLAO (mã cửa hàng, tên đăng nhập, mật khẩu).
-            </p>
-          </form>
-
-          <div style={{ textAlign: 'center', marginTop: 18 }}>
-            <button
-              type="button"
-              onClick={() => setShowLegacy(v => !v)}
-              disabled={isAnyLoading}
-              style={{ background: 'none', border: 'none', padding: 0, color: '#0E382B', fontSize: 13, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              {showLegacy ? 'Ẩn đăng nhập bằng email' : 'Đăng nhập bằng email / Google / Apple (tài khoản cũ)'}
-            </button>
-          </div>
-
-          {showLegacy && (
-            <div style={{ marginTop: 18 }}>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div>
-              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
-                Email
-              </label>
-              <input
-                type="email"
-                className="input"
-                placeholder="example@email.com"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                disabled={isAnyLoading}
-                style={{
-                  height: 46,
-                  borderRadius: 12,
-                  border: '1.5px solid #D8CFBD',
-                  background: '#FFFFFF',
-                  color: '#1C1A2D',
-                  fontSize: 14,
-                  padding: '0 14px',
-                  width: '100%',
-                }}
-              />
-            </div>
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, margin: 0 }}>
-                  Mật khẩu
-                </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setResetEmail(email.trim());
-                    setResetError('');
-                    setResetSuccess(false);
-                    setShowResetModal(true);
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    padding: 0,
-                    color: '#0E382B',
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
-                  onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
-                >
-                  Quên mật khẩu?
-                </button>
-              </div>
-              <input
-                type="password"
-                className="input"
-                placeholder="••••••••"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-                disabled={isAnyLoading}
-                style={{
-                  height: 46,
-                  borderRadius: 12,
-                  border: '1.5px solid #D8CFBD',
-                  background: '#FFFFFF',
-                  color: '#1C1A2D',
-                  fontSize: 14,
-                  padding: '0 14px',
-                  width: '100%',
-                }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isAnyLoading}
-              className="btn btn-primary"
-              style={{
-                justifyContent: 'center',
-                height: 48,
-                padding: '0 20px',
-                marginTop: 6,
-                fontSize: 15,
-                fontWeight: 700,
-                borderRadius: 12,
-                background: '#7FE3C7',
-                color: '#143A2F',
-                boxShadow: '0 4px 14px rgba(127, 227, 199, 0.35)',
-                cursor: isAnyLoading ? 'not-allowed' : 'pointer',
-                border: 'none',
-              }}
-            >
-              {loading ? <span className="spinner" style={{ borderColor: 'rgba(20, 58, 47, 0.25)', borderTopColor: '#143A2F' }} /> : null}
-              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            margin: '24px 0 18px',
-            color: '#5D5B63',
-            fontSize: 13,
-          }}>
-            <div style={{ flex: 1, height: 1, background: '#D8CFBD' }} />
-            <span style={{ padding: '0 12px', fontWeight: 500 }}>Hoặc tiếp tục với</span>
-            <div style={{ flex: 1, height: 1, background: '#D8CFBD' }} />
-          </div>
-
-          {/* Social login buttons */}
-          <div style={{ display: 'flex', gap: 12 }}>
-            {/* Google Button */}
-            <button
-              type="button"
-              onClick={handleGoogleSignIn}
-              disabled={isAnyLoading}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                height: 46,
-                padding: '0 14px',
-                borderRadius: 12,
-                border: '1.5px solid #D8CFBD',
-                background: '#FFFFFF',
-                color: '#1C1A2D',
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: isAnyLoading ? 'not-allowed' : 'pointer',
-                opacity: isAnyLoading ? 0.6 : 1,
-                transition: 'all 0.15s ease',
-              }}
-              onMouseEnter={e => {
-                if (!isAnyLoading) {
-                  e.currentTarget.style.borderColor = '#7FE3C7';
-                  e.currentTarget.style.background = '#F9FBF9';
-                }
-              }}
-              onMouseLeave={e => {
-                if (!isAnyLoading) {
-                  e.currentTarget.style.borderColor = '#D8CFBD';
-                  e.currentTarget.style.background = '#FFFFFF';
-                }
-              }}
-            >
-              {googleLoading ? (
-                <div style={{
-                  width: 18, height: 18,
-                  border: '2px solid rgba(0,0,0,0.1)',
-                  borderTopColor: '#4285F4',
-                  borderRadius: '50%',
-                  animation: 'spin 0.7s linear infinite'
-                }} />
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                </svg>
-              )}
-              <span>Google</span>
-            </button>
-
-            {/* Apple Button */}
-            <button
-              type="button"
-              onClick={handleAppleSignIn}
-              disabled={isAnyLoading}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                height: 46,
-                padding: '0 14px',
-                borderRadius: 12,
-                border: '1.5px solid #000000',
-                background: '#000000',
-                color: '#ffffff',
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: isAnyLoading ? 'not-allowed' : 'pointer',
-                opacity: isAnyLoading ? 0.6 : 1,
-                transition: 'all 0.15s ease',
-              }}
-              onMouseEnter={e => {
-                if (!isAnyLoading) e.currentTarget.style.background = '#222222';
-              }}
-              onMouseLeave={e => {
-                if (!isAnyLoading) e.currentTarget.style.background = '#000000';
-              }}
-            >
-              {appleLoading ? (
-                <div style={{
-                  width: 18, height: 18,
-                  border: '2px solid rgba(255,255,255,0.2)',
-                  borderTopColor: '#ffffff',
-                  borderRadius: '50%',
-                  animation: 'spin 0.7s linear infinite'
-                }} />
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 170 170" fill="currentColor">
-                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.59-7.71-11.66-14.01-6.19-9.56-11.02-20.46-14.49-32.68-3.47-12.23-5.21-23.75-5.21-34.57 0-14.35 3.7-26.04 11.09-35.08 7.39-9.04 16.65-13.68 27.78-13.92 5.01 0 10.33 1.27 15.96 3.81 5.63 2.54 9.17 3.86 10.63 3.96 1.7 0 5.48-1.42 11.35-4.27 5.86-2.85 11.08-4.18 15.65-3.99 12.08.74 21.72 5.37 28.91 13.89-10.55 6.34-15.71 15.22-15.48 26.63.22 8.91 3.59 16.32 10.11 22.23 6.52 5.91 14.35 9.3 23.49 10.18-2.28 6.74-4.89 13.37-7.83 19.92zm-35.6-107.03c0-6.73 2.45-12.92 7.34-18.57 4.9-5.65 10.97-9.35 18.23-11.11.87 6.95-.98 13.36-5.55 19.23-4.57 5.87-10.76 9.35-18.58 10.45h-1.44z"/>
-                </svg>
-              )}
-              <span>Apple</span>
-            </button>
-          </div>
-
-            </div>
-          )}
-
-          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 13, color: '#5D5B63' }}>
-            Chỉ dành cho <strong style={{ color: '#0E382B' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
-          </p>
-        </div>
-
-        {/* Tip for Staff */}
-        <div style={{
-          marginTop: 18,
-          padding: '12px 16px',
-          background: 'rgba(255, 255, 255, 0.75)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: 16,
-          border: '1px solid rgba(216, 207, 189, 0.8)',
-          textAlign: 'center',
-          fontSize: 12,
-          color: '#5D5B63',
-          lineHeight: 1.5,
-          boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
-        }}>
-          📱 <strong>Bạn là nhân viên chấm công?</strong> Mở app <strong>POS Trạm BLAO</strong>, đăng nhập rồi vào mục <strong>Chấm công</strong> để chấm công GPS &amp; Wi-Fi tại quán.
-        </div>
-      </div>
-
-      {/* Forgot Password Modal */}
-      {showResetModal && (
+        {/* Decorative ambient lighting - Trạm BLAO Palette */}
         <div style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.55)',
-          backdropFilter: 'blur(4px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 20,
-          zIndex: 9999,
-        }}>
+          top: -120,
+          right: -100,
+          width: 480,
+          height: 480,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(127, 227, 199, 0.25) 0%, rgba(244, 233, 213, 0) 70%)',
+          filter: 'blur(40px)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'fixed',
+          bottom: -150,
+          left: -120,
+          width: 520,
+          height: 520,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(127, 227, 199, 0.15) 0%, rgba(244, 233, 213, 0) 70%)',
+          filter: 'blur(50px)',
+          pointerEvents: 'none',
+        }} />
+
+        <div style={{ width: '100%', maxWidth: 420, zIndex: 1 }}>
+          {/* Logo & Brand Header */}
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <div style={{
+              display: 'inline-block',
+              position: 'relative',
+              marginBottom: 14,
+            }}>
+              <img
+                src="/logo.jpg"
+                alt="Logo Chấm Công Trạm BLAO"
+                style={{
+                  width: 76,
+                  height: 76,
+                  borderRadius: 20,
+                  objectFit: 'cover',
+                  border: '2px solid #7FE3C7',
+                  boxShadow: '0 8px 24px rgba(127, 227, 199, 0.25)',
+                  display: 'block',
+                }}
+              />
+            </div>
+            <h1 style={{
+              fontSize: 26,
+              fontWeight: 800,
+              letterSpacing: '-0.5px',
+              color: '#0E382B',
+              marginBottom: 4,
+            }}>
+              Chấm Công Trạm BLAO
+            </h1>
+            <div style={{
+              color: '#143A2F',
+              fontSize: 13,
+              fontWeight: 700,
+              marginBottom: 6,
+              letterSpacing: '0.02em',
+            }}>
+              Trạm trà - Trạm bánh
+            </div>
+            <p style={{
+              color: '#5D5B63',
+              fontSize: 14,
+              fontWeight: 500,
+            }}>
+              Cổng quản lý dành cho chủ cửa hàng &amp; quản lý
+            </p>
+          </div>
+
+          {/* Card */}
           <div style={{
-            background: 'white',
-            borderRadius: 20,
-            padding: 28,
-            maxWidth: 440,
-            width: '100%',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            background: 'rgba(255, 255, 255, 0.96)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRadius: 24,
+            padding: 32,
+            border: '1px solid rgba(216, 207, 189, 0.8)',
+            boxShadow: '0 20px 60px -15px rgba(20, 58, 47, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04)',
           }}>
-            {resetSuccess ? (
-              <div style={{ textAlign: 'center' }}>
-                <div style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: '50%',
-                  background: 'rgba(127, 227, 199, 0.25)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 16px',
-                  color: '#0E382B',
-                }}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8, color: 'var(--neutral)' }}>
-                  Đã gửi email đặt lại mật khẩu
-                </h3>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: 16 }}>
-                  Link đặt lại mật khẩu đã được gửi đến: <br />
-                  <strong style={{ color: 'var(--neutral)' }}>{resetEmail}</strong>
-                </p>
+            <h2 style={{
+              fontSize: 22,
+              fontWeight: 700,
+              marginBottom: 24,
+              color: '#1C1A2D',
+              letterSpacing: '-0.3px',
+            }}>
+              Đăng nhập bằng tài khoản POS
+            </h2>
 
-                <div style={{
-                  background: '#FFFBEB',
-                  border: '1px solid #FDE68A',
-                  borderRadius: 12,
-                  padding: 14,
-                  textAlign: 'left',
-                  fontSize: 12,
-                  color: '#78350F',
-                  lineHeight: 1.5,
-                  marginBottom: 20,
-                }}>
-                  <div style={{ fontWeight: 700, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, color: '#92400E' }}>
-                    <span>⚠️ Lưu ý quan trọng:</span>
-                  </div>
-                  <ul style={{ paddingLeft: 16, margin: 0 }}>
-                    <li>Hãy kiểm tra kỹ mục <b>Thư rác (Spam / Junk)</b> hoặc <b>Quảng cáo</b> nếu không thấy ở Hộp thư đến.</li>
-                    <li>Nếu bạn đăng ký qua <b>Google</b> hoặc <b>Apple</b>, bạn không cần mật khẩu. Hãy dùng nút Google/Apple để đăng nhập.</li>
-                    <li>Bấm vào link trong email để nhập mật khẩu mới, sau đó quay lại đăng nhập.</li>
-                  </ul>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setShowResetModal(false)}
-                  className="btn btn-primary"
-                  style={{ width: '100%', justifyContent: 'center', padding: '12px 20px', fontSize: 14 }}
-                >
-                  Đã hiểu, quay lại đăng nhập
-                </button>
+            {error && (
+              <div style={{
+                background: '#FFF5F5',
+                color: '#C91506',
+                padding: '12px 16px',
+                borderRadius: 12,
+                fontSize: 13,
+                marginBottom: 20,
+                border: '1px solid #FED7D7',
+                borderLeft: '4px solid #C91506',
+                lineHeight: 1.5,
+              }}>
+                {error}
               </div>
-            ) : (
-              <form onSubmit={handleResetPassword}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                  <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: 'var(--neutral)' }}>
-                    Quên mật khẩu
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => setShowResetModal(false)}
-                    disabled={resetLoading}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: 20,
-                      color: 'var(--text-secondary)',
-                      lineHeight: 1,
-                    }}
-                  >
-                    ×
-                  </button>
-                </div>
-
-                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 16 }}>
-                  Nhập email tài khoản của bạn để nhận liên kết đặt lại mật khẩu:
-                </p>
-
-                {resetError && (
-                  <div style={{
-                    background: 'var(--primary-light)',
-                    color: '#0E382B',
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    fontSize: 13,
-                    marginBottom: 16,
-                    borderLeft: '3px solid var(--primary)',
-                  }}>
-                    {resetError}
-                  </div>
-                )}
-
-                <div style={{ marginBottom: 20 }}>
-                  <label className="label">Địa chỉ email</label>
-                  <input
-                    type="email"
-                    className="input"
-                    placeholder="example@email.com"
-                    value={resetEmail}
-                    onChange={e => setResetEmail(e.target.value)}
-                    required
-                    autoFocus
-                    disabled={resetLoading}
-                  />
-                </div>
-
-                <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowResetModal(false)}
-                    disabled={resetLoading}
-                    className="btn btn-secondary"
-                    style={{ padding: '10px 16px' }}
-                  >
-                    Hủy
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={resetLoading}
-                    className="btn btn-primary"
-                    style={{ padding: '10px 20px' }}
-                  >
-                    {resetLoading ? 'Đang gửi...' : 'Gửi email đặt lại'}
-                  </button>
-                </div>
-              </form>
             )}
+
+            <form onSubmit={handlePosSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+                  Mã cửa hàng
+                </label>
+                <input
+                  className="input"
+                  placeholder="VD: BLAO"
+                  value={storeCode}
+                  onChange={e => setStoreCode(e.target.value.toUpperCase())}
+                  required
+                  autoFocus
+                  autoCapitalize="characters"
+                  disabled={posLoading}
+                  style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+                />
+              </div>
+              <div>
+                <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+                  Tên đăng nhập hoặc Mã nhân viên
+                </label>
+                <input
+                  className="input"
+                  placeholder="Tài khoản POS của bạn"
+                  value={posUsername}
+                  onChange={e => setPosUsername(e.target.value)}
+                  required
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  disabled={posLoading}
+                  style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+                />
+              </div>
+              <div>
+                <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+                  Mật khẩu
+                </label>
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="••••••••"
+                  value={posPassword}
+                  onChange={e => setPosPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  disabled={posLoading}
+                  style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={posLoading}
+                className="btn btn-primary"
+                style={{ justifyContent: 'center', height: 48, padding: '0 20px', marginTop: 6, fontSize: 15, fontWeight: 700, borderRadius: 12, background: '#7FE3C7', color: '#143A2F', border: 'none', cursor: posLoading ? 'not-allowed' : 'pointer' }}
+              >
+                {posLoading ? <span className="spinner" style={{ borderColor: 'rgba(20, 58, 47, 0.25)', borderTopColor: '#143A2F' }} /> : null}
+                {posLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+              </button>
+              <p style={{ margin: 0, fontSize: 12, color: '#5D5B63', lineHeight: 1.5 }}>
+                Dùng chính tài khoản đăng nhập app <strong>POS Trạm BLAO</strong>. Quên mật khẩu? Liên hệ Chủ quán hoặc Quản lý để đặt lại mật khẩu trên hệ thống POS.
+              </p>
+            </form>
+
+            <p style={{ textAlign: 'center', marginTop: 22, fontSize: 13, color: '#5D5B63' }}>
+              Chỉ dành cho <strong style={{ color: '#0E382B' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
+            </p>
+          </div>
+
+          {/* Tip for Staff */}
+          <div style={{
+            marginTop: 18,
+            padding: '12px 16px',
+            background: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: 16,
+            border: '1px solid rgba(216, 207, 189, 0.8)',
+            textAlign: 'center',
+            fontSize: 12,
+            color: '#5D5B63',
+            lineHeight: 1.5,
+            boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+          }}>
+            📱 <strong>Bạn là nhân viên chấm công?</strong> Mở app <strong>POS Trạm BLAO</strong>, đăng nhập rồi vào mục <strong>Chấm công</strong> để chấm công GPS &amp; Wi-Fi tại quán.
           </div>
         </div>
-      )}
       </div>
       <PublicFooter />
     </div>

@@ -2,7 +2,7 @@
 import { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { onAuthChanged, signOut, getUserCurrentStoreId } from '@/lib/auth';
+import { onAuthChanged, signOut, getUserCurrentStoreId, formatPosAccountLabel } from '@/lib/auth';
 import { watchStore, watchMembers, watchCurrentMember, getUserStoresData, switchStore, watchNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/lib/firestore';
 import { Store, Member, UserRole, AppNotification, getRoleLabel, normalizeRole, canManageSchedule, canApproveMembers, canAccessWeb } from '@/lib/types';
 import { User } from 'firebase/auth';
@@ -208,7 +208,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         <div style={{ background: '#f8d7da', color: '#721c24', padding: '12px 16px', borderRadius: '8px', fontSize: '12px', border: '1px solid #f5c6cb', maxWidth: '400px', textAlign: 'left' }}>
           <strong>Thông tin tài khoản:</strong><br/>
-          - <b>Email:</b> {user?.email}<br/>
+          - <b>Tài khoản:</b> {formatPosAccountLabel(user)}<br/>
           - <b>UID:</b> {user?.uid}<br/>
           - <b>Cửa hàng tìm thấy:</b> {userStores.length}<br/>
         </div>
@@ -384,7 +384,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               )}
               <div style={{ flex:1, minWidth:0 }}>
                 <div style={{ fontSize:13, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
-                  {user?.displayName || user?.email}
+                  {currentMember?.name || formatPosAccountLabel(user)}
                 </div>
                 <div style={{ fontSize:11, color:'var(--sidebar-role)' }}>
                   {normRole === 'owner' ? '👑 Chủ cửa hàng' : normRole === 'manager1' ? '👔 Quản lý 1' : normRole === 'manager2' ? '👔 Quản lý 2' : '👤 Nhân viên'}
