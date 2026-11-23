@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, signInWithGoogle, signInWithApple, sendPasswordReset } from '@/lib/auth';
+import { signInWithPosAccount, posSignInErrorMessage } from '@/lib/posSso';
 import PublicNav from '../components/PublicNav';
 import PublicFooter from '../components/PublicFooter';
 
@@ -14,6 +15,14 @@ export default function LoginPage() {
   const [appleLoading, setAppleLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Đăng nhập bằng tài khoản POS (mã cửa hàng + tên đăng nhập + mật khẩu) — cách chính
+  const [storeCode, setStoreCode] = useState('');
+  const [posUsername, setPosUsername] = useState('');
+  const [posPassword, setPosPassword] = useState('');
+  const [posLoading, setPosLoading] = useState(false);
+  // Đăng nhập email / Google / Apple cũ (dự phòng)
+  const [showLegacy, setShowLegacy] = useState(false);
+
   // Forgot password state
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
@@ -21,7 +30,21 @@ export default function LoginPage() {
   const [resetError, setResetError] = useState('');
   const [resetSuccess, setResetSuccess] = useState(false);
 
-  const isAnyLoading = loading || googleLoading || appleLoading || resetLoading;
+  const isAnyLoading = loading || googleLoading || appleLoading || resetLoading || posLoading;
+
+  async function handlePosSubmit(e: FormEvent) {
+    e.preventDefault();
+    setError('');
+    setPosLoading(true);
+    try {
+      await signInWithPosAccount(storeCode, posUsername, posPassword);
+      router.replace('/dashboard');
+    } catch (err: unknown) {
+      setError(posSignInErrorMessage(err));
+    } finally {
+      setPosLoading(false);
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -240,6 +263,76 @@ export default function LoginPage() {
             </div>
           )}
 
+          <form onSubmit={handlePosSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div>
+              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Mã cửa hàng</label>
+              <input
+                className="input"
+                placeholder="VD: TRAM01"
+                value={storeCode}
+                onChange={e => setStoreCode(e.target.value.toUpperCase())}
+                required
+                autoFocus
+                autoCapitalize="characters"
+                disabled={isAnyLoading}
+                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+              />
+            </div>
+            <div>
+              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Tên đăng nhập</label>
+              <input
+                className="input"
+                placeholder="Tài khoản POS của bạn"
+                value={posUsername}
+                onChange={e => setPosUsername(e.target.value)}
+                required
+                autoComplete="username"
+                autoCapitalize="none"
+                disabled={isAnyLoading}
+                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+              />
+            </div>
+            <div>
+              <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Mật khẩu</label>
+              <input
+                type="password"
+                className="input"
+                placeholder="••••••••"
+                value={posPassword}
+                onChange={e => setPosPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                disabled={isAnyLoading}
+                style={{ height: 46, borderRadius: 12, border: '1.5px solid #D8CFBD', background: '#FFFFFF', color: '#1C1A2D', fontSize: 14, padding: '0 14px', width: '100%' }}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isAnyLoading}
+              className="btn btn-primary"
+              style={{ justifyContent: 'center', height: 48, padding: '0 20px', marginTop: 6, fontSize: 15, fontWeight: 700, borderRadius: 12, background: '#7FE3C7', color: '#143A2F', border: 'none' }}
+            >
+              {posLoading ? <span className="spinner" style={{ borderColor: 'rgba(20, 58, 47, 0.25)', borderTopColor: '#143A2F' }} /> : null}
+              {posLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+            </button>
+            <p style={{ margin: 0, fontSize: 12, color: '#5D5B63', lineHeight: 1.5 }}>
+              Dùng chính tài khoản đăng nhập app POS Trạm BLAO (mã cửa hàng, tên đăng nhập, mật khẩu).
+            </p>
+          </form>
+
+          <div style={{ textAlign: 'center', marginTop: 18 }}>
+            <button
+              type="button"
+              onClick={() => setShowLegacy(v => !v)}
+              disabled={isAnyLoading}
+              style={{ background: 'none', border: 'none', padding: 0, color: '#0E382B', fontSize: 13, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+            >
+              {showLegacy ? 'Ẩn đăng nhập bằng email' : 'Đăng nhập bằng email / Google / Apple (tài khoản cũ)'}
+            </button>
+          </div>
+
+          {showLegacy && (
+            <div style={{ marginTop: 18 }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
               <label className="label" style={{ color: '#1C1A2D', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
@@ -252,7 +345,6 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                autoFocus
                 disabled={isAnyLoading}
                 style={{
                   height: 46,
@@ -455,6 +547,9 @@ export default function LoginPage() {
             </button>
           </div>
 
+            </div>
+          )}
+
           <p style={{ textAlign: 'center', marginTop: 24, fontSize: 13, color: '#5D5B63' }}>
             Chỉ dành cho <strong style={{ color: '#0E382B' }}>chủ cửa hàng</strong> và <strong style={{ color: '#1C4E6B' }}>quản lý</strong>
           </p>
@@ -474,7 +569,7 @@ export default function LoginPage() {
           lineHeight: 1.5,
           boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
         }}>
-          📱 <strong>Bạn là nhân viên chấm công?</strong> Vui lòng mở ứng dụng di động <strong>Chấm Công Trạm BLAO</strong> trên điện thoại để chấm công GPS &amp; Wi-Fi tại quán.
+          📱 <strong>Bạn là nhân viên chấm công?</strong> Mở app <strong>POS Trạm BLAO</strong>, đăng nhập rồi vào mục <strong>Chấm công</strong> để chấm công GPS &amp; Wi-Fi tại quán.
         </div>
       </div>
 
